@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="themeBackground">#6A91AB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="placeholderColor">#AEB4B8</color>
+    <color name="loginButtonText">#8A8E91</color>
+    <color name="loginButton">#C2D7DF</color>
+
+    <color name="loginFacebookButton">#533DD5</color>
+    <color name="loginGoogleButton">#D55C3D</color>
+</resources>

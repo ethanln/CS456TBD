@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Net List</string>
+    <string name="email_address">email</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="facebook">Login With Facebook</string>
+    <string name="google">Login With Google+</string>
+</resources>
