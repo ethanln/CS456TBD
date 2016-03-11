@@ -27,6 +27,23 @@
               "image":"http://image.url"
             }
           ]
+        },
+        {
+          "name":"Games",
+          "category":"Games",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Settlers of Catan",
+              "description":"Description",
+              "image":"http://image.url"
+            },
+            {
+              "name":"The Great Dalmuti",
+              "description":"Description",
+              "image":"http://image.url"
+            }
+          ]
         }
       ],
       "friends":[
