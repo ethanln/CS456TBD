@@ -1,0 +1,172 @@
+{
+  "users":[
+    {
+      "id":1,
+      "username":"user1",
+      "password":"p",
+      "image":"http://image.url",
+      "lists":[
+        {
+          "name":"Movies",
+          "category":"Movies",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Inception",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 2",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 3",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            }
+          ]
+        }
+      ],
+      "friends":[
+        3,
+        5
+      ]
+    },
+    {
+      "id":2,
+      "username":"user2",
+      "password":"p",
+      "image":"http://image.url",
+      "lists":[
+        {
+          "name":"Movies",
+          "category":"Movies",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Tangled",
+              "description":"Hair Everywhere!",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Tangled 2",
+              "description":"Hair Everywhere!",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Tangled 3",
+              "description":"Hair Everywhere!",
+              "image":"http://image.url"
+            }
+          ]
+        }
+      ],
+      "friends":[
+        4
+      ]
+    },
+    {
+      "id":3,
+      "username":"user3",
+      "password":"p",
+      "image":"http://image.url",
+      "lists":[
+        {
+          "name":"Movies",
+          "category":"Movies",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Inception",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 2",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 3",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            }
+          ]
+        }
+      ],
+      "friends":[
+        1,
+        5
+      ]
+    },
+    {
+      "id":4,
+      "username":"user4",
+      "password":"p",
+      "image":"http://image.url",
+      "lists":[
+        {
+          "name":"Movies",
+          "category":"Movies",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Inception",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 2",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 3",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            }
+          ]
+        }
+      ],
+      "friends":[
+        2
+      ]
+    },
+    {
+      "id":5,
+      "username":"user5",
+      "password":"p",
+      "image":"http://image.url",
+      "lists":[
+        {
+          "name":"Movies",
+          "category":"Movies",
+          "image":"http://image.url",
+          "items":[
+            {
+              "name":"Inception",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 2",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            },
+            {
+              "name":"Inception 3",
+              "description":"Inception--> Inception--> Inception",
+              "image":"http://image.url"
+            }
+          ]
+        }
+      ],
+      "friends":[
+        1,
+        3
+      ]
+    }
+  ]
+}
