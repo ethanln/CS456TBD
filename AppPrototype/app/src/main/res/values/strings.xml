@@ -5,4 +5,10 @@
     <string name="login">Login</string>
     <string name="facebook">Login With Facebook</string>
     <string name="google">Login With Google+</string>
+
+    <!-- Mock Credentials -->
+    <string name="email_cred">user</string>
+    <string name="pass_cred">user</string>
+    <string name="title_activity_main">MainActivity</string>
+
 </resources>

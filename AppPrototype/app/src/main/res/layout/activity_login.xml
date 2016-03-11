@@ -67,6 +67,7 @@
             android:textAlignment="center"
             android:background="@color/loginButton"
             android:textColor="@color/loginButtonText"
+            android:onClick="onLogin"
             />
 
         <!-- Facebook Login Options -->
@@ -79,7 +80,9 @@
             android:text="@string/facebook"
             android:textAlignment="center"
             android:background="@color/loginFacebookButton"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:onClick="onLogin"
+            />
 
 
         <!-- Google Login Options -->
@@ -92,7 +95,9 @@
             android:text="@string/google"
             android:textAlignment="center"
             android:background="@color/loginGoogleButton"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:onClick="onLogin"
+            />
     </LinearLayout>
 
 
