@@ -22,6 +22,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
+
     <include layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
@@ -50,7 +52,8 @@
             android:background="@color/dark_blue"
             android:drawableBottom="@drawable/ic_my_profile"
             android:paddingBottom="8dp"
-            android:text="My Profile" />
+            android:text="My Profile"
+            android:onClick="goToProfile"/>
         <Button
             android:id="@+id/my_friends"
             android:layout_width="wrap_content"
@@ -60,7 +63,8 @@
             android:background="@color/dark_blue"
             android:drawableBottom="@drawable/ic_friend"
             android:paddingBottom="8dp"
-            android:text="My Friends" />
+            android:text="My Friends"
+            android:onClick="goToFriends"/>
 
     </LinearLayout>
 
