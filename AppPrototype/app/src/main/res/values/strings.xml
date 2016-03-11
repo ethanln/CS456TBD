@@ -1,4 +1,5 @@
 <resources>
+    <!--Login Screen-->
     <string name="app_name">Net List</string>
     <string name="email_address">email</string>
     <string name="password">password</string>
@@ -9,6 +10,9 @@
     <!-- Mock Credentials -->
     <string name="email_cred">user</string>
     <string name="pass_cred">user</string>
-    <string name="title_activity_main">MainActivity</string>
+
+    <!-- My Lists -->
+    <string name="title_activity_main">My Lists</string>
+
 
 </resources>
