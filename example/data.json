@@ -4,7 +4,7 @@
 			"id"        : "user1id",
 			"username"  : "user1",
 			"password"  : "p",
-			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
 			"friendIDs" : [
 				"user2id",
 				"user3id"
@@ -14,7 +14,7 @@
 			"id"        : "user2id",
 			"username"  : "user2",
 			"password"  : "p",
-			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
 			"friendIDs" : [
 				"user1id",
 				"user4id"
@@ -24,7 +24,7 @@
 			"id"        : "user3id",
 			"username"  : "user3",
 			"password"  : "p",
-			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
 			"friendIDs" : [
 				"user1id",
 				"user4id"
@@ -34,7 +34,7 @@
 			"id"        : "user4id",
 			"username"  : "user4",
 			"password"  : "p",
-			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
 			"friendIDs" : [
 				"user2id",
 				"user3id"
@@ -47,49 +47,49 @@
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"        : "list1id",
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"        : "list2id",
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"        : "list3id",
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"        : "list4id",
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"      : "list5id",
 			"userID"  : "user1id",
 			"title"   : "My Movies",
 			"type"    : "Movies",
-			"iconURL" : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL" : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		},
 		{
 			"id"        : "list6id",
 			"userID"    : "user1id",
 			"title"     : "My Movies",
 			"type"      : "Movies",
-			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
 		}
 	],
 	"items" : [

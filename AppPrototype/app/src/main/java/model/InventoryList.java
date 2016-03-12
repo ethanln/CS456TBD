@@ -9,11 +9,11 @@ import definitions.ListType;
  */
 public class InventoryList extends ModelObject {
 
+    private String listID;
     private String title;
     private String type;
-    private String listID;
     private String userID;
-    private String iconURL;
+    private String imageURL;
 
 
     public String getTitle(){
@@ -81,7 +81,13 @@ public class InventoryList extends ModelObject {
     @Override
     public HashMap<String, String> toHashMap() {
         HashMap<String, String> map = new HashMap<>();
-
+        if (!listID.equals("")) {
+            map.put("listID", listID);
+        }
+        map.put("title", title);
+        map.put("type", type);
+        map.put("userID", userID);
+        map.put("imageURL", imageURL);
         return map;
     }
 }

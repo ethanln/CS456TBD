@@ -91,7 +91,12 @@ public class NetworkManager {
      * @return listID
      */
     public String makeCreateListRequest(InventoryList list) {
-        return "";
+        Firebase newList = new Firebase(listsEndpoint).push();
+        if (list.getListID().equals("")) {
+            list.setListID(newList.getKey());
+        }
+        newList.setValue(list.toHashMap());
+        return newList.getKey();
     }
 
     /**
