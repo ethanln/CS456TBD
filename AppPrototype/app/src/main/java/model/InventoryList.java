@@ -6,9 +6,12 @@ import definitions.ListType;
  * Created by Ethan on 3/10/2016.
  */
 public class InventoryList {
+
     private String title;
     private String type;
     private String listID;
+    private String userID;
+    private String iconURL;
 
 
     public String getTitle(){

@@ -6,6 +6,11 @@ package networking;
 public class NetworkManager {
 
     private static NetworkManager instance = new NetworkManager();
+    private static final String usersEndpoint = "https://tbd456.firebaseio.com/";
+    private static final String listsEndpoint = "https://tbd456lists.firebaseio.com/";
+    private static final String itemsEndpoint = "https://tbd456items.firebaseio.com/";
+
+    private NetworkManager() {}
 
     public static NetworkManager getInstance() {
         return instance;
@@ -15,7 +20,23 @@ public class NetworkManager {
         return getInstance();
     }
 
-    private NetworkManager() {
+    // HELPERS
+    // -------
 
-    }
+    private void
+
+    // USERS
+    // -----
+
+    // TODO:
+
+    // LISTS
+    // -----
+
+    // TODO:
+
+    // ITEMS
+    // -----
+
+    // TODO:
 }
