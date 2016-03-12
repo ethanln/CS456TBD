@@ -1,6 +1,9 @@
 package networking;
 
+import android.util.Log;
+
 import com.firebase.client.Firebase;
+import com.tbd.appprototype.TBDApplication;
 
 import java.util.ArrayList;
 
@@ -29,10 +32,9 @@ public class NetworkManager {
         return getInstance();
     }
 
-    // HELPERS
-    // -------
+    // Needed for getting current user
+    public TBDApplication application;
 
-    // TODO:
 
     // USERS
     // -----
@@ -44,9 +46,11 @@ public class NetworkManager {
      */
     public String makeCreateUserRequest(User user) {
         Firebase newUser = new Firebase(usersEndpoint).push();
-
-
-        return "";
+        if (user.getUserID().equals("")) {
+            user.setUserID(newUser.getKey());
+        }
+        newUser.setValue(user.toHashMap());
+        return newUser.getKey();
     }
 
     /**
@@ -86,7 +90,7 @@ public class NetworkManager {
     // -----
 
     /**
-     * Create List
+     * Create List - The current user is the userID used for the list.
      * @param list
      * @return listID
      */
@@ -94,6 +98,15 @@ public class NetworkManager {
         Firebase newList = new Firebase(listsEndpoint).push();
         if (list.getListID().equals("")) {
             list.setListID(newList.getKey());
+        }
+        if (list.getUserID().equals("")) {
+            if (application != null) {
+                if (application.getCurrentUser() != null) {
+                    list.setUserID(application.getCurrentUser().getUserID());
+                } else {
+                    list.setUserID("No User Found - Should not allow");
+                }
+            }
         }
         newList.setValue(list.toHashMap());
         return newList.getKey();

@@ -70,8 +70,8 @@ public class InventoryItem extends ModelObject {
     }
 
     @Override
-    public HashMap<String, String> toHashMap() {
-        HashMap<String, String> map = new HashMap<>();
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
         if (!itemID.equals("")) {
             map.put("itemID", itemID);
         }

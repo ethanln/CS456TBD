@@ -7,6 +7,6 @@ import java.util.HashMap;
  */
 public abstract class ModelObject {
 
-    public abstract HashMap<String, String> toHashMap();
+    public abstract HashMap<String, Object> toHashMap();
 
 }

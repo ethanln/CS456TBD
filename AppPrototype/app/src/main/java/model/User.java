@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
  */
 public class User extends ModelObject {
 
+    private String userID;
     private String username;
     private String imageURL;
-    private List<String> friendIDs;
+    private ArrayList<String> friendIDs;
+    private String password;
 
     public User() {
         this.username = "";
@@ -19,10 +22,35 @@ public class User extends ModelObject {
         this.friendIDs = new ArrayList<>();
     }
 
-    public User(String username, String imageURL, List<String> friendIDs) {
+    public User(String username, String imageURL, ArrayList<String> friendIDs) {
         this.username = username;
         this.imageURL = imageURL;
         this.friendIDs = friendIDs;
+    }
+
+    public User(String userID, String username, String password, String imageURL, ArrayList<String> friendIDs) {
+        this.userID = userID;
+        this.username = username;
+        this.imageURL = imageURL;
+        this.friendIDs = friendIDs;
+        this.password = password;
+    }
+
+    public User(String username, String password, String imageURL, ArrayList<String> friendIDs) {
+        this.userID = "";
+        this.username = username;
+        this.imageURL = imageURL;
+        this.friendIDs = friendIDs;
+        this.password = password;
+    }
+
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -45,14 +73,28 @@ public class User extends ModelObject {
         return friendIDs;
     }
 
-    public void setFriendIDs(List<String> friendIDs) {
+    public void setFriendIDs(ArrayList<String> friendIDs) {
         this.friendIDs = friendIDs;
     }
 
-    @Override
-    public HashMap<String, String> toHashMap() {
-        HashMap<String, String> map = new HashMap<>();
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        if (!userID.equals("")) {
+            map.put("userID", userID);
+        }
+        map.put("username", username);
+        map.put("password", password);
+        map.put("imageURL", imageURL);
+        map.put("friendIDs", friendIDs);
         return map;
     }
 }

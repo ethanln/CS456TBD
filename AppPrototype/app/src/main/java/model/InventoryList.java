@@ -10,11 +10,26 @@ import definitions.ListType;
 public class InventoryList extends ModelObject {
 
     private String listID;
+    private String userID;
     private String title;
     private String type;
-    private String userID;
     private String imageURL;
 
+    public InventoryList() {
+        listID = "";
+        userID = "";
+        title = "";
+        type = "";
+        imageURL = "";
+    }
+
+    public InventoryList(String listID, String userID, String title, String type, String imageURL) {
+        this.listID = listID;
+        this.userID = userID;
+        this.title = title;
+        this.type = type;
+        this.imageURL = imageURL;
+    }
 
     public String getTitle(){
         return this.title;
@@ -38,6 +53,22 @@ public class InventoryList extends ModelObject {
 
     public void setListID(String _id){
         this.listID = _id;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     /**
@@ -79,8 +110,8 @@ public class InventoryList extends ModelObject {
     }
 
     @Override
-    public HashMap<String, String> toHashMap() {
-        HashMap<String, String> map = new HashMap<>();
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
         if (!listID.equals("")) {
             map.put("listID", listID);
         }
