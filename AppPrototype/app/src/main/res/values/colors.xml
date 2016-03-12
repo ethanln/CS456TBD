@@ -13,6 +13,7 @@
     <color name="loginFacebookButton">#533DD5</color>
     <color name="loginGoogleButton">#D55C3D</color>
 
+    <color name="transparentBlackBckground">#33000000</color>
     <!-- Primary Colors -->
     <color name="obscured_white">#f5f5f5</color>
     <color name="light_blue">#c2d7df</color>
