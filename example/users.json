@@ -1,0 +1,44 @@
+{
+	"users" : [
+		{
+			"id"        : "user1id",
+			"username"  : "user1",
+			"password"  : "p",
+			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user2id",
+				"user3id"
+			]
+		},
+		{
+			"id"        : "user2id",
+			"username"  : "user2",
+			"password"  : "p",
+			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user1id",
+				"user4id"
+			]
+		},
+		{
+			"id"        : "user3id",
+			"username"  : "user3",
+			"password"  : "p",
+			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user1id",
+				"user4id"
+			]
+		},
+		{
+			"id"        : "user4id",
+			"username"  : "user4",
+			"password"  : "p",
+			"image"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user2id",
+				"user3id"
+			]
+		}
+	]
+}
