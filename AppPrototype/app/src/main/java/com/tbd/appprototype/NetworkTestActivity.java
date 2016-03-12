@@ -68,6 +68,14 @@ public class NetworkTestActivity extends ListActivity {
             }
         });
 
+        tests.add(new NetworkTest("Login User Test") {
+            @Override
+            public void executeTest() {
+                network.makeLoginUserRequest("user1", "p");
+                showNetworkTestCompleteToast("Login User Done");
+            }
+        });
+
         // LIST TESTS
         // ----------
 

@@ -85,6 +85,10 @@ public class User extends ModelObject {
         this.password = password;
     }
 
+    public void addFriend(String friendID) {
+        this.friendIDs.add(friendID);
+    }
+
     @Override
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();

@@ -2,10 +2,21 @@ package networking;
 
 import android.util.Log;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.Query;
 import com.tbd.appprototype.TBDApplication;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import model.InventoryItem;
 import model.InventoryList;
@@ -51,6 +62,70 @@ public class NetworkManager {
         }
         newUser.setValue(user.toHashMap());
         return newUser.getKey();
+    }
+
+    public void makeLoginUserRequest(final String username, final String password) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        Query query = userRef.orderByChild("username").equalTo(username);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                Log.d("LOGIN-ON CHILD ADDED", data.getKey());
+                boolean usernameMatches = false;
+                boolean passwordMatches = false;
+                User currentUser = new User();
+
+                for (DataSnapshot userData : data.getChildren()) {
+//                    Log.d("userKey", userData.getKey());
+//                    Log.d("userValue", userData.getValue().toString());
+                    if (userData.getKey().equals("username") && userData.getValue().equals(username)) {
+                        usernameMatches = true;
+                        currentUser.setUsername(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("password") && userData.getValue().equals(password)) {
+                        passwordMatches = true;
+                        currentUser.setPassword(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("id")) {
+                        currentUser.setUserID(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("imageURL")) {
+                        currentUser.setImageURL(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("friendIDs")) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        currentUser.setFriendIDs(friendIDs);
+                    }
+
+                }
+                if (usernameMatches && passwordMatches) {
+                    application.setCurrentUser(currentUser);
+                    Log.d("CURRENT USER SET", application.getCurrentUser().toHashMap().toString());
+                } else {
+                    application.setCurrentUser(null);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.e("onCancelled", firebaseError.getMessage());
+                Log.e("onCancelled", firebaseError.getDetails());
+            }
+        });
+    }
+
+    public void makeLogoutUserRequest() {
+        application.setCurrentUser(null);
     }
 
     /**
