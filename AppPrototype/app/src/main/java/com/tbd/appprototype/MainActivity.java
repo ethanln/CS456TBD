@@ -1,5 +1,6 @@
 package com.tbd.appprototype;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 
 import java.util.ArrayList;
 
@@ -45,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this, AddListActivity.class));
             }
         });
 
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         firebaseRef = new Firebase("https://luminous-torch-6850.firebaseio.com/chatty");
         firebaseRef.addChildEventListener(this.childEventListener);
+       // Query queryRef = firebaseRef.orderByChild("list");
+       // queryRef.addChildEventListener(this.childEventListener);
     }
 
     /**
