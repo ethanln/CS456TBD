@@ -1,12 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by mitch10e on 12 March 2016.
  */
-public class User {
+public class User extends ModelObject {
 
     private String username;
     private String imageURL;
@@ -46,5 +47,12 @@ public class User {
 
     public void setFriendIDs(List<String> friendIDs) {
         this.friendIDs = friendIDs;
+    }
+
+    @Override
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> map = new HashMap<>();
+
+        return map;
     }
 }

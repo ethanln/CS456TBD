@@ -96,8 +96,10 @@
             android:textAlignment="center"
             android:background="@color/loginGoogleButton"
             android:textColor="@color/white"
-            android:onClick="onLogin"
+            android:onClick="goToNetworkTests"
             />
+
+
     </LinearLayout>
 
 

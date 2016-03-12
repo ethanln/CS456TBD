@@ -29,5 +29,6 @@
         <item>Music</item>
         <item>Book</item>
     </string-array>
+    <string name="title_activity_network_test">NetworkTestActivity</string>
 
 </resources>

@@ -5,27 +5,39 @@ package networking.logging;
  */
 public class NetworkLog {
 
-    public static void debug(String message) {
+    public static NetworkLog instance = new NetworkLog();
+
+    private NetworkLog() {}
+
+    public static NetworkLog getInstance() {
+        return instance;
+    }
+
+    public static NetworkLog inst() {
+        return getInstance();
+    }
+
+    public void debug(String message) {
         String tag = "[DEBUG]";
         printMessage(tag, ColorCodes.GREEN, message);
     }
 
-    public static void info(String message) {
+    public void info(String message) {
         String tag = "[INFO] ";
         printMessage(tag, ColorCodes.BLUE, message);
     }
 
-    public static void error(String message) {
+    public void error(String message) {
         String tag = "[ERROR]";
         printMessage(tag, ColorCodes.RED, message);
     }
 
-    public static void warn(String message) {
+    public void warn(String message) {
         String tag = "[WARN] ";
         printMessage(tag, ColorCodes.YELLOW, message);
     }
 
-    private static void printMessage(String tag, String color, String message) {
+    private void printMessage(String tag, String color, String message) {
         System.out.println(color + tag + "\t" + message);
     }
 

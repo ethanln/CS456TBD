@@ -1,9 +1,11 @@
 package model;
 
+import java.util.HashMap;
+
 /**
  * Created by mitch10e on 12 March2016.
  */
-public class InventoryItem {
+public class InventoryItem extends ModelObject {
 
     private String itemID;
     private String title;
@@ -65,5 +67,18 @@ public class InventoryItem {
 
     public void setListID(String listID) {
         this.listID = listID;
+    }
+
+    @Override
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> map = new HashMap<>();
+        if (!itemID.equals("")) {
+            map.put("itemID", itemID);
+        }
+        map.put("title", title);
+        map.put("description", description);
+        map.put("listID", listID);
+        map.put("imageURL", imageURL);
+        return map;
     }
 }

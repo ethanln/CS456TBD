@@ -31,4 +31,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void goToNetworkTests(View view) {
+        Intent intent = new Intent(this, NetworkTestActivity.class);
+        startActivity(intent);
+    }
+
 }

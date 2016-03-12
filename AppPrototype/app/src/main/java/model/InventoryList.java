@@ -1,11 +1,13 @@
 package model;
 
+import java.util.HashMap;
+
 import definitions.ListType;
 
 /**
  * Created by Ethan on 3/10/2016.
  */
-public class InventoryList {
+public class InventoryList extends ModelObject {
 
     private String title;
     private String type;
@@ -74,5 +76,12 @@ public class InventoryList {
         str += this.title + "\n";
         str += this.type + "\n";
         return str;
+    }
+
+    @Override
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> map = new HashMap<>();
+
+        return map;
     }
 }
