@@ -1,26 +1,26 @@
 package networking;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.tbd.appprototype.TBDApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import model.InventoryItem;
 import model.InventoryList;
 import model.User;
+import networking.callback.GenericCallback;
+import networking.callback.UserCallback;
+import networking.callback.UsersCallback;
 
 /**
  * Created by mitch10e on 12 March2016.
@@ -29,9 +29,9 @@ public class NetworkManager {
 
     private static NetworkManager instance = new NetworkManager();
 
-    private static final String usersEndpoint = "https://tbd456.firebaseio.com/users";
-    private static final String listsEndpoint = "https://tbd456.firebaseio.com/lists";
-    private static final String itemsEndpoint = "https://tbd456.firebaseio.com/items";
+    private static final String usersEndpoint = "https://tbd456.firebaseio.com/users/";
+    private static final String listsEndpoint = "https://tbd456.firebaseio.com/lists/";
+    private static final String itemsEndpoint = "https://tbd456.firebaseio.com/items/";
 
     private NetworkManager() {}
 
@@ -55,29 +55,32 @@ public class NetworkManager {
      * @param user
      * @return userID in database
      */
-    public String makeCreateUserRequest(User user) {
-        Firebase newUser = new Firebase(usersEndpoint).push();
+    public void makeCreateUserRequest(User user, final GenericCallback callback) {
+        final Firebase newUser = new Firebase(usersEndpoint).push();
         if (user.getUserID().equals("")) {
             user.setUserID(newUser.getKey());
         }
-        newUser.setValue(user.toHashMap());
-        return newUser.getKey();
+        newUser.setValue(user.toHashMap(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newUser.getKey();
+                callback.callback();
+            }
+        });
     }
 
-    public void makeLoginUserRequest(final String username, final String password) {
+    public void makeLoginUserRequest(final String username, final String password, final GenericCallback callback) {
         Firebase userRef = new Firebase(usersEndpoint);
         Query query = userRef.orderByChild("username").equalTo(username);
-        query.addChildEventListener(new ChildEventListener() {
+
+        query.addChildEventListener(new RetrieveDataListener() {
             @Override
             public void onChildAdded(DataSnapshot data, String s) {
                 Log.d("LOGIN-ON CHILD ADDED", data.getKey());
                 boolean usernameMatches = false;
                 boolean passwordMatches = false;
                 User currentUser = new User();
-
                 for (DataSnapshot userData : data.getChildren()) {
-//                    Log.d("userKey", userData.getKey());
-//                    Log.d("userValue", userData.getValue().toString());
                     if (userData.getKey().equals("username") && userData.getValue().equals(username)) {
                         usernameMatches = true;
                         currentUser.setUsername(userData.getValue().toString());
@@ -93,11 +96,9 @@ public class NetworkManager {
                         currentUser.setImageURL(userData.getValue().toString());
                     }
                     if (userData.getKey().equals("friendIDs")) {
-                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
                         ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
                         currentUser.setFriendIDs(friendIDs);
                     }
-
                 }
                 if (usernameMatches && passwordMatches) {
                     application.setCurrentUser(currentUser);
@@ -105,35 +106,111 @@ public class NetworkManager {
                 } else {
                     application.setCurrentUser(null);
                 }
+                callback.callback();
+            }
+        });
+
+        // To Catch if username doesn't exist
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    System.out.println("Data Exists!");
+                } else {
+                    System.out.println("Data Doesn't Exist!");
+                    application.setCurrentUser(null);
+                    callback.callback();
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.e("onCancelled", firebaseError.getMessage());
-                Log.e("onCancelled", firebaseError.getDetails());
+
             }
         });
     }
 
-    public void makeLogoutUserRequest() {
+
+    public void makeLogoutUserRequest(GenericCallback callback) {
         application.setCurrentUser(null);
+        callback.callback();
     }
 
     /**
      * Get all Users
-     * @return ArrayList of Users
      */
-    public ArrayList<User> makeGetUsersRequest() {
-        return new ArrayList<>();
+    public void makeGetUsersRequest(final ArrayAdapter<User> adapter, final UsersCallback callback) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        Query query = userRef.orderByChild("username");
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                User user = new User();
+                for (DataSnapshot userData : data.getChildren()) {
+                    if (userData.getKey().equals("username")) {
+                        user.setUsername(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("password")) {
+                        user.setPassword(userData.getValue().toString()); // Need password to update data
+                    }
+                    if (userData.getKey().equals("id")) {
+                        user.setUserID(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("imageURL")) {
+                        user.setImageURL(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("friendIDs")) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                        };
+                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        user.setFriendIDs(friendIDs);
+                    }
+                }
+                adapter.add(user);
+                if (callback.getUsers() == null) {
+                    callback.setUsers(new ArrayList<User>());
+                }
+                callback.getUsers().add(user);
+                callback.callback();
+                System.out.println("Added Another User - Total: " + adapter.getCount());
+            }
+        });
+    }
+
+    public void makeGetUsersAsListRequest(final UsersCallback callback) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        Query query = userRef.orderByChild("username");
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                User user = new User();
+                for (DataSnapshot userData : data.getChildren()) {
+                    if (userData.getKey().equals("username")) {
+                        user.setUsername(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("password")) {
+                        user.setPassword(userData.getValue().toString()); // Need password to update data
+                    }
+                    if (userData.getKey().equals("id")) {
+                        user.setUserID(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("imageURL")) {
+                        user.setImageURL(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("friendIDs")) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                        };
+                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        user.setFriendIDs(friendIDs);
+                    }
+                }
+                if (callback.getUsers() == null) {
+                    callback.setUsers(new ArrayList<User>());
+                }
+                callback.getUsers().add(user);
+                callback.callback();
+            }
+        });
     }
 
     /**
@@ -141,24 +218,94 @@ public class NetworkManager {
      * @param userID
      * @return User
      */
-    public User makeGetUserRequest(String userID) {
-        return new User();
+    public void makeGetUserRequest(String userID, final UserCallback callback) {
+        System.out.println("makeGetUserRequest");
+        Firebase userRef = new Firebase(usersEndpoint);
+        Query query = userRef.orderByChild("id").equalTo(userID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                Log.d("LOGIN-ON CHILD ADDED", data.getKey());
+                User user = new User();
+                for (DataSnapshot userData : data.getChildren()) {
+                    if (userData.getKey().equals("username")) {
+                        user.setUsername(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("password")) {
+                        user.setPassword(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("id")) {
+                        user.setUserID(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("imageURL")) {
+                        user.setImageURL(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("friendIDs")) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                        };
+                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        user.setFriendIDs(friendIDs);
+                    }
+                }
+                callback.setUser(user);
+                callback.callback();
+            }
+        });
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    System.out.println("Data Exists!");
+                } else {
+                    System.out.println("Data Doesn't Exist!");
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     /**
      * Update User
      * @param user
      */
-    public void makeUpdateUserRequest(User user) {
-
+    public void makeUpdateUserRequest(User user, final GenericCallback callback) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        HashMap<String, Object> userMap = user.toHashMap();
+        userMap.remove("id"); // Don't want to overwrite userID
+        Firebase userWithIDRef = userRef.child(user.getUserID());
+        userWithIDRef.updateChildren(userMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.firebase = firebase;
+                callback.error = firebaseError;
+                callback.callback();
+            }
+        });
     }
 
     /**
      * Delete User by ID
      * @param userID
      */
-    public void makeDeleteUserRequest(String userID) {
-
+    public void makeDeleteUserRequest(String userID, final GenericCallback callback) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        if (userID == null) {
+            callback.error = new FirebaseError(-2, "No UserID Given");
+            callback.callback();
+            return;
+        }
+        userRef.child(userID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.callback();
+            }
+        });
     }
 
     // LISTS

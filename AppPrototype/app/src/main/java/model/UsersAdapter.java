@@ -1,4 +1,4 @@
-package networking.testing;
+package model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,17 +11,19 @@ import com.tbd.appprototype.R;
 
 import java.util.ArrayList;
 
+import networking.testing.NetworkTest;
+
 /**
  * Created by mitch10e on 12 March 2016.
  */
-public class NetworkTestAdapter extends ArrayAdapter<NetworkTest> {
+public class UsersAdapter extends ArrayAdapter<User> {
     private Context context;
-    private ArrayList<NetworkTest> tests;
+    private ArrayList<User> users;
 
-    public NetworkTestAdapter (Context context, ArrayList<NetworkTest> tests) {
-        super(context, R.layout.list_item_generic, tests);
+    public UsersAdapter (Context context, ArrayList<User> users) {
+        super(context, R.layout.list_item_generic, users);
         this.context = context;
-        this.tests = tests;
+        this.users = users;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class NetworkTestAdapter extends ArrayAdapter<NetworkTest> {
         View rowView = inflater.inflate(R.layout.list_item_generic, parent, false);
         TextView testNameView = (TextView) rowView.findViewById(R.id.item_name);
 
-        testNameView.setText(tests.get(position).getName());
+        testNameView.setText(users.get(position).getUsername());
 
         return rowView;
     }

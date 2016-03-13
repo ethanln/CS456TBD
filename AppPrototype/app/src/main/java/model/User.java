@@ -93,7 +93,7 @@ public class User extends ModelObject {
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();
         if (!userID.equals("")) {
-            map.put("userID", userID);
+            map.put("id", userID);
         }
         map.put("username", username);
         map.put("password", password);

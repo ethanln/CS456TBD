@@ -113,7 +113,7 @@ public class InventoryList extends ModelObject {
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();
         if (!listID.equals("")) {
-            map.put("listID", listID);
+            map.put("id", listID);
         }
         map.put("title", title);
         map.put("type", type);
