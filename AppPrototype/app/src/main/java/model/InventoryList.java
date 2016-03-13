@@ -23,6 +23,14 @@ public class InventoryList extends ModelObject {
         imageURL = "";
     }
 
+    public InventoryList(String userID, String title, String type, String imageURL) {
+        this.listID = "";
+        this.userID = userID;
+        this.title = title;
+        this.type = type;
+        this.imageURL = imageURL;
+    }
+
     public InventoryList(String listID, String userID, String title, String type, String imageURL) {
         this.listID = listID;
         this.userID = userID;

@@ -316,8 +316,8 @@ public class NetworkManager {
      * @param list
      * @return listID
      */
-    public String makeCreateListRequest(InventoryList list) {
-        Firebase newList = new Firebase(listsEndpoint).push();
+    public void makeCreateListRequest(InventoryList list, final GenericCallback callback) {
+        final Firebase newList = new Firebase(listsEndpoint).push();
         if (list.getListID().equals("")) {
             list.setListID(newList.getKey());
         }
@@ -330,8 +330,13 @@ public class NetworkManager {
                 }
             }
         }
-        newList.setValue(list.toHashMap());
-        return newList.getKey();
+        newList.setValue(list.toHashMap(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newList.getKey();
+                callback.callback();
+            }
+        });
     }
 
     /**

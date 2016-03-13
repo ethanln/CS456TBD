@@ -31,6 +31,7 @@ public class NetworkTestActivity extends ListActivity{
     private NetworkManager network;
     private NetworkTestActivity self;
     private Toast toast;
+    private TBDApplication application;
 
     private ArrayList<User> users;
 
@@ -40,6 +41,7 @@ public class NetworkTestActivity extends ListActivity{
         setContentView(R.layout.activity_network_test);
         network = NetworkManager.getInstance();
         self = this;
+        application = (TBDApplication) getApplication();
         users = new ArrayList<>();
         setUpList();
     }
@@ -201,7 +203,7 @@ public class NetworkTestActivity extends ListActivity{
         tests.add(new NetworkTest("Delete User - DANGEROUS") {
             @Override
             public void executeTest() {
-                if(users.size() > 0) {
+                if (users.size() > 0) {
                     User user = users.get(0);
                     Log.d("IS USER NULL?", String.valueOf(user == null));
                     network.makeDeleteUserRequest(user.getUserID(), new GenericCallback() {
@@ -226,9 +228,18 @@ public class NetworkTestActivity extends ListActivity{
         tests.add(new NetworkTest("Create New List Test") {
             @Override
             public void executeTest() {
-                InventoryList list = new InventoryList("", "", "Test Title", "Test Type", "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png");
-                String listID = network.makeCreateListRequest(list);
-                showNetworkTestCompleteToast("List Created: " + listID);
+                if (application.getCurrentUser() == null) {
+                    showNetworkTestCompleteToast("No User Logged In");
+                } else {
+                    String userID = application.getCurrentUser().getUserID();
+                    InventoryList list = new InventoryList(userID, "Test Title", "Test Type", "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png");
+                    network.makeCreateListRequest(list, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            showNetworkTestCompleteToast("ListID Created: " + this.data + " - for User: " + application.getCurrentUser().getUsername());
+                        }
+                    });
+                }
             }
         });
 
