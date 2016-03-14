@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.lists);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(onItemClickListener);
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void goToFriends(View view){
-
+        startActivity(new Intent(MainActivity.this, FriendsActivity.class));
     }
 
     /**

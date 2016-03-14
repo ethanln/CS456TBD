@@ -22,6 +22,9 @@
     <!-- View Item -->
     <string name="item_name">Item Name</string>
 
+    <!--Friends-->
+    <string name="title_activity_friends">My Friends</string>
+
     <!--Form strings-->
     <string name="submit_button">Submit</string>
     <string name="title_label">List: </string>
@@ -37,6 +40,7 @@
         <item>Book</item>
     </string-array>
     <string name="title_activity_network_test">NetworkTestActivity</string>
+
 
 
 </resources>

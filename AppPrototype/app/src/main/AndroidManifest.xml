@@ -43,6 +43,10 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".FriendsActivity"
+            android:label="@string/title_activity_friends"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
