@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
      * update the list view
      */
     private void setUpList(){
-        TBDApplication app = (TBDApplication)getApplication();
-        NetworkManager.getInstance().makeGetListsRequest(this.adapter, app.getCurrentUser().getUserID());
+        NetworkManager.getInstance().makeGetListsRequest(this.adapter);
     }
 
     /**

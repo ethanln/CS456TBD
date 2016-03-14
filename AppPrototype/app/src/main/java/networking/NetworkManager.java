@@ -343,8 +343,9 @@ public class NetworkManager {
      * Get all Lists
      * @return All InventoryLists
      */
-    public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter, String userID) {
+    public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter) {
         final Firebase listRef = new Firebase(listsEndpoint);
+        String userID = application.getCurrentUser().getUserID();
 
         Query query = listRef.orderByChild("userID").equalTo(userID);
         query.addChildEventListener(new RetrieveDataListener() {
@@ -371,10 +372,10 @@ public class NetworkManager {
 
                 }
 
-                if(list.getListID() != ""
-                        && list.getTitle() != ""
-                        && list.getType() != ""
-                        && list.getUserID() != "") {
+                if(!list.getListID().equals("")
+                        && !list.getTitle().equals("")
+                        && !list.getType().equals("")
+                        && !list.getUserID().equals("")) {
                     adapter.add(list);
                 }
             }
