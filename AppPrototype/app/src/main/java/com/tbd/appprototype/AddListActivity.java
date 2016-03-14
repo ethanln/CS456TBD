@@ -6,8 +6,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.security.GeneralSecurityException;
+
+import model.InventoryList;
+import networking.NetworkManager;
+import networking.callback.GenericCallback;
 
 public class AddListActivity extends AppCompatActivity {
+
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +40,45 @@ public class AddListActivity extends AppCompatActivity {
     }
 
     public void onSubmit(View view){
-        // IMPLEMENT
-        // do firebase call to add new list
+
+        TBDApplication app = (TBDApplication) getApplication();
+
+        // if user is not logged in
+        if(app.getCurrentUser() == null){
+            showNetworkTestCompleteToast("No User Logged In");
+            return;
+        }
+
+        TextView txtTitle = (TextView)findViewById(R.id.txtTitle);
+        Spinner categoryItems = (Spinner)findViewById(R.id.categoryItems);
+
+        // get new list info
+        String userId = app.getCurrentUser().getUserID();
+        String title = txtTitle.getText().toString();
+        String type = categoryItems.getItemAtPosition(categoryItems.getSelectedItemPosition()).toString();
+
+        // create new list instance
+        InventoryList newList = new InventoryList(userId, title, type, "");
+
+        // add new list
+        NetworkManager.getInstance().makeCreateListRequest(newList, new GenericCallback() {
+            @Override
+            public void callback() {
+                showNetworkTestCompleteToast("List Added");
+                switchIntent();
+            }
+        });
+    }
+
+    private void switchIntent(){
         onBackPressed();
+    }
+    private void showNetworkTestCompleteToast(String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

@@ -1,31 +1,22 @@
 package com.tbd.appprototype;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 
 import java.util.ArrayList;
 
 import model.InventoryList;
+import networking.NetworkManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set up list view
         this.setUpListView();
-
-        // set up firebase connection
-        this.setUpFireBase();
+        this.setUpList();
     }
 
     /**
@@ -85,74 +74,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * set up the firebase connection
-     */
-    private void setUpFireBase(){
-        Firebase firebaseRef;
-
-        Firebase.setAndroidContext(this);
-        firebaseRef = new Firebase("https://luminous-torch-6850.firebaseio.com/chatty");
-        firebaseRef.addChildEventListener(this.childEventListener);
-       // Query queryRef = firebaseRef.orderByChild("list");
-       // queryRef.addChildEventListener(this.childEventListener);
-    }
-
-    /**
-     * fire base event listeners
-     */
-    private ChildEventListener childEventListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            updateList(dataSnapshot);
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            updateList(dataSnapshot);
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-           // updateList(dataSnapshot);
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-           // updateList(dataSnapshot);
-        }
-
-        @Override
-        public void onCancelled(FirebaseError firebaseError) {
-
-        }
-    };
-
-    /**
      * update the list view
-     * @param data
      */
-    private void updateList(DataSnapshot data){
-        InventoryList list = new InventoryList();
-        try {
-            if(!data.hasChildren()){
-                return;
-            }
-            list.setListID(data.getKey());
-            for (DataSnapshot listSnapshot : data.getChildren()) {
-                if(listSnapshot.hasChildren()){
-                    //  adjustData(messageSnapshot, adjustmentType);
-                    return;
-                }
-
-                list.setValue("title", "This is a title");
-                list.setValue("type", "Movies");
-                // list.setValue(listSnapshot.getKey(), (String) listSnapshot.getValue());
-            }
-            this.adapter.add(list);
-        }
-        catch(Exception e){
-
-        }
+    private void setUpList(){
+        TBDApplication app = (TBDApplication)getApplication();
+        NetworkManager.getInstance().makeGetListsRequest(this.adapter, app.getCurrentUser().getUserID());
     }
 
     /**

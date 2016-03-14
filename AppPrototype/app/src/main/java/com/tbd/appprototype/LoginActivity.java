@@ -5,8 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import model.User;
+import networking.NetworkManager;
+import networking.callback.GenericCallback;
+import networking.callback.UserCallback;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,15 +28,33 @@ public class LoginActivity extends AppCompatActivity {
 
         String userEmail = email.getText().toString();
         String userPassword = password.getText().toString();
-        String actualEmail = getResources().getString(R.string.email_cred);
-        String actualPass = getResources().getString(R.string.pass_cred);
 
-        if(userEmail.equals(actualEmail)
-                && userPassword.equals(actualPass)){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+        NetworkManager.getInstance().makeLoginUserRequest(userEmail, userPassword, new GenericCallback() {
+            @Override
+            public void callback() {
+                TBDApplication app = (TBDApplication) getApplication();
+                User user = app.getCurrentUser();
+                if (user != null) {
+                    showNetworkTestCompleteToast("Login User Done: " + user.getUserID());
+                    switchIntent();
+                } else {
+                    showNetworkTestCompleteToast("Invalid Username / Password");
+                }
+            }
+        });
+    }
+
+    private void switchIntent(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void showNetworkTestCompleteToast(String message) {
+        if (toast != null) {
+            toast.cancel();
         }
-
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public void goToNetworkTests(View view) {

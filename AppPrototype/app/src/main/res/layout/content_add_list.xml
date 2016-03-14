@@ -55,7 +55,7 @@
                 android:textColor="@color/black"/>
 
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/categoryItems"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
