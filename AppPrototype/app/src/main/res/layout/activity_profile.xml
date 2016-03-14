@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/obscured_white"
-    tools:context="com.tbd.appprototype.AddListActivity">
+    tools:context="com.tbd.appprototype.ProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,6 +22,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_list" />
+    <include layout="@layout/content_profile" />
 
 </android.support.design.widget.CoordinatorLayout>

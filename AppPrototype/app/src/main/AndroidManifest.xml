@@ -35,10 +35,14 @@
         <activity
             android:name=".AddListActivity"
             android:label="@string/title_activity_add_list"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".NetworkTestActivity"
             android:label="@string/title_activity_network_test"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

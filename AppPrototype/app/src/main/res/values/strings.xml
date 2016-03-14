@@ -15,6 +15,10 @@
     <string name="title_activity_main">My Lists</string>
     <string name="title_activity_add_list">Add List</string>
 
+    <!-- My Profile -->
+    <string name="title_activity_profile">My Profile</string>
+    <string name="title_activity_profile_name">Name: </string>
+
     <!-- View Item -->
     <string name="item_name">Item Name</string>
 
@@ -33,5 +37,6 @@
         <item>Book</item>
     </string-array>
     <string name="title_activity_network_test">NetworkTestActivity</string>
+
 
 </resources>

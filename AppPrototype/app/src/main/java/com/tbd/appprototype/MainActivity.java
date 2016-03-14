@@ -38,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // show add list pop up
                 startActivity(new Intent(MainActivity.this, AddListActivity.class));
             }
         });
 
         // set up list view
         this.setUpListView();
+        // set up list
         this.setUpList();
     }
 
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void goToProfile(View view){
-
+        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
     }
 
     /**

@@ -23,33 +23,45 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view){
+        // get credential components
         TextView email = (TextView)findViewById(R.id.email_address);
         TextView password = (TextView)findViewById(R.id.password);
 
+        // get credential text
         String userEmail = email.getText().toString();
         String userPassword = password.getText().toString();
 
+        // log on
         NetworkManager.getInstance().makeLoginUserRequest(userEmail, userPassword, new GenericCallback() {
             @Override
             public void callback() {
                 TBDApplication app = (TBDApplication) getApplication();
                 User user = app.getCurrentUser();
                 if (user != null) {
-                    showNetworkTestCompleteToast("Login User Done: " + user.getUserID());
+                    // if User login succeeds
+                    showResultMessage("User Logged In");
                     switchIntent();
                 } else {
-                    showNetworkTestCompleteToast("Invalid Username / Password");
+                    // if User login faisl
+                    showResultMessage("Invalid Username / Password");
                 }
             }
         });
     }
 
+    /**
+     * go to the main screen
+     */
     private void switchIntent(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    private void showNetworkTestCompleteToast(String message) {
+    /**
+     * display result message of any action
+     * @param message
+     */
+    private void showResultMessage(String message) {
         if (toast != null) {
             toast.cancel();
         }

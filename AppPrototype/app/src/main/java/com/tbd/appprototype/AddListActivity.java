@@ -73,6 +73,7 @@ public class AddListActivity extends AppCompatActivity {
     private void switchIntent(){
         onBackPressed();
     }
+
     private void showNetworkTestCompleteToast(String message) {
         if (toast != null) {
             toast.cancel();
