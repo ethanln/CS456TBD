@@ -13,22 +13,22 @@ public class User extends ModelObject {
     private String userID;
     private String username;
     private String imageURL;
-    private ArrayList<String> friendIDs;
+    private HashMap<String, Object> friendIDs;
     private String password;
 
     public User() {
         this.username = "";
         this.imageURL = "";
-        this.friendIDs = new ArrayList<>();
+        this.friendIDs = new HashMap<>();
     }
 
-    public User(String username, String imageURL, ArrayList<String> friendIDs) {
+    public User(String username, String imageURL, HashMap<String, Object> friendIDs) {
         this.username = username;
         this.imageURL = imageURL;
         this.friendIDs = friendIDs;
     }
 
-    public User(String userID, String username, String password, String imageURL, ArrayList<String> friendIDs) {
+    public User(String userID, String username, String password, String imageURL, HashMap<String, Object> friendIDs) {
         this.userID = userID;
         this.username = username;
         this.imageURL = imageURL;
@@ -36,7 +36,7 @@ public class User extends ModelObject {
         this.password = password;
     }
 
-    public User(String username, String password, String imageURL, ArrayList<String> friendIDs) {
+    public User(String username, String password, String imageURL, HashMap<String, Object> friendIDs) {
         this.userID = "";
         this.username = username;
         this.imageURL = imageURL;
@@ -69,11 +69,11 @@ public class User extends ModelObject {
         this.imageURL = imageURL;
     }
 
-    public List<String> getFriendIDs() {
+    public HashMap<String, Object> getFriendIDs() {
         return friendIDs;
     }
 
-    public void setFriendIDs(ArrayList<String> friendIDs) {
+    public void setFriendIDs(HashMap<String, Object> friendIDs) {
         this.friendIDs = friendIDs;
     }
 
@@ -86,7 +86,11 @@ public class User extends ModelObject {
     }
 
     public void addFriend(String friendID) {
-        this.friendIDs.add(friendID);
+        this.friendIDs.put(friendID, friendID);
+    }
+
+    public void removeFriend(String friendID) {
+        this.friendIDs.remove(friendID);
     }
 
     @Override

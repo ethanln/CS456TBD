@@ -3,6 +3,7 @@ package networking;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -14,7 +15,6 @@ import com.tbd.appprototype.TBDApplication;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import model.InventoryItem;
 import model.InventoryList;
@@ -100,7 +100,7 @@ public class NetworkManager {
                         currentUser.setImageURL(userData.getValue().toString());
                     }
                     if (userData.getKey().equals("friendIDs")) {
-                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        HashMap<String, Object> friendIDs = (HashMap<String, Object>) userData.getValue();
                         currentUser.setFriendIDs(friendIDs);
                     }
                 }
@@ -149,7 +149,7 @@ public class NetworkManager {
                     if (userData.getKey().equals("friendIDs")) {
                         GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
                         };
-                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        HashMap<String, Object> friendIDs = (HashMap<String, Object>) userData.getValue();
                         user.setFriendIDs(friendIDs);
                     }
                 }
@@ -187,7 +187,7 @@ public class NetworkManager {
                     if (userData.getKey().equals("friendIDs")) {
                         GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
                         };
-                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        HashMap<String, Object> friendIDs = (HashMap<String, Object>) userData.getValue();
                         user.setFriendIDs(friendIDs);
                     }
                 }
@@ -228,7 +228,7 @@ public class NetworkManager {
                     if (userData.getKey().equals("friendIDs")) {
                         GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
                         };
-                        ArrayList<String> friendIDs = (ArrayList<String>) userData.getValue();
+                        HashMap<String, Object> friendIDs = (HashMap<String, Object>) userData.getValue();
                         user.setFriendIDs(friendIDs);
                     }
                 }
@@ -278,12 +278,136 @@ public class NetworkManager {
         });
     }
 
-    // FRIENDS Requests
-    // ----------------
+    // FRIENDS
+    // -------
 
-    // TODO: Add Friend
-    // TODO: Remove Friend
-    // TODO: Get Friends For User
+    // Returns list of userIDs, use makeGetUserRequest to query users.
+    public void makeGetFriendsRequest(final ArrayList<String> friendIDs, final GenericCallback callback) {
+        String userID = application.getCurrentUserID();
+        Firebase friendsRef = new Firebase(usersEndpoint + userID + "/friendIDs");
+        Query query = friendsRef.orderByKey();
+        query.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                String friendID = data.getValue().toString();
+                friendIDs.add(friendID);
+                if( callback != null ) {
+                    callback.data = "Total Friends: " + friendIDs.size() + "\n";
+                    for (String id : friendIDs) {
+                        callback.data += id + "\n";
+                    }
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String removedID = dataSnapshot.getValue().toString();
+                friendIDs.remove(removedID);
+                if( callback != null ) {
+                    callback.data = "Total Friends: " + friendIDs.size() + "\n";
+                    for (String id : friendIDs) {
+                        callback.data += id + "\n";
+                    }
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+    public void makeGetFriendsRequest(final HashMap<String, Object> friendIDs, final GenericCallback callback) {
+        String userID = application.getCurrentUserID();
+        Firebase friendsRef = new Firebase(usersEndpoint + userID + "/friendIDs");
+        Query query = friendsRef.orderByKey();
+        query.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                String friendID = data.getValue().toString();
+                friendIDs.put(friendID, friendID);
+                if( callback != null ) {
+                    callback.data = "Total Friends: " + friendIDs.size() + "\n";
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String removedID = dataSnapshot.getValue().toString();
+                friendIDs.remove(removedID);
+                if( callback != null ) {
+                    callback.data = "Total Friends: " + friendIDs.size() + "\n";
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+    public void makeAddFriendRequest(String friendID, final GenericCallback callback) {
+        if (friendID.equals(application.getCurrentUserID())) {
+            callback.error = new FirebaseError(-2, "Cannot add self as friend!");
+            callback.callback();
+            return;
+        }
+        Firebase friendsRef = new Firebase(usersEndpoint + application.getCurrentUserID() + "/friendIDs");
+        final Firebase newFriend = friendsRef.child(friendID);
+        newFriend.setValue(friendID, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newFriend.getKey();
+                callback.callback();
+            }
+        });
+
+    }
+
+    public void makeRemoveFriendRequest(String friendID, final GenericCallback callback) {
+        final Firebase friendsRef = new Firebase(usersEndpoint + application.getCurrentUserID() + "/friendIDs");
+        friendsRef.child(friendID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.firebase = firebase;
+                callback.error = firebaseError;
+                callback.callback();
+            }
+        });
+
+
+    }
+
 
     // LISTS
     // -----
@@ -301,7 +425,7 @@ public class NetworkManager {
         if (list.getUserID().equals("")) {
             if (application != null) {
                 if (application.getCurrentUser() != null) {
-                    list.setUserID(application.getCurrentUser().getUserID());
+                    list.setUserID(application.getCurrentUserID());
                 } else {
                     list.setUserID("No User Found - Should not allow");
                 }
@@ -327,7 +451,7 @@ public class NetworkManager {
             return;
         }
         final Firebase listRef = new Firebase(listsEndpoint);
-        String userID = application.getCurrentUser().getUserID();
+        String userID = application.getCurrentUserID();
 
         Query query = listRef.orderByChild("userID").equalTo(userID);
         query.addChildEventListener(new RetrieveDataListener() {

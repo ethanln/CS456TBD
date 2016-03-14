@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import model.InventoryItem;
 import model.InventoryList;
@@ -37,6 +38,8 @@ public class NetworkTestActivity extends ListActivity{
 
     private ArrayList<User> users;
     private ArrayList<InventoryList> lists;
+    private ArrayList<String> friendIDs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class NetworkTestActivity extends ListActivity{
         application = (TBDApplication) getApplication();
         users = new ArrayList<>();
         lists = new ArrayList<>();
+        friendIDs = new ArrayList<>();
         setUpList();
     }
 
@@ -78,10 +82,7 @@ public class NetworkTestActivity extends ListActivity{
         tests.add(new NetworkTest("Create New User Test") {
             @Override
             public void executeTest() {
-                ArrayList<String> friends = new ArrayList<>();
-                friends.add("TestFriendID0");
-                friends.add("TestFriendID1");
-                friends.add("TestFriendID2");
+                HashMap<String, Object> friends = new HashMap<>();
                 User user = new User("Test", "test", "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png", friends);
                 network.makeCreateUserRequest(user, new GenericCallback() {
                     @Override
@@ -209,7 +210,6 @@ public class NetworkTestActivity extends ListActivity{
             public void executeTest() {
                 if (users.size() > 0) {
                     User user = users.get(0);
-                    Log.d("IS USER NULL?", String.valueOf(user == null));
                     network.makeDeleteUserRequest(user.getUserID(), new GenericCallback() {
                         @Override
                         public void callback() {
@@ -222,6 +222,56 @@ public class NetworkTestActivity extends ListActivity{
                     });
                 } else {
                     showNetworkTestCompleteToast("No Users Available");
+                }
+            }
+        });
+
+        // FRIENDS TESTS
+        // -------------
+
+        tests.add(new NetworkTest("Get Friend IDs Test") {
+            @Override
+            public void executeTest() {
+                friendIDs = new ArrayList<>();
+                network.makeGetFriendsRequest(friendIDs, new GenericCallback() {
+                    @Override
+                    public void callback() {
+                        showNetworkTestCompleteToast(data);
+                    }
+                });
+            }
+        });
+
+        tests.add(new NetworkTest("Add Friend Test") {
+            @Override
+            public void executeTest() {
+                String testFriendID = "TestFriendID" + new Date().getTime();
+                network.makeAddFriendRequest(testFriendID, new GenericCallback() {
+                    @Override
+                    public void callback() {
+                        showNetworkTestCompleteToast("Friend Created: " + data);
+                    }
+                });
+            }
+        });
+
+        tests.add(new NetworkTest("Remove Friend Test") {
+            @Override
+            public void executeTest() {
+                if (friendIDs.size() > 0) {
+                    final String friendID = friendIDs.get(0);
+                    network.makeRemoveFriendRequest(friendID, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            if (error == null) {
+                                showNetworkTestCompleteToast("Removed Friend ID: " + friendID);
+                            } else {
+                                showNetworkTestCompleteToast(error.getMessage());
+                            }
+                        }
+                    });
+                } else {
+                    showNetworkTestCompleteToast("No Friend IDs available");
                 }
             }
         });
@@ -253,8 +303,7 @@ public class NetworkTestActivity extends ListActivity{
                 if (application.getCurrentUser() == null) {
                     showNetworkTestCompleteToast("No User Logged In");
                 } else {
-                    String userID = application.getCurrentUser().getUserID();
-                    ArrayAdapter<InventoryList> adapter = new ArrayAdapter<InventoryList>(self, android.R.layout.simple_list_item_1, lists);
+                    ArrayAdapter<InventoryList> adapter = new ArrayAdapter<>(self, android.R.layout.simple_list_item_1, lists);
                     network.makeGetListsRequest(adapter, new GenericCallback() {
                         @Override
                         public void callback() {

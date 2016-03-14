@@ -30,4 +30,11 @@ public class TBDApplication extends Application {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
+
+    public String getCurrentUserID() {
+        if (currentUser != null) {
+            return currentUser.getUserID();
+        }
+        return "";
+    }
 }
