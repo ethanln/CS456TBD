@@ -343,8 +343,42 @@ public class NetworkManager {
      * Get all Lists
      * @return All InventoryLists
      */
-    public ArrayList<InventoryList> makeGetListsRequest() {
-        return new ArrayList<>();
+    public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter, String userID) {
+        final Firebase listRef = new Firebase(listsEndpoint);
+
+        Query query = listRef.orderByChild("userID").equalTo(userID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if(list.getListID() != ""
+                        && list.getTitle() != ""
+                        && list.getType() != ""
+                        && list.getUserID() != "") {
+                    adapter.add(list);
+                }
+            }
+        });
     }
 
     /**
