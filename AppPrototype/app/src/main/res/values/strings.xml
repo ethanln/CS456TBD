@@ -15,6 +15,9 @@
     <string name="title_activity_main">My Lists</string>
     <string name="title_activity_add_list">Add List</string>
 
+    <!-- View Item -->
+    <string name="item_name">Item Name</string>
+
     <!--Form strings-->
     <string name="submit_button">Submit</string>
     <string name="title_label">List: </string>
