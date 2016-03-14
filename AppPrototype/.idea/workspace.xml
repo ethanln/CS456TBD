@@ -59,10 +59,9 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tbd/appprototype/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6504348">
-              <caret line="92" column="14" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.56173915">
+              <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
               <folding>
-                <element signature="e#2804#3091#0" expanded="true" />
                 <element signature="e#3090#3091#0" expanded="true" />
               </folding>
             </state>
@@ -2194,10 +2193,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tbd/appprototype/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6504348">
-          <caret line="92" column="14" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.56173915">
+          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding>
-            <element signature="e#2804#3091#0" expanded="true" />
             <element signature="e#3090#3091#0" expanded="true" />
           </folding>
         </state>
