@@ -1,0 +1,37 @@
+<resources>
+    <!--Login Screen-->
+    <string name="app_name">Net List</string>
+    <string name="email_address">email</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="facebook">Login With Facebook</string>
+    <string name="google">Login With Google+</string>
+
+    <!-- Mock Credentials -->
+    <string name="email_cred">user</string>
+    <string name="pass_cred">user</string>
+
+    <!-- My Lists -->
+    <string name="title_activity_main">My Lists</string>
+    <string name="title_activity_add_list">Add List</string>
+
+    <!-- View Item -->
+    <string name="item_name">Item Name</string>
+
+    <!--Form strings-->
+    <string name="submit_button">Submit</string>
+    <string name="title_label">List: </string>
+    <string name="category_label">Category: </string>
+
+    <string name="category_prompt">Choose a Category</string>
+
+    <string-array name="category_arrays">
+        <item>Movie</item>
+        <item>Board Game</item>
+        <item>Video Game</item>
+        <item>Music</item>
+        <item>Book</item>
+    </string-array>
+    <string name="title_activity_network_test">NetworkTestActivity</string>
+
+</resources>

@@ -1,0 +1,167 @@
+{
+	"users" : [
+		{
+			"id"        : "user1id",
+			"username"  : "user1",
+			"password"  : "p",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user2id",
+				"user3id"
+			]
+		},
+		{
+			"id"        : "user2id",
+			"username"  : "user2",
+			"password"  : "p",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user1id",
+				"user4id"
+			]
+		},
+		{
+			"id"        : "user3id",
+			"username"  : "user3",
+			"password"  : "p",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user1id",
+				"user4id"
+			]
+		},
+		{
+			"id"        : "user4id",
+			"username"  : "user4",
+			"password"  : "p",
+			"imageURL"     : "http://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+			"friendIDs" : [
+				"user2id",
+				"user3id"
+			]
+		}
+	],
+	"lists" : [
+		{
+			"id"        : "list0id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list1id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list2id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list3id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list4id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"      : "list5id",
+			"userID"  : "user1id",
+			"title"   : "My Movies",
+			"type"    : "Movies",
+			"imageURL" : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list6id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"imageURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		}
+	],
+	"items" : [
+		{
+			"id"            : "item0id",
+			"listID"        : "list0id",
+			"title"         : "item0",
+			"description"   : "Test Item 0",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item1id",
+			"listID"        : "list0id",
+			"title"         : "item1",
+			"description"   : "Test Item 1",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item2id",
+			"listID"        : "list1id",
+			"title"         : "item2",
+			"description"   : "Test Item 2",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item3id",
+			"listID"        : "list2id",
+			"title"         : "item3",
+			"description"   : "Test Item 3",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item4id",
+			"listID"        : "list1id",
+			"title"         : "item4",
+			"description"   : "Test Item 4",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item5id",
+			"listID"        : "list3id",
+			"title"         : "item5",
+			"description"   : "Test Item 5",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item6id",
+			"listID"        : "list4id",
+			"title"         : "item6",
+			"description"   : "Test Item 6",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item7id",
+			"listID"        : "list4id",
+			"title"         : "item7",
+			"description"   : "Test Item 7",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item8id",
+			"listID"        : "list5id",
+			"title"         : "item8",
+			"description"   : "Test Item 8",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		},
+		{
+			"id"            : "item9id",
+			"listID"        : "list6id",
+			"title"         : "item9",
+			"description"   : "Test Item 9",
+			"imageURL"      : "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg"
+		}
+	]
+}
