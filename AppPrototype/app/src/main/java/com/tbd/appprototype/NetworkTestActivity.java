@@ -18,6 +18,8 @@ import model.User;
 import model.UsersAdapter;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import networking.callback.ListCallback;
+import networking.callback.ListCallbackDelegate;
 import networking.callback.UserCallback;
 import networking.callback.UserCallbackDelegate;
 import networking.callback.UsersCallback;
@@ -34,6 +36,7 @@ public class NetworkTestActivity extends ListActivity{
     private TBDApplication application;
 
     private ArrayList<User> users;
+    private ArrayList<InventoryList> lists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class NetworkTestActivity extends ListActivity{
         self = this;
         application = (TBDApplication) getApplication();
         users = new ArrayList<>();
+        lists = new ArrayList<>();
         setUpList();
     }
 
@@ -240,6 +244,79 @@ public class NetworkTestActivity extends ListActivity{
                         }
                     });
                 }
+            }
+        });
+
+        tests.add(new NetworkTest("Get All Lists Test For Logged In User") {
+            @Override
+            public void executeTest() {
+                if (application.getCurrentUser() == null) {
+                    showNetworkTestCompleteToast("No User Logged In");
+                } else {
+                    String userID = application.getCurrentUser().getUserID();
+                    ArrayAdapter<InventoryList> adapter = new ArrayAdapter<InventoryList>(self, android.R.layout.simple_list_item_1, lists);
+                    network.makeGetListsRequest(adapter, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            showNetworkTestCompleteToast(this.data);
+                        }
+                    });
+                }
+            }
+        });
+
+        tests.add(new NetworkTest("Get List By ID") {
+            @Override
+            public void executeTest() {
+                if (lists.size() > 0) {
+                    final String listID = lists.get(0).getListID();
+                    final ListCallback callback = new ListCallback();
+                    ListCallbackDelegate listDelegate = new ListCallbackDelegate(callback) {
+                        @Override
+                        public void makeCallback() {
+                            if (callback.getList() == null) {
+                                showNetworkTestCompleteToast("No List with ID: " + listID);
+                            } else {
+                                showNetworkTestCompleteToast("Got List: " + callback.getList().getTitle());
+                            }
+                        }
+                    };
+                    callback.setDelegate(listDelegate);
+                    network.makeGetListRequest(listID, callback);
+                } else {
+                    showNetworkTestCompleteToast("No Lists Available");
+                }
+            }
+        });
+
+        tests.add(new NetworkTest("Update List Test") {
+            @Override
+            public void executeTest() {
+                if (lists.size() > 0) {
+                    InventoryList list = lists.get(0);
+                    list.setTitle(list.getTitle() + " - Update Test @" + new Date().getTime());
+                    network.makeUpdateListRequest(list, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            if (error != null) {
+                                showNetworkTestCompleteToast(error.getMessage());
+                                Log.e("ERROR-MESSAGE", error.getMessage());
+                                Log.e("ERROR-DETAILS", error.getDetails());
+                            } else {
+                                showNetworkTestCompleteToast("Update List Complete");
+                            }
+                        }
+                    });
+                } else {
+                    showNetworkTestCompleteToast("No Lists Available");
+                }
+            }
+        });
+
+        tests.add(new NetworkTest("Delete List Test") {
+            @Override
+            public void executeTest() {
+                showNetworkTestCompleteToast("Unimplemented: Don't want to mess with data");
             }
         });
 

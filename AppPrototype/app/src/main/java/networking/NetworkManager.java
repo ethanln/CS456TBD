@@ -14,11 +14,13 @@ import com.tbd.appprototype.TBDApplication;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import model.InventoryItem;
 import model.InventoryList;
 import model.User;
 import networking.callback.GenericCallback;
+import networking.callback.ListCallback;
 import networking.callback.UserCallback;
 import networking.callback.UsersCallback;
 
@@ -219,13 +221,11 @@ public class NetworkManager {
      * @return User
      */
     public void makeGetUserRequest(String userID, final UserCallback callback) {
-        System.out.println("makeGetUserRequest");
         Firebase userRef = new Firebase(usersEndpoint);
         Query query = userRef.orderByChild("id").equalTo(userID);
         query.addChildEventListener(new RetrieveDataListener() {
             @Override
             public void onChildAdded(DataSnapshot data, String s) {
-                Log.d("LOGIN-ON CHILD ADDED", data.getKey());
                 User user = new User();
                 for (DataSnapshot userData : data.getChildren()) {
                     if (userData.getKey().equals("username")) {
@@ -340,13 +340,69 @@ public class NetworkManager {
     }
 
     /**
-     * Get all Lists
+     * Get all Lists for logged in User
      * @return All InventoryLists
      */
-    public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter) {
+    public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter, final GenericCallback callback) {
         final Firebase listRef = new Firebase(listsEndpoint);
+        if (application.getCurrentUser() == null) {
+            Log.w("makeGetListsRequest", "No User Logged In. Aborting.");
+            return;
+        }
         String userID = application.getCurrentUser().getUserID();
 
+        Query query = listRef.orderByChild("userID").equalTo(userID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (!list.getListID().equals("")
+                        && !list.getTitle().equals("")
+                        && !list.getType().equals("")
+                        && !list.getUserID().equals("")) {
+                    adapter.add(list);
+                }
+                if (callback != null) {
+                    String totalLists = String.valueOf(adapter.getCount());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
+            }
+        });
+    }
+
+    /**
+     * Get Lists for specific user
+     * @param userID
+     * @param adapter
+     * @param callback
+     */
+    public void makeGetListsForUserRequest(String userID, final ArrayAdapter<InventoryList> adapter, final GenericCallback callback) {
+        final Firebase listRef = new Firebase(listsEndpoint);
+        if (application.getCurrentUser() == null) {
+            Log.w("makeGetListsRequest", "No User Logged In. Aborting.");
+            return;
+        }
         Query query = listRef.orderByChild("userID").equalTo(userID);
         query.addChildEventListener(new RetrieveDataListener() {
             @Override
@@ -378,33 +434,112 @@ public class NetworkManager {
                         && !list.getUserID().equals("")) {
                     adapter.add(list);
                 }
+                if (callback != null) {
+                    String totalLists = String.valueOf(adapter.getCount());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
             }
         });
     }
+
 
     /**
      * Get List by ID
      * @param listID
      * @return
      */
-    public InventoryList makeGetListRequest(String listID) {
-        return new InventoryList();
+    public void makeGetListRequest(String listID, final ListCallback callback) {
+        Firebase listRef = new Firebase(listsEndpoint);
+        Query query = listRef.orderByChild("id").equalTo(listID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if(!list.getListID().equals("")
+                        && !list.getTitle().equals("")
+                        && !list.getType().equals("")
+                        && !list.getUserID().equals("")) {
+                    callback.setList(list);
+                }
+                callback.callback();
+            }
+        });
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    System.out.println("Data Exists!");
+                } else {
+                    System.out.println("Data Doesn't Exist!");
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     /**
      * Update List
      * @param list
      */
-    public void makeUpdateListRequest(InventoryList list) {
-
+    public void makeUpdateListRequest(InventoryList list, final GenericCallback callback) {
+        Firebase listRef = new Firebase(listsEndpoint);
+        HashMap<String, Object> listMap = list.toHashMap();
+        listMap.remove("id");
+        Firebase listWithIDRef = listRef.child(list.getListID());
+        listWithIDRef.updateChildren(listMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.firebase = firebase;
+                callback.error = firebaseError;
+                callback.callback();
+            }
+        });
     }
 
     /**
      * Delete List by ID
      * @param listID
      */
-    public void makeDeleteListRequest(String listID) {
-
+    public void makeDeleteListRequest(String listID, final GenericCallback callback) {
+        Firebase listRef = new Firebase(listsEndpoint);
+        if (listID == null) {
+            callback.error = new FirebaseError(-2, "No ListID Given");
+            callback.callback();
+            return;
+        }
+        listRef.child(listID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.callback();
+            }
+        });
     }
 
     // ITEMS
@@ -412,24 +547,32 @@ public class NetworkManager {
 
     /**
      * Create Item
-     * @param item
-     * @return ItemID
+     * @param item - item to add
      */
-    public String makeCreateItemRequest(InventoryItem item) {
-        Firebase newItem = new Firebase(itemsEndpoint).push();
+    public void makeCreateItemRequest(InventoryItem item, final GenericCallback callback) {
+        if (item.getListID().equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given in Item");
+            callback.callback();
+            return;
+        }
+        final Firebase newItem = new Firebase(itemsEndpoint).push();
         if (item.getItemID().equals("")) {
             item.setItemID(newItem.getKey());
         }
-        newItem.setValue(item.toHashMap());
-        return newItem.getKey();
+        newItem.setValue(item.toHashMap(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newItem.getKey();
+                callback.callback();
+            }
+        });
     }
 
     /**
      * Get all Items
-     * @return
      */
-    public ArrayList<InventoryItem> makeGetItemsRequest() {
-        return new ArrayList<>();
+    public void makeGetItemsRequest() {
+
     }
 
     /**

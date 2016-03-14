@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 /**
  * Created by mitch10e on 12 March 2016.
+ *
+ * Quick and dirty Callback since I don't have the time or energy to make callbacks for each value type.
  */
 public abstract class GenericCallback implements Callback {
 

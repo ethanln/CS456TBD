@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import model.InventoryList;
 import networking.NetworkManager;
+import networking.callback.GenericCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,7 +80,12 @@ public class MainActivity extends AppCompatActivity {
      * update the list view
      */
     private void setUpList(){
-        NetworkManager.getInstance().makeGetListsRequest(this.adapter);
+        NetworkManager.getInstance().makeGetListsRequest(this.adapter, new GenericCallback() {
+            @Override
+            public void callback() {
+                // Anything that may need to happen when a new list is added to adapter... Used mostly in testing. Can set (new GenericCallback) to null
+            }
+        });
     }
 
     /**
