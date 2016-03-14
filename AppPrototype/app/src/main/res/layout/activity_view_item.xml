@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/obscured_white"
+    tools:context="com.tbd.appprototype.ViewItemActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center">
+
+        <Button
+            android:id="@+id/back_view_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_blue"
+            android:drawableBottom="@drawable/ic_back_arrow"
+            android:onClick="goToMain"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_name"
+            android:fontFamily="sans-serif-light"
+            android:textSize="45dp"
+            android:background="@color/dark_blue"/>
+
+        <Button
+            android:id="@+id/favorite_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_blue"
+            android:drawableBottom="@drawable/ic_star"
+            android:onClick="favoriteItem"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|center">
+
+        <Button
+            android:id="@+id/delete_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@color/dark_orange"
+            android:paddingBottom="8dp"
+            android:text="Delete"
+            android:onClick="goToProfile"
+            android:layout_gravity="bottom" />
+
+        <Button
+            android:id="@+id/edit_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight=".5"
+            android:background="@color/dark_blue"
+            android:paddingBottom="8dp"
+            android:text="Edit"
+            android:onClick="goToFriends"/>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

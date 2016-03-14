@@ -1,0 +1,53 @@
+{
+	"lists" : [
+		{
+			"id"        : "list0id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list1id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list2id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list3id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list4id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"      : "list5id",
+			"userID"  : "user1id",
+			"title"   : "My Movies",
+			"type"    : "Movies",
+			"iconURL" : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		},
+		{
+			"id"        : "list6id",
+			"userID"    : "user1id",
+			"title"     : "My Movies",
+			"type"      : "Movies",
+			"iconURL"   : "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/film_reel.png"
+		}
+	]
+}
