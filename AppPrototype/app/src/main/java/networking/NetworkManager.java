@@ -19,7 +19,9 @@ import java.util.Objects;
 import model.InventoryItem;
 import model.InventoryList;
 import model.User;
+import networking.callback.Callback;
 import networking.callback.GenericCallback;
+import networking.callback.ItemCallback;
 import networking.callback.ListCallback;
 import networking.callback.UserCallback;
 import networking.callback.UsersCallback;
@@ -112,24 +114,7 @@ public class NetworkManager {
             }
         });
 
-        // To Catch if username doesn't exist
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    System.out.println("Data Exists!");
-                } else {
-                    System.out.println("Data Doesn't Exist!");
-                    application.setCurrentUser(null);
-                    callback.callback();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        addNoDataAvailableListener(query, callback);
     }
 
 
@@ -252,22 +237,7 @@ public class NetworkManager {
             }
         });
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    System.out.println("Data Exists!");
-                } else {
-                    System.out.println("Data Doesn't Exist!");
-                    callback.callback();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        addNoDataAvailableListener(query, callback);
     }
 
     /**
@@ -308,6 +278,13 @@ public class NetworkManager {
         });
     }
 
+    // FRIENDS Requests
+    // ----------------
+
+    // TODO: Add Friend
+    // TODO: Remove Friend
+    // TODO: Get Friends For User
+
     // LISTS
     // -----
 
@@ -344,11 +321,12 @@ public class NetworkManager {
      * @return All InventoryLists
      */
     public void makeGetListsRequest(final ArrayAdapter<InventoryList> adapter, final GenericCallback callback) {
-        final Firebase listRef = new Firebase(listsEndpoint);
         if (application.getCurrentUser() == null) {
-            Log.w("makeGetListsRequest", "No User Logged In. Aborting.");
+            callback.error = new FirebaseError(-2, "No User Logged In");
+            callback.callback();
             return;
         }
+        final Firebase listRef = new Firebase(listsEndpoint);
         String userID = application.getCurrentUser().getUserID();
 
         Query query = listRef.orderByChild("userID").equalTo(userID);
@@ -376,10 +354,7 @@ public class NetworkManager {
 
                 }
 
-                if (!list.getListID().equals("")
-                        && !list.getTitle().equals("")
-                        && !list.getType().equals("")
-                        && !list.getUserID().equals("")) {
+                if (list.validate()) {
                     adapter.add(list);
                 }
                 if (callback != null) {
@@ -476,32 +451,14 @@ public class NetworkManager {
 
                 }
 
-                if(!list.getListID().equals("")
-                        && !list.getTitle().equals("")
-                        && !list.getType().equals("")
-                        && !list.getUserID().equals("")) {
+                if (list.validate()) {
                     callback.setList(list);
                 }
                 callback.callback();
             }
         });
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    System.out.println("Data Exists!");
-                } else {
-                    System.out.println("Data Doesn't Exist!");
-                    callback.callback();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        addNoDataAvailableListener(query, callback);
     }
 
     /**
@@ -529,7 +486,7 @@ public class NetworkManager {
      */
     public void makeDeleteListRequest(String listID, final GenericCallback callback) {
         Firebase listRef = new Firebase(listsEndpoint);
-        if (listID == null) {
+        if (listID.equals("")) {
             callback.error = new FirebaseError(-2, "No ListID Given");
             callback.callback();
             return;
@@ -571,7 +528,48 @@ public class NetworkManager {
     /**
      * Get all Items
      */
-    public void makeGetItemsRequest() {
+    public void makeGetItemsRequest(String listID, final ArrayAdapter<InventoryItem> adapter, final GenericCallback callback) {
+        if (listID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given in Item");
+            callback.callback();
+            return;
+        }
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("listID").equalTo(listID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (item.validate()) {
+                    adapter.add(item);
+                }
+                if (callback != null) {
+                    String totalItems = String.valueOf(adapter.getCount());
+                    callback.data = "Total Itesm: " + totalItems;
+                    callback.callback();
+                }
+            }
+        });
 
     }
 
@@ -580,24 +578,100 @@ public class NetworkManager {
      * @param itemID
      * @return
      */
-    public InventoryItem makeGetItemRequest(String itemID) {
-        return new InventoryItem();
+    public void makeGetItemRequest(String itemID, final ItemCallback callback) {
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("id").equalTo(itemID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+
+                }
+
+                if(item.validate()) {
+                    callback.setItem(item);
+                }
+                callback.callback();
+            }
+        });
+        addNoDataAvailableListener(query, callback);
     }
 
     /**
      * Update Item
      * @param item
      */
-    public void makeUpdateItemRequest(InventoryItem item) {
-
+    public void makeUpdateItemRequest(InventoryItem item, final GenericCallback callback) {
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        HashMap<String, Object> itemMap = item.toHashMap();
+        itemMap.remove("id");
+        Firebase itemWithIDRef = itemRef.child(item.getItemID());
+        itemWithIDRef.updateChildren(itemMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.firebase = firebase;
+                callback.error = firebaseError;
+                callback.callback();
+            }
+        });
     }
 
     /**
      * Delete Item by ID
      * @param itemID
      */
-    public void makeDeleteItemRequest(String itemID) {
+    public void makeDeleteItemRequest(String itemID, final GenericCallback callback) {
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        if (itemID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ItemID Given");
+            callback.callback();
+            return;
+        }
+        itemRef.child(itemID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.callback();
+            }
+        });
+    }
 
+    // HELPERS
+    // -------
+
+    private void addNoDataAvailableListener(Query query, final Callback callback) {
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    System.out.println("Data Exists!");
+                } else {
+                    System.out.println("Data Doesn't Exist!");
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
 }

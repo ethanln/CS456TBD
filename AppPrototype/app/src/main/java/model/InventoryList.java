@@ -129,4 +129,8 @@ public class InventoryList extends ModelObject {
         map.put("imageURL", imageURL);
         return map;
     }
+
+    public boolean validate() {
+        return !getListID().equals("") && !getTitle().equals("") && !getType().equals("") && !getUserID().equals("");
+    }
 }

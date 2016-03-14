@@ -81,4 +81,12 @@ public class InventoryItem extends ModelObject {
         map.put("imageURL", imageURL);
         return map;
     }
+
+    public boolean validate() {
+        return !itemID.equals("")
+                && !title.equals("")
+                && !description.equals("")
+                && !imageURL.equals("")
+                && !listID.equals("");
+    }
 }

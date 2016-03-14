@@ -327,8 +327,12 @@ public class NetworkTestActivity extends ListActivity{
             @Override
             public void executeTest() {
                 InventoryItem item = new InventoryItem("", "Test Item", "Test Description", "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg", "Test List ID");
-                String itemID = network.makeCreateItemRequest(item);
-                showNetworkTestCompleteToast("Item Created: " + itemID);
+                network.makeCreateItemRequest(item, new GenericCallback() {
+                    @Override
+                    public void callback() {
+                        showNetworkTestCompleteToast("Item Created: " + data);
+                    }
+                });
             }
         });
 
