@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private ArrayList<User> users;
     private ListView searchResultsView;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,15 @@ public class AddFriendActivity extends AppCompatActivity {
             ViewGroup row = (ViewGroup)v.getParent();
             TextView id = (TextView)row.findViewById(R.id.friend_id);
             // IMPLEMENT THE ADD FRIEND REQUEST
+            showResultMessage("Friend Request Sent");
         }
     };
+
+    private void showResultMessage(String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }

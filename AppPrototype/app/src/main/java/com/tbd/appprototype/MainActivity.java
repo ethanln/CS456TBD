@@ -96,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listID = lists.get(position).getListID();
-            // do intent here with the listID stored as prop.
-            // IMPLEMENT
+            Intent i = new Intent(MainActivity.this, ListOfItemsActivity.class);
+            i.putExtra("listID", listID);
+            startActivity(i);
         }
     };
 

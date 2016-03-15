@@ -750,6 +750,55 @@ public class NetworkManager {
     }
 
     /**
+     * Get all Items
+     */
+    public void makeGetItemsRequest(String listID, final ArrayList<InventoryItem> list, final GenericCallback callback) {
+        if (listID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given in Item");
+            callback.callback();
+            return;
+        }
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("listID").equalTo(listID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (item.validate()) {
+                    list.add(item);
+                }
+
+                if (callback != null) {
+                    String totalItems = String.valueOf(list.size());
+                    callback.data = "Total Itesm: " + totalItems;
+                    callback.callback();
+                }
+            }
+        });
+
+    }
+
+    /**
      * Get Item by ID
      * @param itemID
      * @return
