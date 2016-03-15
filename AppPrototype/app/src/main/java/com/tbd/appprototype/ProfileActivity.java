@@ -1,12 +1,7 @@
 package com.tbd.appprototype;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,11 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import util.ImageLoader;
+import util.ImageLoaderUtil;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -62,7 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         // set profile image
         ImageView image = (ImageView)findViewById(R.id.profile_image);
-        ImageLoader.loadImage(app.getCurrentUser().getImageURL(), image);
+        ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+        imageLoader.loadImage(app.getCurrentUser().getImageURL(), image, 550);
     }
 
     // display result message
