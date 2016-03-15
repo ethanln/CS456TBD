@@ -47,6 +47,10 @@
         <activity
             android:name=".FriendsActivity"
             android:label="@string/title_activity_friends"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".AddFriendActivity"
+            android:label="@string/title_activity_add_friend"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

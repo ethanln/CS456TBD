@@ -245,7 +245,6 @@ public class NetworkManager {
                 // add user to callback
                 callback.getUsers().add(user);
 
-                // if users found match the size of the friends list, call callback.
                 if(callback.getUsers().size() == ids.size()) {
                     callback.callback();
                 }

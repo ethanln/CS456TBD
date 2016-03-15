@@ -25,6 +25,9 @@
     <!--Friends-->
     <string name="title_activity_friends">My Friends</string>
 
+    <!--Add Friend-->
+    <string name="title_activity_add_friend">Add Friend</string>
+
     <!--Form strings-->
     <string name="submit_button">Submit</string>
     <string name="title_label">List: </string>
