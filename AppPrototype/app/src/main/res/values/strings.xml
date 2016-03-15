@@ -43,7 +43,7 @@
         <item>Book</item>
     </string-array>
     <string name="title_activity_network_test">NetworkTestActivity</string>
-
+    <string name="title_activity_friends_lists"></string>
 
 
 </resources>
