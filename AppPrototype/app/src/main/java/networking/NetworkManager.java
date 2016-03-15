@@ -542,6 +542,58 @@ public class NetworkManager {
         });
     }
 
+
+    /**
+     * Get all Lists for logged in User
+     * @return All InventoryLists
+     */
+    public void makeGetListsRequest(final ArrayList<InventoryList> lists, final GenericCallback callback) {
+        if (application.getCurrentUser() == null) {
+            callback.error = new FirebaseError(-2, "No User Logged In");
+            callback.callback();
+            return;
+        }
+        final Firebase listRef = new Firebase(listsEndpoint);
+        String userID = application.getCurrentUserID();
+
+        Query query = listRef.orderByChild("userID").equalTo(userID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (list.validate()) {
+                    lists.add(list);
+                }
+                if (callback != null) {
+                    String totalLists = String.valueOf(lists.size());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
+            }
+        });
+    }
+
+
     /**
      * Get Lists for specific user
      * @param userID
@@ -741,6 +793,55 @@ public class NetworkManager {
                 }
                 if (callback != null) {
                     String totalItems = String.valueOf(adapter.getCount());
+                    callback.data = "Total Itesm: " + totalItems;
+                    callback.callback();
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Get all Items
+     */
+    public void makeGetItemsRequest(String listID, final ArrayList<InventoryItem> list, final GenericCallback callback) {
+        if (listID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given in Item");
+            callback.callback();
+            return;
+        }
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("listID").equalTo(listID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (item.validate()) {
+                    list.add(item);
+                }
+
+                if (callback != null) {
+                    String totalItems = String.valueOf(list.size());
                     callback.data = "Total Itesm: " + totalItems;
                     callback.callback();
                 }

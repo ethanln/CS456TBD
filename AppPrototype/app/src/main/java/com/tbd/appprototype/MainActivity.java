@@ -15,14 +15,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import adapter.ItemsAdapter;
+import adapter.ListAdapter;
+import model.InventoryItem;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 
 public class MainActivity extends AppCompatActivity {
 
+    //private ArrayList<InventoryList> lists;
+   // private ArrayAdapter<InventoryList> adapter;
+
     private ArrayList<InventoryList> lists;
-    private ArrayAdapter<InventoryList> adapter;
+    private ListView listView;
+    private ListAdapter listAdapter;
 
     private int currentSelectedItem = -1;
     private String currentItemId;
@@ -45,15 +52,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // set up list view
-        this.setUpListView();
+       // this.setUpListView();
+
+        this.lists = new ArrayList<InventoryList>();
+        this.listView = (ListView)findViewById(R.id.lists);
+        this.setUpList(this);
+
         // set up list
-        this.setUpList();
+        //this.setUpList(this);
     }
 
     /**
      * set up the list view
      */
-    private void setUpListView(){
+    /*private void setUpListView(){
         this.lists = new ArrayList<InventoryList>();
 
         // create the adapter and override its getView method, we need this to change the text color
@@ -74,16 +86,18 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(onItemClickListener);
-    }
+    }*/
 
     /**
      * update the list view
      */
-    private void setUpList(){
-        NetworkManager.getInstance().makeGetListsRequest(this.adapter, new GenericCallback() {
+    private void setUpList(final MainActivity activity){
+        NetworkManager.getInstance().makeGetListsRequest(this.lists, new GenericCallback() {
             @Override
             public void callback() {
-                // Anything that may need to happen when a new list is added to adapter... Used mostly in testing. Can set (new GenericCallback) to null
+                listAdapter = new ListAdapter(activity, lists);
+                listView.setAdapter(listAdapter);
+                listView.setOnItemClickListener(onItemClickListener);
             }
         });
     }
@@ -96,8 +110,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listID = lists.get(position).getListID();
-            // do intent here with the listID stored as prop.
-            // IMPLEMENT
+            Intent i = new Intent(MainActivity.this, ListOfItemsActivity.class);
+            i.putExtra("listID", listID);
+            startActivity(i);
         }
     };
 

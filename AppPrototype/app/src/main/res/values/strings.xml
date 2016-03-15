@@ -28,6 +28,9 @@
     <!--Add Friend-->
     <string name="title_activity_add_friend">Add Friend</string>
 
+    <!--Items View List-->
+    <string name="title_activity_list_of_items">Items</string>
+
     <!--Form strings-->
     <string name="submit_button">Submit</string>
     <string name="title_label">List: </string>

@@ -61,6 +61,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tbd.appprototype.FriendsActivity" />
         </activity>
+        <activity
+            android:name=".ListOfItemsActivity"
+            android:label="@string/title_activity_list_of_items"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>
