@@ -105,4 +105,11 @@ public class User extends ModelObject {
         map.put("friendIDs", friendIDs);
         return map;
     }
+
+    @Override
+    public String toString(){
+        String str = "";
+        str += this.username + "\n";
+        return str;
+    }
 }

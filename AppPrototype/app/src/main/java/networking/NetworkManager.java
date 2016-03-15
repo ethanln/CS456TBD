@@ -200,6 +200,59 @@ public class NetworkManager {
         });
     }
 
+
+    /**
+     * get users with id's
+     * @param callback
+     */
+    public void makeGetUsersAsListWithIdsRequest(final HashMap<String, Object> ids, final UsersCallback callback) {
+        Firebase userRef = new Firebase(usersEndpoint);
+        Query query = userRef.orderByChild("username");
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                User user = new User();
+                for (DataSnapshot userData : data.getChildren()) {
+                    if (userData.getKey().equals("username")) {
+                        user.setUsername(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("password")) {
+                        user.setPassword(userData.getValue().toString()); // Need password to update data
+                    }
+                    if (userData.getKey().equals("id")) {
+                        user.setUserID(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("imageURL")) {
+                        user.setImageURL(userData.getValue().toString());
+                    }
+                    if (userData.getKey().equals("friendIDs")) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                        };
+                        HashMap<String, Object> friendIDs = (HashMap<String, Object>) userData.getValue();
+                        user.setFriendIDs(friendIDs);
+                    }
+                }
+                // if the user ID does not match, do not add it to callback
+                if(!ids.containsValue(user.getUserID())){
+                    return;
+                }
+
+                // if callback users are null
+                if (callback.getUsers() == null) {
+                    callback.setUsers(new ArrayList<User>());
+                }
+
+                // add user to callback
+                callback.getUsers().add(user);
+
+                // if users found match the size of the friends list, call callback.
+                if(callback.getUsers().size() == ids.size()) {
+                    callback.callback();
+                }
+            }
+        });
+    }
+
     /**
      * Get User by ID
      * @param userID
