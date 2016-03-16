@@ -44,8 +44,11 @@
 
     <!--Form strings-->
     <string name="submit_button">Submit</string>
+    <string name="done_button">Done</string>
     <string name="title_label">List: </string>
     <string name="category_label">Category: </string>
+    <string name="name_label">Name: </string>
+    <string name="description_label">Description: </string>
 
     <string name="category_prompt">Choose a Category</string>
 

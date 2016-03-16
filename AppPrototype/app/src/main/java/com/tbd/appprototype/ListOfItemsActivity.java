@@ -3,7 +3,6 @@ package com.tbd.appprototype;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,15 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import adapter.FriendsAdapter;
 import adapter.ItemsAdapter;
 import model.InventoryItem;
-import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
-import networking.callback.UsersCallback;
 
 public class ListOfItemsActivity extends AppCompatActivity {
 
@@ -64,7 +59,7 @@ public class ListOfItemsActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //add item
+                    startActivity(new Intent(ListOfItemsActivity.this, AddItemActivity.class));// TODO pass the item list id to the add item activity
                 }
             });
         }
