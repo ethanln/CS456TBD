@@ -51,42 +51,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // set up list view
-       // this.setUpListView();
-
         this.lists = new ArrayList<InventoryList>();
         this.listView = (ListView)findViewById(R.id.lists);
         this.setUpList(this);
-
-        // set up list
-        //this.setUpList(this);
     }
 
-    /**
-     * set up the list view
-     */
-    /*private void setUpListView(){
-        this.lists = new ArrayList<InventoryList>();
-
-        // create the adapter and override its getView method, we need this to change the text color
-        this.adapter = new ArrayAdapter<InventoryList>(this,
-                android.R.layout.simple_list_item_1,
-                this.lists){
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                tv.setTextColor(Color.BLACK);
-                return view;
-            }
-        };
-
-        ListView listView = (ListView) findViewById(R.id.lists);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(onItemClickListener);
-    }*/
 
     /**
      * update the list view
@@ -112,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             String listID = lists.get(position).getListID();
             Intent i = new Intent(MainActivity.this, ListOfItemsActivity.class);
             i.putExtra("listID", listID);
+            i.putExtra("owner", "self");
+            i.putExtra("ownerUsername", "My");
+            i.putExtra("title", lists.get(position).getTitle());
             startActivity(i);
         }
     };

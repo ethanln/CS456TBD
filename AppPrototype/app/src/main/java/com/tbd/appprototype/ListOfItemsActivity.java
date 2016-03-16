@@ -22,10 +22,22 @@ public class ListOfItemsActivity extends AppCompatActivity {
     private ArrayList<InventoryItem> items;
     private ListView listView;
     private ItemsAdapter itemAdapter;
+    private String owner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set page title
+        Intent intent = getIntent();
+        String ownerUsername = intent.getExtras().getString("ownerUsername");
+        if(ownerUsername.equals("My")) {
+            setTitle(intent.getExtras().getString("title"));
+        }
+        else{
+            setTitle(ownerUsername + "'s " + intent.getExtras().getString("title"));
+        }
+
         setContentView(R.layout.activity_list_of_items);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,7 +53,9 @@ public class ListOfItemsActivity extends AppCompatActivity {
             }
         });
 
+        // disable add button if this isn't the owner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+<<<<<<< HEAD
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,10 +63,25 @@ public class ListOfItemsActivity extends AppCompatActivity {
                 startActivity(new Intent(ListOfItemsActivity.this, AddItemActivity.class));// TODO pass the item list id to the add item activity
             }
         });
+=======
+        if(intent.getExtras().getString("owner").equals("self")) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //add item
+                }
+            });
+        }
+        else{
+            fab.hide();
+        }
+>>>>>>> origin/master
 
-        Intent intent = getIntent();
+        // get prop data
         this.listID = intent.getExtras().getString("listID");
+        this.owner = intent.getExtras().getString("owner");
 
+        // set up list view
         this.items = new ArrayList<InventoryItem>();
         this.listView = (ListView)findViewById(R.id.items_list_view);
         this.setUpList(this);
@@ -80,6 +109,12 @@ public class ListOfItemsActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String itemID = itemAdapter.getItem(position).getItemID();
+            if(owner.equals("self")) {
+
+            }
+            else if(owner.equals("other")){
+
+            }
             // do intent here with the listID stored as prop.
             // IMPLEMENT
         }

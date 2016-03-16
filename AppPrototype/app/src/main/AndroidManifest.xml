@@ -65,7 +65,10 @@
             android:name=".ListOfItemsActivity"
             android:label="@string/title_activity_list_of_items"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+<<<<<<< HEAD
         <activity android:name=".AddItemActivity"></activity>
+=======
+>>>>>>> origin/master
     </application>
 
 </manifest>

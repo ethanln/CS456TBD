@@ -648,6 +648,59 @@ public class NetworkManager {
 
 
     /**
+     * get lists for specific user with arraylist
+     * @param userID
+     * @param userLists
+     * @param callback
+     */
+    public void makeGetListsForUserRequest(String userID, final ArrayList<InventoryList> userLists, final GenericCallback callback) {
+        final Firebase listRef = new Firebase(listsEndpoint);
+        if (application.getCurrentUser() == null) {
+            Log.w("makeGetListsRequest", "No User Logged In. Aborting.");
+            return;
+        }
+        Query query = listRef.orderByChild("userID").equalTo(userID);
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if(!list.getListID().equals("")
+                        && !list.getTitle().equals("")
+                        && !list.getType().equals("")
+                        && !list.getUserID().equals("")) {
+                    userLists.add(list);
+                }
+                if (callback != null) {
+                    String totalLists = String.valueOf(userLists.size());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
+            }
+        });
+    }
+
+
+    /**
      * Get List by ID
      * @param listID
      * @return

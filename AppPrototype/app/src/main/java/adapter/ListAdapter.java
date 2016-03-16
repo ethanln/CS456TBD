@@ -46,28 +46,28 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         TextView name = (TextView)row.findViewById(R.id.list_name);
         TextView description = (TextView)row.findViewById(R.id.list_type);
 
-        //if(this.listsList.get(position).getImageURL().length() > 0) {
+        if(this.listsList.get(position).getImageURL().length() > 0) {
             try {
                 String type = this.listsList.get(position).getType();
                 ImageLoaderUtil imageLoader = new ImageLoaderUtil();
-                if(type == "Movie"){
+                if(type.equals("Movie")){
                     imageLoader.loadImage(movieIcon, image, 550);
                 }
-                else if(type == "Book"){
+                else if(type.equals("Book")){
                     imageLoader.loadImage(bookIcon, image, 550);
                 }
-                else if(type == "Board Game"){
+                else if(type.equals("Board Game")){
                     imageLoader.loadImage(boardgameIcon, image, 550);
                 }
-                else if(type == "Video Game"){
+                else if(type.equals( "Video Game")){
                     imageLoader.loadImage(videoGameIcon, image, 550);
                 }
 
             }
             catch(Exception e){
-
+                String error = e.getMessage();
             }
-        //}
+        }
 
         name.setTextColor(Color.BLACK);
         name.setText(this.listsList.get(position).getTitle());
