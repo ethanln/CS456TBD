@@ -16,6 +16,7 @@ import com.tbd.appprototype.R;
 import java.util.ArrayList;
 
 import model.User;
+import util.BlobImageLoaderUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -45,7 +46,7 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         TextView id = (TextView)row.findViewById(R.id.friend_id);
 
         // load users profile pic
-        ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
         imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
 
         // set onclick listener for the icon

@@ -16,6 +16,7 @@ import model.InventoryItem;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.ItemCallback;
+import util.BlobImageLoaderUtil;
 import util.ImageLoaderUtil;
 
 public class ViewMyItemActivity extends AppCompatActivity {
@@ -69,11 +70,13 @@ public class ViewMyItemActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetItemRequest(this.itemID, new ItemCallback(){
             @Override
             public void callback() {
-                ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+                // get item
                 InventoryItem item = getItem();
                 currentItem = item;
                 // load image
-                imageLoader.loadImage(item.getImageURL(), itemImage, 500);
+                BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+                imageLoader.loadImage(item.getImageURL(), itemImage, 550);
+
                 // load title
                 itemTitleView.setText(item.getTitle());
                 // load description

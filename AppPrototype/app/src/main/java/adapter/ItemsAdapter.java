@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import model.InventoryItem;
 import model.User;
+import util.BlobImageLoaderUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -40,7 +41,7 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
         TextView name = (TextView)row.findViewById(R.id.item_name);
         TextView description = (TextView)row.findViewById(R.id.item_description);
 
-        ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
         imageLoader.loadImage(this.itemsList.get(position).getImageURL(), image, 550);
 
         name.setTextColor(Color.BLACK);

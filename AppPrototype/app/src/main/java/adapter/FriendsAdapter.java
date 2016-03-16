@@ -14,6 +14,7 @@ import com.tbd.appprototype.R;
 import java.util.ArrayList;
 
 import model.User;
+import util.BlobImageLoaderUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -38,7 +39,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         ImageView image = (ImageView)row.findViewById(R.id.friend_image);
         TextView name = (TextView)row.findViewById(R.id.friend_name);
 
-        ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
         imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
 
         name.setTextColor(Color.BLACK);

@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -52,17 +55,14 @@
             android:name=".AddFriendActivity"
             android:label="@string/title_activity_add_friend"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".ViewMyItemActivity"
             android:label="@string/title_activity_view_my_item"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".EditItemActivity"
             android:label="@string/title_activity_edit_item"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".FriendsListsActivity"
             android:label="@string/title_activity_friends_lists"
@@ -76,8 +76,7 @@
             android:name=".ListOfItemsActivity"
             android:label="@string/title_activity_list_of_items"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity android:name=".AddItemActivity"></activity>
+        <activity android:name=".AddItemActivity" />
     </application>
 
 </manifest>

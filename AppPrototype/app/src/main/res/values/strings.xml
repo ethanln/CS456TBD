@@ -18,6 +18,7 @@
     <!-- My Profile -->
     <string name="title_activity_profile">My Profile</string>
     <string name="title_activity_profile_name">Name: </string>
+    <string name="title_activity_profile_changeImg">Change Profile Photo </string>
 
     <!-- View Item -->
     <string name="item_name">Item Name</string>
@@ -63,6 +64,8 @@
     <string name="title_activity_friends_lists"></string>
     <string name="title_activity_friends_list_of_items">FriendsListOfItemsActivity</string>
 
+    <!--Camera Activity-->
+    <string name="title_activity_camera">Take Snapshot</string>
 
 
 </resources>
