@@ -28,13 +28,16 @@ public class FriendsListsActivity extends AppCompatActivity {
     private ListAdapter listAdapter;
 
     private String userID;
+    private String ownerUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // set page title
         Intent intent = getIntent();
-        setTitle(intent.getExtras().getString("username") + "'s Lists");
+        this.ownerUsername = intent.getExtras().getString("username");
+        setTitle(this.ownerUsername + "'s Lists");
 
         setContentView(R.layout.activity_friends_lists);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,8 +86,13 @@ public class FriendsListsActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listID = lists.get(position).getListID();
-            // do intent here with the listID stored as prop.
-            // IMPLEMENT
+            Intent i = new Intent(FriendsListsActivity.this, ListOfItemsActivity.class);
+            i.putExtra("userID", lists.get(position).getUserID());
+            i.putExtra("listID", listID);
+            i.putExtra("owner", "other");
+            i.putExtra("ownerUsername", ownerUsername);
+            i.putExtra("title", lists.get(position).getTitle());
+            startActivity(i);
         }
     };
 

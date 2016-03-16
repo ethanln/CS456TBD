@@ -47,6 +47,7 @@
     </string-array>
     <string name="title_activity_network_test">NetworkTestActivity</string>
     <string name="title_activity_friends_lists"></string>
+    <string name="title_activity_friends_list_of_items">FriendsListOfItemsActivity</string>
 
 
 </resources>

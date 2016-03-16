@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             String listID = lists.get(position).getListID();
             Intent i = new Intent(MainActivity.this, ListOfItemsActivity.class);
             i.putExtra("listID", listID);
+            i.putExtra("owner", "self");
+            i.putExtra("ownerUsername", "My");
+            i.putExtra("title", lists.get(position).getTitle());
             startActivity(i);
         }
     };
