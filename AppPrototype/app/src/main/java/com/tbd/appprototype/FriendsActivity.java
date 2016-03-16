@@ -96,9 +96,13 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String userID = userAdapter.getItem(position).getUserID();
-            // do intent here with the listID stored as prop.
-            // IMPLEMENT
+            String userID = friends.get(position).getUserID();
+            String username = friends.get(position).getUsername();
+
+            Intent i = new Intent(FriendsActivity.this, FriendsListsActivity.class);
+            i.putExtra("userID", userID);
+            i.putExtra("username", username);
+            startActivity(i);
         }
     };
 
