@@ -49,24 +49,19 @@ tools:showIn="@layout/activity_add_item">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.3"
             android:textSize="16dp"
             android:text="@string/description_label"
             android:textColor="@color/black"/>
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-        <TextView
+
+        <EditText
             android:id="@+id/itemDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="0.7"
             android:ems="10"
-            android:entries="@array/category_arrays"
-            android:prompt="@string/category_prompt"
+            android:textColor="@color/black"
             app:theme="@style/Theme.AppCompat.Light"/>
-        </ScrollView>
     </LinearLayout>
 
 
