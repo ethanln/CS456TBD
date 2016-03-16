@@ -104,8 +104,14 @@ public class ListOfItemsActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String itemID = itemAdapter.getItem(position).getItemID();
-            if(owner.equals("self")) {
+            String itemTitle = itemAdapter.getItem(position).getTitle();
 
+            if(owner.equals("self")) {
+                Intent i = new Intent(ListOfItemsActivity.this, ViewMyItemActivity.class);
+                i.putExtra("itemID", itemID);
+                i.putExtra("listID", listID);
+                i.putExtra("itemTitle", itemTitle);
+                startActivity(i);
             }
             else if(owner.equals("other")){
 

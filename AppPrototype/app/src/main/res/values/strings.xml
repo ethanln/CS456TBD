@@ -31,6 +31,17 @@
     <!--Items View List-->
     <string name="title_activity_list_of_items">Items</string>
 
+    <!-- View My Item -->
+    <string name="title_activity_view_my_item">ViewMyItemActivity</string>
+    <string name="title_edit_button_view_my_item">Edit</string>
+    <string name="title_remove_button_view_my_item">Remove</string>
+
+    <!--Edit Item View-->
+    <string name="title_activity_edit_item">Edit Item</string>
+    <string name="title_activity_edit_item_image_url">Image Url: </string>
+    <string name="title_activity_edit_item_image_title">Title: </string>
+    <string name="title_activity_edit_item_image_description">Description: </string>
+
     <!--Form strings-->
     <string name="submit_button">Submit</string>
     <string name="title_label">List: </string>
@@ -48,6 +59,7 @@
     <string name="title_activity_network_test">NetworkTestActivity</string>
     <string name="title_activity_friends_lists"></string>
     <string name="title_activity_friends_list_of_items">FriendsListOfItemsActivity</string>
+
 
 
 </resources>
