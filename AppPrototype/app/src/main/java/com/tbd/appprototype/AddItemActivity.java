@@ -62,28 +62,7 @@ public class AddItemActivity extends AppCompatActivity {
                 switchIntent();
             }
         });
-
-
-        /*
-        InventoryItem item = new InventoryItem("", "Test Item", "Test Description", "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg", "Test List ID");
-
-        // get new list info
-        String userId = app.getCurrentUser().getUserID();
-        String title = itemName.getText().toString();
-        String type = itemDescription.getText().toString();
-
-        // create new list instance
-        InventoryList newList = new InventoryList(userId, title, type, "");
-
-        // add new list
-        NetworkManager.getInstance().makeCreateListRequest(newList, new GenericCallback() {
-            @Override
-            public void callback() {
-                showNetworkTestCompleteToast("List Added");
-                switchIntent();
-            }
-        });
-        */
+        
     }
 
     private void switchIntent(){

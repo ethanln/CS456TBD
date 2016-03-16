@@ -52,6 +52,17 @@
             android:name=".AddFriendActivity"
             android:label="@string/title_activity_add_friend"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".ViewMyItemActivity"
+            android:label="@string/title_activity_view_my_item"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".EditItemActivity"
+            android:label="@string/title_activity_edit_item"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".FriendsListsActivity"
             android:label="@string/title_activity_friends_lists"
@@ -65,6 +76,7 @@
             android:name=".ListOfItemsActivity"
             android:label="@string/title_activity_list_of_items"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity android:name=".AddItemActivity"></activity>
     </application>
 

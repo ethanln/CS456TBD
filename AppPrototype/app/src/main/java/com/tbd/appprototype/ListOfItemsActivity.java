@@ -59,7 +59,9 @@ public class ListOfItemsActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(ListOfItemsActivity.this, AddItemActivity.class));// TODO pass the item list id to the add item activity
+                    Intent intent = new Intent(ListOfItemsActivity.this, AddItemActivity.class);
+                    intent.putExtra("listID", listID);
+                    startActivity(intent);// TODO pass the item list id to the add item activity
                 }
             });
         }
@@ -109,10 +111,9 @@ public class ListOfItemsActivity extends AppCompatActivity {
                 startActivity(i);
             }
             else if(owner.equals("other")){
-
+                // implement
             }
-            // do intent here with the listID stored as prop.
-            // IMPLEMENT
+
         }
     };
 
