@@ -55,27 +55,17 @@ public class ListOfItemsActivity extends AppCompatActivity {
 
         // disable add button if this isn't the owner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-<<<<<<< HEAD
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // show add list pop up
-                startActivity(new Intent(ListOfItemsActivity.this, AddItemActivity.class));// TODO pass the item list id to the add item activity
-            }
-        });
-=======
         if(intent.getExtras().getString("owner").equals("self")) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //add item
+                    startActivity(new Intent(ListOfItemsActivity.this, AddItemActivity.class));// TODO pass the item list id to the add item activity
                 }
             });
         }
         else{
             fab.hide();
         }
->>>>>>> origin/master
 
         // get prop data
         this.listID = intent.getExtras().getString("listID");
