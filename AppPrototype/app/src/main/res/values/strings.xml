@@ -71,6 +71,7 @@
     <string name="title_activity_view_friend_item">ViewFriendItemActivity</string>
     <string name="request_activity_view_friend_item">Request</string>
     <string name="title_activity_send_message">SendMessageActivity</string>
+    <string name="title_activity_my_lists">MyListsActivity</string>
 
 
 </resources>
