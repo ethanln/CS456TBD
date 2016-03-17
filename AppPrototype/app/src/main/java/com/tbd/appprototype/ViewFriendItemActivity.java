@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Network;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,13 +20,12 @@ import networking.callback.GenericCallback;
 import networking.callback.ItemCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
-import util.ImageLoaderUtil;
 
-public class ViewMyItemActivity extends AppCompatActivity {
+public class ViewFriendItemActivity extends AppCompatActivity {
 
     private String itemID;
-    private String listID;
     private String itemTitle;
+    private String friendID;
 
     private InventoryItem currentItem;
 
@@ -37,19 +35,19 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
     private Toast toast;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         Intent intent = getIntent();
 
         this.itemID = intent.getExtras().getString("itemID");
-        this.listID = intent.getExtras().getString("listID");
         this.itemTitle = intent.getExtras().getString("itemTitle");
+        this.friendID = intent.getExtras().getString("userID");
 
-        setTitle(itemTitle);
-        setContentView(R.layout.activity_view_my_item);
+        setTitle(this.itemTitle);
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_view_friend_item);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,27 +62,26 @@ public class ViewMyItemActivity extends AppCompatActivity {
             }
         });
 
-        this.itemImage = (ImageView)findViewById(R.id.my_item_image);
-        this.itemTitleView = (TextView) findViewById(R.id.my_item_title);
-        this.itemDescriptionView = (TextView) findViewById(R.id.my_item_description);
+        this.itemImage = (ImageView)findViewById(R.id.friend_item_image);
+        this.itemTitleView = (TextView) findViewById(R.id.friend_item_title);
+        this.itemDescriptionView = (TextView) findViewById(R.id.friend_item_description);
         setupItem(this);
     }
 
     private void setupItem(final Context context){
-        NetworkManager.getInstance().makeGetItemRequest(this.itemID, new ItemCallback(){
+        NetworkManager.getInstance().makeGetItemRequest(this.itemID, new ItemCallback() {
             @Override
             public void callback() {
                 // get item
                 InventoryItem item = getItem();
                 currentItem = item;
                 // load image
-                if(item.getImageURL().length() == 0) {
+                if (item.getImageURL().length() == 0) {
                     Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
                     String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", context);
                     BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                     imageLoader.loadImage(encodedString, itemImage, 550);
-                }
-                else {
+                } else {
                     BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                     imageLoader.loadImage(item.getImageURL(), itemImage, 550);
                 }
@@ -98,24 +95,8 @@ public class ViewMyItemActivity extends AppCompatActivity {
         });
     }
 
-    public void editItem(View view){
-        Intent i = new Intent(ViewMyItemActivity.this, EditItemActivity.class);
-        i.putExtra("itemID", itemID);
-        i.putExtra("listID", listID);
-        i.putExtra("imageURL", currentItem.getImageURL());
-        i.putExtra("title", currentItem.getTitle());
-        i.putExtra("description", currentItem.getDescription());
-        startActivity(i);
-    }
-
-    public void removeItem(View view){
-        NetworkManager.getInstance().makeDeleteItemRequest(itemID, new GenericCallback() {
-            @Override
-            public void callback() {
-                showResultMessage("Item Removed");
-                onBackPressed();
-            }
-        });
+    public void requestItem(View view){
+        showResultMessage("Request Sent");
     }
 
     private void showResultMessage(String message) {

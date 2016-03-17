@@ -1,6 +1,8 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,28 +48,31 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         TextView name = (TextView)row.findViewById(R.id.list_name);
         TextView description = (TextView)row.findViewById(R.id.list_type);
 
-        if(this.listsList.get(position).getImageURL().length() > 0) {
-            try {
-                String type = this.listsList.get(position).getType();
-                ImageLoaderUtil imageLoader = new ImageLoaderUtil();
-                if(type.equals("Movie")){
-                    imageLoader.loadImage(movieIcon, image, 550);
-                }
-                else if(type.equals("Book")){
-                    imageLoader.loadImage(bookIcon, image, 550);
-                }
-                else if(type.equals("Board Game")){
-                    imageLoader.loadImage(boardgameIcon, image, 550);
-                }
-                else if(type.equals( "Video Game")){
-                    imageLoader.loadImage(videoGameIcon, image, 550);
-                }
+        try {
+            String type = this.listsList.get(position).getType();
+            ImageLoaderUtil imageLoader = new ImageLoaderUtil();
+            if(type.equals("Movie")){
+                Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.movie_icon);
+                image.setImageBitmap(bm);
+            }
+            else if(type.equals("Book")){
+                Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.book_icon);
+                image.setImageBitmap(bm);
+            }
+            else if(type.equals("Board Game")){
+                Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.board_game_icon);
+                image.setImageBitmap(bm);
+            }
+            else if(type.equals( "Video Game")){
+                Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.video_game_icon);
+                image.setImageBitmap(bm);
+            }
 
-            }
-            catch(Exception e){
-                String error = e.getMessage();
-            }
         }
+        catch(Exception e){
+            String error = e.getMessage();
+        }
+
 
         name.setTextColor(Color.BLACK);
         name.setText(this.listsList.get(position).getTitle());

@@ -1,6 +1,8 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 
 import model.User;
 import util.BlobImageLoaderUtil;
+import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -39,8 +42,16 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         ImageView image = (ImageView)row.findViewById(R.id.friend_image);
         TextView name = (TextView)row.findViewById(R.id.friend_name);
 
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
+        if(this.users.get(position).getImageURL().length() == 0){
+            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", context);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, image, 0);
+        }
+        else {
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
+        }
 
         name.setTextColor(Color.BLACK);
         name.setText(this.users.get(position).getUsername());

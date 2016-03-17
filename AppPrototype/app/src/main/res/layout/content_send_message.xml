@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-app:layout_behavior="@string/appbar_scrolling_view_behavior"
-tools:context="com.tbd.appprototype.AddListActivity"
-tools:showIn="@layout/activity_add_item">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tbd.appprototype.SendMessageActivity"
+    tools:showIn="@layout/activity_send_message">
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,17 +30,16 @@ tools:showIn="@layout/activity_add_item">
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:textSize="16dp"
-                android:text="@string/name_label"
+                android:text="To: "
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:id="@+id/itemName"
+            <TextView
+                android:id="@+id/to_whom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:ems="10"
-                android:textColor="@color/black"
-                app:theme="@style/Theme.AppCompat.Light"/>
+                android:layout_weight="0.25"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
         <LinearLayout
@@ -53,11 +53,11 @@ tools:showIn="@layout/activity_add_item">
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:textSize="16dp"
-                android:text="@string/description_label"
+                android:text="Message: "
                 android:textColor="@color/black"/>
 
             <EditText
-                android:id="@+id/itemDescription"
+                android:id="@+id/item_description_textbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
@@ -67,12 +67,12 @@ tools:showIn="@layout/activity_add_item">
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/prev_image"
+            android:id="@+id/prev_image_edit"
             android:layout_width="288dp"
             android:layout_height="288dp"
             android:src="@drawable/upload_image_thumbnail"
             android:layout_gravity="center_horizontal"
-            android:onClick="addImage"/>
+            android:onClick="addImageEdit"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -81,13 +81,13 @@ tools:showIn="@layout/activity_add_item">
             android:layout_gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btnDone"
+                android:id="@+id/btnSubmitEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="5"
                 android:background="@color/dark_blue"
                 android:text="@string/done_button"
-                android:onClick="onSubmit"/>
+                android:onClick="submitChanges"/>
 
             <View
                 android:layout_width="0dp"

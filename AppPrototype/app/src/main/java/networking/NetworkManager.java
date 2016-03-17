@@ -909,8 +909,9 @@ public class NetworkManager {
      * @return
      */
     public void makeGetItemRequest(String itemID, final ItemCallback callback) {
-        Firebase itemRef = new Firebase(itemsEndpoint);
+        final Firebase itemRef = new Firebase(itemsEndpoint);
         Query query = itemRef.orderByChild("id").equalTo(itemID);
+
         query.addChildEventListener(new RetrieveDataListener() {
             @Override
             public void onChildAdded(DataSnapshot data, String s) {

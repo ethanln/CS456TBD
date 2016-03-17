@@ -67,5 +67,10 @@
     <!--Camera Activity-->
     <string name="title_activity_camera">Take Snapshot</string>
 
+    <!--View Friend Item-->
+    <string name="title_activity_view_friend_item">ViewFriendItemActivity</string>
+    <string name="request_activity_view_friend_item">Request</string>
+    <string name="title_activity_send_message">SendMessageActivity</string>
+
 
 </resources>

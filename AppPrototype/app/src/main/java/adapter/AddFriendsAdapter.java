@@ -2,6 +2,8 @@ package adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 
 import model.User;
 import util.BlobImageLoaderUtil;
+import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -45,9 +48,17 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         TextView name = (TextView)row.findViewById(R.id.friend_name);
         TextView id = (TextView)row.findViewById(R.id.friend_id);
 
-        // load users profile pic
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
+        if(this.users.get(position).getImageURL().length() == 0){
+            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", context);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, image, 0);
+        }
+        else {
+            // load users profile pic
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(this.users.get(position).getImageURL(), image, 550);
+        }
 
         // set onclick listener for the icon
         addIcon.setOnClickListener(this.listener);

@@ -86,7 +86,6 @@ public class InventoryItem extends ModelObject {
         return !itemID.equals("")
                 && !title.equals("")
                 && !description.equals("")
-                && !imageURL.equals("")
                 && !listID.equals("");
     }
 }

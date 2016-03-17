@@ -10,10 +10,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
-    <activity
-        android:name=".Qrcode"/>
+    <activity android:name=".Qrcode" />
 
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -79,6 +80,14 @@
             android:label="@string/title_activity_list_of_items"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".AddItemActivity" />
+        <activity
+            android:name=".ViewFriendItemActivity"
+            android:label="@string/title_activity_view_friend_item"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SendMessageActivity"
+            android:label="@string/title_activity_send_message"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

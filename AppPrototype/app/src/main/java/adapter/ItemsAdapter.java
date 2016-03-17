@@ -1,6 +1,8 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import model.InventoryItem;
 import model.User;
 import util.BlobImageLoaderUtil;
+import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
 
 /**
@@ -41,8 +44,16 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
         TextView name = (TextView)row.findViewById(R.id.item_name);
         TextView description = (TextView)row.findViewById(R.id.item_description);
 
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(this.itemsList.get(position).getImageURL(), image, 550);
+        if(this.itemsList.get(position).getImageURL().length() == 0){
+            Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", context);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, image, 0);
+        }
+        else {
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(this.itemsList.get(position).getImageURL(), image, 550);
+        }
 
         name.setTextColor(Color.BLACK);
         name.setText(this.itemsList.get(position).getTitle());

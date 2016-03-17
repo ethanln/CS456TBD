@@ -111,7 +111,15 @@ public class ListOfItemsActivity extends AppCompatActivity {
                 startActivity(i);
             }
             else if(owner.equals("other")){
-                // implement
+                Intent intent = getIntent();
+                String userID = intent.getExtras().getString("userID");
+
+                Intent i = new Intent(ListOfItemsActivity.this, ViewFriendItemActivity.class);
+                i.putExtra("itemID", itemID);
+                i.putExtra("listID", listID);
+                i.putExtra("userID", userID);
+                i.putExtra("itemTitle", itemTitle);
+                startActivity(i);
             }
 
         }

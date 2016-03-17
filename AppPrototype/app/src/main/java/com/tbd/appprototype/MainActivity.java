@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,9 +24,6 @@ import networking.callback.GenericCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private ArrayList<InventoryList> lists;
-   // private ArrayAdapter<InventoryList> adapter;
-
     private ArrayList<InventoryList> lists;
     private ListView listView;
     private ListAdapter listAdapter;
@@ -38,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        supportRequestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

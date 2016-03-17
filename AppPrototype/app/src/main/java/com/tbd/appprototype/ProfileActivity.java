@@ -69,8 +69,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         // set profile image
         ImageView image = (ImageView)findViewById(R.id.profile_image);
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(app.getCurrentUser().getImageURL(), image, 550);
+
+        if(app.getCurrentUser().getImageURL().length() == 0) {
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", this);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, image, 550);
+        }
+        else{
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(app.getCurrentUser().getImageURL(), image, 550);
+        }
     }
 
 
