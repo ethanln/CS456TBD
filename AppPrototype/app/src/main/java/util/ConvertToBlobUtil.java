@@ -26,7 +26,7 @@ public class ConvertToBlobUtil {
 
     private static String _convertToBlob(Bitmap image, String extension, Context context){
 
-        Bitmap btmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.search_icon);
+        Bitmap btmap = image == null ? BitmapFactory.decodeResource(context.getResources(), R.drawable.search_icon) : image;
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         switch(extension){
             case "png":
