@@ -1,8 +1,10 @@
 package com.tbd.appprototype;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 
 import model.User;
 import networking.NetworkManager;
@@ -26,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Toast toast;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    final int PIC_CROP = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,25 +90,61 @@ public class ProfileActivity extends AppCompatActivity {
     // get camera results
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            String encodedImage = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
+        if (resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_IMAGE_CAPTURE){
+                // do crop
+                Uri picUri = data.getData();
+                this.performCrop(picUri);
+            }
 
-            ImageView image = (ImageView)findViewById(R.id.profile_image);
-            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-            imageLoader.loadImage(encodedImage, image, 550);
+            if(requestCode == PIC_CROP){
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-            // save encodedImage in ImageURL for user
-            TBDApplication app = (TBDApplication)getApplication();
-            User user = app.getCurrentUser();
-            user.setImageURL(encodedImage);
-            NetworkManager.getInstance().makeUpdateUserRequest(user, new GenericCallback() {
-                @Override
-                public void callback() {
-                    showResultMessage("Profile picture changed");
-                }
-            });
+                String encodedImage = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
+
+                ImageView image = (ImageView)findViewById(R.id.profile_image);
+                BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+                imageLoader.loadImage(encodedImage, image, 550);
+
+                // save encodedImage in ImageURL for user
+                TBDApplication app = (TBDApplication)getApplication();
+                User user = app.getCurrentUser();
+                user.setImageURL(encodedImage);
+                NetworkManager.getInstance().makeUpdateUserRequest(user, new GenericCallback() {
+                    @Override
+                    public void callback() {
+                        showResultMessage("Profile picture changed");
+                    }
+                });
+            }
+        }
+    }
+
+    private void performCrop(Uri picUri){
+        try {
+            //call the standard crop action intent (the user device may not support it)
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            //indicate image type and Uri
+            cropIntent.setDataAndType(picUri, "image/*");
+            //set crop properties
+            cropIntent.putExtra("crop", "true");
+            //indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            //indicate output X and Y
+            cropIntent.putExtra("outputX", 256);
+            cropIntent.putExtra("outputY", 256);
+            //retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            //start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, PIC_CROP);
+        }
+        catch(ActivityNotFoundException anfe){
+            //display an error message
+            String errorMessage = "Whoops - your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

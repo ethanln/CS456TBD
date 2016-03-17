@@ -12,6 +12,8 @@
 
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
+    <activity
+        android:name=".Qrcode"/>
 
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
