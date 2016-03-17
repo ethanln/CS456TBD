@@ -12,6 +12,10 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context="com.tbd.appprototype.AddListActivity"
 tools:showIn="@layout/activity_add_item">
 
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,29 +78,7 @@ tools:showIn="@layout/activity_add_item">
             android:layout_gravity="center_horizontal"
             android:onClick="addImage"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/btnDone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:background="@color/dark_blue"
-                android:text="@string/done_button"
-                android:onClick="onSubmit"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25" />
-
-        </LinearLayout>
-
 
     </LinearLayout>
-
+</ScrollView>
 </FrameLayout>

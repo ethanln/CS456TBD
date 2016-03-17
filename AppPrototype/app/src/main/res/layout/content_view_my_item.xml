@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.tbd.appprototype.ViewMyItemActivity"
     tools:showIn="@layout/activity_view_my_item">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,9 +58,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp">
                 <TextView
                     android:id="@+id/lended_to_label"
                     android:layout_width="wrap_content"
@@ -81,30 +82,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/edit_item_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:background="@color/dark_orange"
-            android:text="@string/title_edit_button_view_my_item"
-            android:onClick="editItem"/>
-
-        <Button
-            android:id="@+id/remove_item_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:background="@color/dark_blue"
-            android:text="@string/title_remove_button_view_my_item"
-            android:onClick="removeItem"/>
-
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>

@@ -31,6 +31,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Add Item");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

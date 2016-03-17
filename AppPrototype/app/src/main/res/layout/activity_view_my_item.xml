@@ -22,6 +22,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <include layout="@layout/content_view_my_item" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|center">
+
+        <Button
+            android:id="@+id/edit_item_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:background="@color/dark_orange"
+            android:paddingBottom="8dp"
+            android:text="@string/title_edit_button_view_my_item"
+            android:onClick="editItem"/>
+        <Button
+            android:id="@+id/remove_item_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_weight=".5"
+            android:background="@color/dark_blue"
+            android:paddingBottom="8dp"
+            android:text="@string/title_remove_button_view_my_item"
+            android:onClick="removeItem"/>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

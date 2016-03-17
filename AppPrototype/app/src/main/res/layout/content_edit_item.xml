@@ -13,91 +13,74 @@
     tools:showIn="@layout/activity_edit_item">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
-
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:textSize="16dp"
-                android:text="@string/title_activity_edit_item_image_title"
-                android:textColor="@color/black"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
 
-            <EditText
-                android:id="@+id/item_title_textbox"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:textSize="16dp"
+                    android:text="@string/title_activity_edit_item_image_title"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/item_title_textbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    app:theme="@style/Theme.AppCompat.Light"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:ems="10"
-                android:textColor="@color/black"
-                app:theme="@style/Theme.AppCompat.Light"/>
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:textSize="16dp"
+                    android:text="@string/title_activity_edit_item_image_description"
+                    android:textColor="@color/black"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textSize="16dp"
-                android:text="@string/title_activity_edit_item_image_description"
-                android:textColor="@color/black"/>
+                <EditText
+                    android:id="@+id/item_description_textbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    app:theme="@style/Theme.AppCompat.Light"/>
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/item_description_textbox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:ems="10"
-                android:textColor="@color/black"
-                app:theme="@style/Theme.AppCompat.Light"/>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/prev_image_edit"
+                android:layout_width="288dp"
+                android:layout_height="288dp"
+                android:src="@drawable/upload_image_thumbnail"
+                android:layout_gravity="center_horizontal"
+                android:onClick="addImageEdit"/>
 
-        <ImageView
-            android:id="@+id/prev_image_edit"
-            android:layout_width="288dp"
-            android:layout_height="288dp"
-            android:src="@drawable/upload_image_thumbnail"
-            android:layout_gravity="center_horizontal"
-            android:onClick="addImageEdit"/>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/btnSubmitEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:background="@color/dark_blue"
-                android:text="@string/done_button"
-                android:onClick="submitChanges"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25" />
 
         </LinearLayout>
-
-
-    </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

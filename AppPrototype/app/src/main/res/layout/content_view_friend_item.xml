@@ -54,22 +54,13 @@
         android:orientation="vertical"
         android:layout_marginTop="32dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp">
-
-        </LinearLayout>
         <TextView
             android:id="@+id/friend_lended_to_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="48dp"
             android:text="Lended To: "
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 

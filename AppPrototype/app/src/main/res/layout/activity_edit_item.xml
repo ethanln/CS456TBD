@@ -24,4 +24,22 @@
 
     <include layout="@layout/content_edit_item" />
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|center">
+
+        <Button
+            android:id="@+id/btnSubmitEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@color/dark_blue"
+            android:paddingBottom="8dp"
+            android:text="@string/done_button"
+            android:onClick="submitChanges"/>
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
