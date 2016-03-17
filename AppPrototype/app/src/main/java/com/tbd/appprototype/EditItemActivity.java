@@ -118,14 +118,29 @@ public class EditItemActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if(requestCode == REQUEST_IMAGE_CAPTURE){
-                // do crop
-                Uri picUri = data.getData();
-                this.performCrop(picUri);
-            }
-
-            if(requestCode == PIC_CROP){
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
+
+                if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
+
+                    imageBitmap = Bitmap.createBitmap(
+                            imageBitmap,
+                            imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
+                            0,
+                            imageBitmap.getHeight(),
+                            imageBitmap.getHeight()
+                    );
+
+                }else{
+
+                    imageBitmap = Bitmap.createBitmap(
+                            imageBitmap,
+                            0,
+                            imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
+                            imageBitmap.getWidth(),
+                            imageBitmap.getWidth()
+                    );
+                }
 
                 this.encodedString = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
@@ -136,32 +151,6 @@ public class EditItemActivity extends AppCompatActivity {
         }
     }
 
-    private void performCrop(Uri picUri){
-        try {
-            //call the standard crop action intent (the user device may not support it)
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            //indicate image type and Uri
-            cropIntent.setDataAndType(picUri, "image/*");
-            //set crop properties
-            cropIntent.putExtra("crop", "true");
-            //indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            //indicate output X and Y
-            cropIntent.putExtra("outputX", 256);
-            cropIntent.putExtra("outputY", 256);
-            //retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            //start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, PIC_CROP);
-        }
-        catch(ActivityNotFoundException anfe){
-            //display an error message
-            String errorMessage = "Whoops - your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
 
     private void showResultMessage(String message) {
         if (toast != null) {
