@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import model.InventoryItem;
+import model.ItemRequest;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.ItemCallback;
@@ -32,6 +35,9 @@ public class ViewFriendItemActivity extends AppCompatActivity {
     private ImageView itemImage;
     private TextView itemTitleView;
     private TextView itemDescriptionView;
+
+    private Button requestButton;
+    private boolean isRequestAlreadySent;
 
     private Toast toast;
 
@@ -65,6 +71,8 @@ public class ViewFriendItemActivity extends AppCompatActivity {
         this.itemImage = (ImageView)findViewById(R.id.friend_item_image);
         this.itemTitleView = (TextView) findViewById(R.id.friend_item_title);
         this.itemDescriptionView = (TextView) findViewById(R.id.friend_item_description);
+        this.requestButton = (Button)findViewById(R.id.item_request_btn);
+        this.isRequestAlreadySent = false;
         setupItem(this);
     }
 
@@ -96,7 +104,34 @@ public class ViewFriendItemActivity extends AppCompatActivity {
     }
 
     public void requestItem(View view){
-        showResultMessage("Request Sent");
+        if(isRequestAlreadySent){
+            showResultMessage("Request Already Sent");
+            return;
+        }
+        if(currentItem == null){
+            return;
+        }
+
+        TBDApplication app = (TBDApplication) getApplication();
+
+        ItemRequest itemRequest = new ItemRequest();
+        itemRequest.setImageCache(currentItem.getImageURL());
+        itemRequest.setItemID(currentItem.getItemID());
+        itemRequest.setItemName(currentItem.getTitle());
+        itemRequest.setFrom(app.getCurrentUserID());
+        itemRequest.setFromName(app.getCurrentUser().getUsername());
+        itemRequest.setTo(friendID);
+
+        NetworkManager.getInstance().makeCreateItemRequestRequest(itemRequest, new GenericCallback(){
+            @Override
+            public void callback() {
+                requestButton.setText("Request Sent");
+                requestButton.setBackgroundColor(Color.GRAY);
+                isRequestAlreadySent = true;
+                showResultMessage("Request Sent");
+            }
+
+        });
     }
 
     private void showResultMessage(String message) {

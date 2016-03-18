@@ -16,12 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import model.FriendRequest;
 import model.InventoryItem;
 import model.InventoryList;
+import model.ItemRequest;
 import model.User;
 import networking.callback.Callback;
+import networking.callback.FriendRequestCallBack;
 import networking.callback.GenericCallback;
 import networking.callback.ItemCallback;
+import networking.callback.ItemRequestCallBack;
 import networking.callback.ListCallback;
 import networking.callback.UserCallback;
 import networking.callback.UsersCallback;
@@ -36,6 +40,8 @@ public class NetworkManager {
     private static final String usersEndpoint = "https://tbd456.firebaseio.com/users/";
     private static final String listsEndpoint = "https://tbd456.firebaseio.com/lists/";
     private static final String itemsEndpoint = "https://tbd456.firebaseio.com/items/";
+    private static final String friendRequestEndpoint = "https://tbd456.firebaseio.com/friendRequest/";
+    private static final String itemRequestEndpoint = "https://tbd456.firebaseio.com/itemRequest/";
 
     private NetworkManager() {}
 
@@ -944,6 +950,242 @@ public class NetworkManager {
         });
         addNoDataAvailableListener(query, callback);
     }
+
+    /**
+     * Get FriendRequest by ID
+     * @param userID
+     * @return
+     */
+    public void makeGetFriendRequestRequest(String userID, final FriendRequestCallBack callback) {
+        final Firebase itemRef = new Firebase(friendRequestEndpoint);
+        Query query = itemRef.orderByChild("to").equalTo(userID);
+
+        callback.setFriendRequests(new ArrayList<FriendRequest>());
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                FriendRequest friendRequest = new FriendRequest();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        friendRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        friendRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        friendRequest.setFrom(listData.getValue().toString());
+                    }
+                }
+
+                if(friendRequest.validate()) {
+                    callback.addFriendRequest(friendRequest);
+                }
+                callback.callback();
+            }
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+    /**
+     * Create Friend Request
+     * @param friendRequest - item to add
+     */
+    public void makeCreateFriendRequestRequest(FriendRequest friendRequest, final GenericCallback callback) {
+
+        if (friendRequest.getFrom().equals("")) {
+            callback.error = new FirebaseError(-2, "No From Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+        if (friendRequest.getTo().equals("")) {
+            callback.error = new FirebaseError(-2, "No To Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+
+        final Firebase newItem = new Firebase(friendRequestEndpoint).push();
+        if (friendRequest.getID().equals("")) {
+            friendRequest.setID(newItem.getKey());
+        }
+        newItem.setValue(friendRequest.toHashMap(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newItem.getKey();
+                callback.callback();
+            }
+        });
+    }
+
+    /**
+     * Delete Item by ID
+     * @param friendRequestID
+     */
+    public void makeDeleteFriendRequestRequest(String friendRequestID, final GenericCallback callback) {
+        Firebase itemRef = new Firebase(friendRequestEndpoint);
+        if (friendRequestID.equals("")) {
+            callback.error = new FirebaseError(-2, "No FriendRequestID Given");
+            callback.callback();
+            return;
+        }
+        itemRef.child(friendRequestID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.callback();
+            }
+        });
+    }
+
+    /**
+     * Get ItemRequest by ID
+     * @param userID
+     * @return
+     */
+    public void makeGetItemRequestRequest(String userID, final ItemRequestCallBack callback) {
+        final Firebase itemRef = new Firebase(itemRequestEndpoint);
+        Query query = itemRef.orderByChild("to").equalTo(userID);
+
+        callback.setItemRequests(new ArrayList<ItemRequest>());
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                ItemRequest itemRequest = new ItemRequest();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        itemRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        itemRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        itemRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemID")) {
+                        itemRequest.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageCache")) {
+                        itemRequest.setImageCache(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        itemRequest.setFromName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemName")) {
+                        itemRequest.setItemName(listData.getValue().toString());
+                    }
+                }
+
+                if(itemRequest.validate()) {
+                    callback.addItemRequest(itemRequest);
+                }
+                callback.callback();
+            }
+
+            /*@Override
+            public void onChildRemoved(DataSnapshot data) {
+                ItemRequest itemRequest = new ItemRequest();
+                callback.setItemRequests(new ArrayList<ItemRequest>());
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        itemRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        itemRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        itemRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemID")) {
+                        itemRequest.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageCache")) {
+                        itemRequest.setImageCache(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        itemRequest.setFromName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemName")) {
+                        itemRequest.setItemName(listData.getValue().toString());
+                    }
+                }
+
+                if(itemRequest.validate()) {
+                    callback.addItemRequest(itemRequest);
+                }
+                callback.callback();
+            }*/
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+
+    /**
+     * Create ItemRequest
+     * @param itemRequest - item to add
+     */
+    public void makeCreateItemRequestRequest(ItemRequest itemRequest, final GenericCallback callback) {
+        if (itemRequest.getItemID().equals("")) {
+            callback.error = new FirebaseError(-2, "No ItemID Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+        if (itemRequest.getFrom().equals("")) {
+            callback.error = new FirebaseError(-2, "No From Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+        if (itemRequest.getTo().equals("")) {
+            callback.error = new FirebaseError(-2, "No To Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+
+        if (itemRequest.getFromName().equals("")) {
+            callback.error = new FirebaseError(-2, "No FromName Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+
+        if (itemRequest.getItemName().equals("")) {
+            callback.error = new FirebaseError(-2, "No ItemName Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+
+        final Firebase newItem = new Firebase(itemRequestEndpoint).push();
+        if (itemRequest.getID().equals("")) {
+            itemRequest.setID(newItem.getKey());
+        }
+        newItem.setValue(itemRequest.toHashMap(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data = newItem.getKey();
+                callback.callback();
+            }
+        });
+    }
+    /**
+     * Delete Item by ID
+     * @param itemRequestID
+     */
+    public void makeDeleteItemRequestRequest(String itemRequestID, final GenericCallback callback) {
+        Firebase itemRef = new Firebase(itemRequestEndpoint);
+        if (itemRequestID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ItemRequestID Given");
+            callback.callback();
+            return;
+        }
+        itemRef.child(itemRequestID).removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.callback();
+            }
+        });
+    }
+
 
     /**
      * Update Item

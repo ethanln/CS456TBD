@@ -1,7 +1,7 @@
 package com.tbd.appprototype;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,8 +44,12 @@ public class MainActivity extends AppCompatActivity {
         setTitle("My Lists");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
 
         //toolbar.setNavigationIcon(R.drawable.search_icon);
 
@@ -63,6 +69,31 @@ public class MainActivity extends AppCompatActivity {
         this.setUpList(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.action_item_requests){
+            Intent intent = new Intent(MainActivity.this, ItemRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friend_requests){
+            Intent intent = new Intent(MainActivity.this, FriendRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_logout){
+            TBDApplication app = (TBDApplication)getApplication();
+            app.setCurrentUser(null);
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+        return false;
+    }
 
     /**
      * update the list view
