@@ -144,7 +144,7 @@ public class EditItemActivity extends AppCompatActivity {
 
                 this.encodedString = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
-                ImageView image = (ImageView)findViewById(R.id.prev_image);
+                ImageView image = (ImageView)findViewById(R.id.prev_image_edit);
                 BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                 imageLoader.loadImage(this.encodedString, image, 0);
             }

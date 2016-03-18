@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.tbd.appprototype.ViewFriendItemActivity"
     tools:showIn="@layout/activity_view_friend_item">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,41 +48,37 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_marginTop="32dp">
-
-        <TextView
-            android:id="@+id/friend_lended_to_label"
-            android:layout_width="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp"
-            android:text="Lended To: "
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:layout_marginTop="48dp">
+            <TextView
+                android:id="@+id/friend_lended_to_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:text="Lended To: "
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <TextView
-            android:id="@+id/friend_lended_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_gravity="center_horizontal"
-            android:text="No One"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-        <Button
-            android:id="@+id/item_request_btn"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="@color/dark_orange"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/request_activity_view_friend_item"
-            android:layout_marginTop="16dp"
-            android:onClick="requestItem"/>
+            <TextView
+                android:id="@+id/friend_lended_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:text="No One"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
+        </LinearLayout>
     </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>
