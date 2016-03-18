@@ -33,13 +33,12 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="8dp"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/add_friend_icon"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
-                android:src="@drawable/ic_add_friend_2"
                 android:layout_marginTop="8dp"
                 android:onClick="addFriend"/>
             <TextView

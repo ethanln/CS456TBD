@@ -61,6 +61,8 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         }
 
         // set onclick listener for the icon
+        Bitmap addIconImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_friend);
+        addIcon.setImageBitmap(addIconImg);
         addIcon.setOnClickListener(this.listener);
 
         // set username

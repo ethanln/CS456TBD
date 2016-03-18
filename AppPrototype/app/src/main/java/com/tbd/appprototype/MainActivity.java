@@ -1,7 +1,10 @@
 package com.tbd.appprototype;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -32,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
     private String currentItemId;
     private View currentSelectedView;
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setTitle("My Lists");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //toolbar.setNavigationIcon(R.drawable.search_icon);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AddListActivity.class));
             }
         });
+
+
 
         this.lists = new ArrayList<InventoryList>();
         this.listView = (ListView)findViewById(R.id.lists);
