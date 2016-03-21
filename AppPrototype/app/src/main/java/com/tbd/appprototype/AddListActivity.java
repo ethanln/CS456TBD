@@ -19,6 +19,7 @@ import networking.callback.GenericCallback;
 public class AddListActivity extends AppCompatActivity {
 
     private Toast toast;
+    private boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +38,24 @@ public class AddListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        this.isLoading = false;
     }
 
     public void onSubmit(View view){
+
+        if(this.isLoading){
+            showResultMessage("List is being added...");
+            return;
+        }
+
+        // set isLoading state to true;
+        this.isLoading = true;
 
         TBDApplication app = (TBDApplication) getApplication();
 
         // if user is not logged in
         if(app.getCurrentUser() == null){
-            showNetworkTestCompleteToast("No User Logged In");
+            showResultMessage("No User Logged In");
             return;
         }
 
@@ -64,7 +74,9 @@ public class AddListActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeCreateListRequest(newList, new GenericCallback() {
             @Override
             public void callback() {
-                showNetworkTestCompleteToast("List Added");
+                showResultMessage("List Added");
+                // set isLoading state to false after finishing the add.
+                isLoading = false;
                 switchIntent();
             }
         });
@@ -74,7 +86,7 @@ public class AddListActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    private void showNetworkTestCompleteToast(String message) {
+    private void showResultMessage(String message) {
         if (toast != null) {
             toast.cancel();
         }

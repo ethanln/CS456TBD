@@ -64,6 +64,7 @@ public class ViewMyItemActivity extends AppCompatActivity {
             }
         });
 
+        this.currentItem = null;
         this.itemImage = (ImageView)findViewById(R.id.my_item_image);
         this.itemTitleView = (TextView) findViewById(R.id.my_item_title);
         this.itemDescriptionView = (TextView) findViewById(R.id.my_item_description);
@@ -99,6 +100,11 @@ public class ViewMyItemActivity extends AppCompatActivity {
     }
 
     public void editItem(View view){
+        if(currentItem == null){
+            showResultMessage("Still loading information...");
+            return;
+        }
+
         Intent i = new Intent(ViewMyItemActivity.this, EditItemActivity.class);
         i.putExtra("itemID", itemID);
         i.putExtra("listID", listID);

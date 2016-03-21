@@ -26,6 +26,7 @@ public class AddItemActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final int PIC_CROP = 2;
 
+    private boolean isLoading;
     private String newImageBinary;
     private String listID;
 
@@ -51,10 +52,18 @@ public class AddItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.listID = intent.getExtras().getString("listID");
         this.newImageBinary = "";
+        this.isLoading = false;
     }
 
     public void onSubmit(View view){
 
+        if(this.isLoading){
+            showResultMessage("Item is being added...");
+            return;
+        }
+
+        // set is loading state.
+        this.isLoading = true;
         TBDApplication app = (TBDApplication) getApplication();
 
         // if user is not logged in
@@ -89,6 +98,8 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void callback() {
                 showResultMessage("Item Added");
+                // isLoading state set to false.
+                isLoading = false;
                 switchIntent();
             }
         });
