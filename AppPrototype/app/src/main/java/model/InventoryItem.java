@@ -88,4 +88,10 @@ public class InventoryItem extends ModelObject {
                 && !description.equals("")
                 && !listID.equals("");
     }
+
+    @Override
+    public boolean equals(Object obj){
+        InventoryItem item = (InventoryItem) obj;
+        return item.getItemID().equals(this.itemID);
+    }
 }

@@ -63,7 +63,6 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         // set is loading state.
-        this.isLoading = true;
         TBDApplication app = (TBDApplication) getApplication();
 
         // if user is not logged in
@@ -91,6 +90,8 @@ public class AddItemActivity extends AppCompatActivity {
             showResultMessage("Please provide description");
             return;
         }
+
+        this.isLoading = true;
 
         InventoryItem item = new InventoryItem(itemId, name, description, image, listId);
 

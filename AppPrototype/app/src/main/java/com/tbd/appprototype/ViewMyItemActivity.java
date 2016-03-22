@@ -72,20 +72,19 @@ public class ViewMyItemActivity extends AppCompatActivity {
     }
 
     private void setupItem(final Context context){
-        NetworkManager.getInstance().makeGetItemRequest(this.itemID, new ItemCallback(){
+        NetworkManager.getInstance().makeGetItemRequest(this.itemID, new ItemCallback() {
             @Override
             public void callback() {
                 // get item
                 InventoryItem item = getItem();
                 currentItem = item;
                 // load image
-                if(item.getImageURL().length() == 0) {
+                if (item.getImageURL().length() == 0) {
                     Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
                     String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", context);
                     BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                     imageLoader.loadImage(encodedString, itemImage, 550);
-                }
-                else {
+                } else {
                     BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                     imageLoader.loadImage(item.getImageURL(), itemImage, 550);
                 }
@@ -115,6 +114,10 @@ public class ViewMyItemActivity extends AppCompatActivity {
     }
 
     public void removeItem(View view){
+        if(currentItem == null){
+            showResultMessage("Still loading information...");
+            return;
+        }
         NetworkManager.getInstance().makeDeleteItemRequest(itemID, new GenericCallback() {
             @Override
             public void callback() {

@@ -905,6 +905,74 @@ public class NetworkManager {
                     callback.callback();
                 }
             }
+
+            @Override
+            public void onChildChanged(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                }
+
+                if (item.validate()) {
+                    list.remove(item);
+                    list.add(item);
+                }
+
+                if (callback != null) {
+                    String totalItems = String.valueOf(list.size());
+                    callback.data = "Total Itesm: " + totalItems;
+                    callback.callback();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (item.validate()) {
+                    list.remove(item);
+                }
+
+                if (callback != null) {
+                    String totalItems = String.valueOf(list.size());
+                    callback.data = "Total Itesm: " + totalItems;
+                    callback.callback();
+                }
+            }
         });
 
     }
@@ -946,6 +1014,36 @@ public class NetworkManager {
                     callback.setItem(item);
                 }
                 callback.callback();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate()) {
+                    callback.setItem(item);
+                }
+
+                if (callback != null) {
+                    callback.callback();
+                }
             }
         });
         addNoDataAvailableListener(query, callback);
