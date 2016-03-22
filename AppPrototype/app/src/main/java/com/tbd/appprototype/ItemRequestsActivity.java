@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,7 +51,9 @@ public class ItemRequestsActivity extends AppCompatActivity {
             }
         });
 
+        // initialize adapter
         this.itemRequests = new ArrayList<ItemRequest>();
+        // get list view
         this.listView = (ListView)findViewById(R.id.item_requests_list);
         this.setUpList(this);
     }
@@ -75,16 +79,20 @@ public class ItemRequestsActivity extends AppCompatActivity {
         public void onClick(View v) {
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
-            TextView id = (TextView)nextParent.findViewById(R.id.item_request_id);
 
-            NetworkManager.getInstance().makeDeleteItemRequestRequest(id.getText().toString(), new GenericCallback() {
+            TextView idView = (TextView)nextParent.findViewById(R.id.item_request_id);
+            TextView posView = (TextView)nextParent.findViewById(R.id.item_request_position_id);
+
+            String id = idView.getText().toString();
+            final String pos = posView.getText().toString();
+
+            NetworkManager.getInstance().makeDeleteItemRequestRequest(id, new GenericCallback() {
                 @Override
                 public void callback() {
+                    itemRequestAdapter.remove(Integer.parseInt(pos));
                     showResultMessage("Request Declined");
                 }
             });
-            // IMPLEMENT THE ADD FRIEND REQUEST
-            //showResultMessage("Friend Request Sent");
         }
     };
 
@@ -92,11 +100,17 @@ public class ItemRequestsActivity extends AppCompatActivity {
         public void onClick(View v) {
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
-            TextView id = (TextView)nextParent.findViewById(R.id.item_request_id);
 
-            NetworkManager.getInstance().makeDeleteItemRequestRequest(id.getText().toString(), new GenericCallback() {
+            TextView idView = (TextView)nextParent.findViewById(R.id.item_request_id);
+            TextView posView = (TextView)nextParent.findViewById(R.id.item_request_position_id);
+
+            String id = idView.getText().toString();
+            final String pos = posView.getText().toString();
+
+            NetworkManager.getInstance().makeDeleteItemRequestRequest(id, new GenericCallback() {
                 @Override
                 public void callback() {
+                    itemRequestAdapter.remove(Integer.parseInt(pos));
                     showResultMessage("Request Approved");
                 }
             });
@@ -123,6 +137,40 @@ public class ItemRequestsActivity extends AppCompatActivity {
         }
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.action_profile){
+            Intent intent = new Intent(ItemRequestsActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friends){
+            Intent intent = new Intent(ItemRequestsActivity.this, FriendsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_my_lists){
+            Intent intent = new Intent(ItemRequestsActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friend_requests){
+            Intent intent = new Intent(ItemRequestsActivity.this, FriendRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_logout){
+            TBDApplication app = (TBDApplication)getApplication();
+            app.setCurrentUser(null);
+            startActivity(new Intent(ItemRequestsActivity.this, LoginActivity.class));
+        }
+        return false;
     }
 
 }

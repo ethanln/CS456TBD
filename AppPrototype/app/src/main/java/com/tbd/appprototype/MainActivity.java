@@ -79,7 +79,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-        if(id == R.id.action_item_requests){
+        if(id == R.id.action_profile){
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friends){
+            Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_my_lists){
+            finish();
+            startActivity(getIntent());
+        }
+        else if(id == R.id.action_item_requests){
             Intent intent = new Intent(MainActivity.this, ItemRequestsActivity.class);
             startActivity(intent);
         }

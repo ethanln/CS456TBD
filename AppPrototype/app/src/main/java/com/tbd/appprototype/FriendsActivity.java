@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -105,5 +107,43 @@ public class FriendsActivity extends AppCompatActivity {
             startActivity(i);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.action_profile){
+            Intent intent = new Intent(FriendsActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friends){
+            Intent intent = new Intent(FriendsActivity.this, FriendsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_my_lists){
+            Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_item_requests){
+            Intent intent = new Intent(FriendsActivity.this, ItemRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friend_requests){
+            Intent intent = new Intent(FriendsActivity.this, FriendRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_logout){
+            TBDApplication app = (TBDApplication)getApplication();
+            app.setCurrentUser(null);
+            startActivity(new Intent(FriendsActivity.this, LoginActivity.class));
+        }
+        return false;
+    }
 
 }

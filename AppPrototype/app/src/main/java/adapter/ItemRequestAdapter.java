@@ -49,6 +49,11 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
     }
 
 
+    public void remove(int position){
+        remove(getItem(position));
+    }
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
 
@@ -57,12 +62,13 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
 
         ImageView image = (ImageView)row.findViewById(R.id.item_request_image);
 
-        ImageView acceptIcon = (ImageView)row.findViewById(R.id.accept_item_icon);
-        ImageView declineIcon = (ImageView)row.findViewById(R.id.decline_item_icon);
+        TextView acceptRequestClickView = (TextView) row.findViewById(R.id.accept_item_request_click);
+        TextView declineRequestClickView = (TextView) row.findViewById(R.id.decline_item_request_click);
 
         TextView name = (TextView)row.findViewById(R.id.item_request_name);
         TextView fromWhom = (TextView)row.findViewById(R.id.item_request_from_whom);
         TextView id = (TextView)row.findViewById(R.id.item_request_id);
+        TextView pos = (TextView)row.findViewById(R.id.item_request_position_id);
 
         //getItemImage(this.itemRequests.get(position).getItemID());
 
@@ -79,14 +85,8 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
         }
 
         // set onclick listener for the icons
-        Bitmap acceptIconImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.accept_item_request_icon);
-        Bitmap declineIconImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.decline_item_request_icon);
-
-        acceptIcon.setImageBitmap(acceptIconImg);
-        acceptIcon.setOnClickListener(this.listenerAccept);
-
-        declineIcon.setImageBitmap(declineIconImg);
-        declineIcon.setOnClickListener(this.listenerDecline);
+        acceptRequestClickView.setOnClickListener(this.listenerAccept);
+        declineRequestClickView.setOnClickListener(this.listenerDecline);
 
         // set item title
         name.setTextColor(Color.BLACK);
@@ -98,6 +98,9 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
 
         // set user id
         id.setText(this.itemRequests.get(position).getID());
+
+        // set position id
+        pos.setText(String.valueOf(position));
 
         return row;
     }

@@ -4,10 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
+
+    <item android:id="@+id/action_profile" android:title="Profile"
+        android:orderInCategory="100" app:showAsAction="never"/>
+
+    <item android:id="@+id/action_friends" android:title="Friends"
+        android:orderInCategory="100" app:showAsAction="never"/>
+
+    <item android:id="@+id/action_my_lists" android:title="My Lists"
+        android:orderInCategory="100" app:showAsAction="never"/>
+
     <item android:id="@+id/action_item_requests" android:title="Item Requests"
     android:orderInCategory="100" app:showAsAction="never"/>
+
     <item android:id="@+id/action_friend_requests" android:title="Friend Requests"
         android:orderInCategory="100" app:showAsAction="never"/>
+
     <item android:id="@+id/action_logout" android:title="Logout"
         android:orderInCategory="100" app:showAsAction="never"/>
 

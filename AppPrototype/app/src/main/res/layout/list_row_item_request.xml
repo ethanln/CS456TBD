@@ -53,9 +53,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="right">
+                android:layout_gravity="right|bottom">
 
-                <ImageView
+                <TextView
+                    android:id="@+id/accept_item_request_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="accept"
+                    android:textColor="@color/dark_gray"
+                    android:paddingRight="16dp"
+                    android:clickable="true"
+                    />
+
+                <TextView
+                    android:id="@+id/decline_item_request_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="decline"
+                    android:textColor="@color/dark_gray"
+                    android:paddingRight="8dp"
+                    android:clickable="true"
+                    />
+
+                <!--<ImageView
                     android:id="@+id/accept_item_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -68,11 +88,17 @@
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="8dp" />-->
             </LinearLayout>
 
             <TextView
-                android:id="@+id/item_request_id"
+            android:id="@+id/item_request_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/item_request_position_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>

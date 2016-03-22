@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -153,5 +155,43 @@ public class ProfileActivity extends AppCompatActivity {
         }
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.action_profile){
+            Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friends){
+            Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_my_lists){
+            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_item_requests){
+            Intent intent = new Intent(ProfileActivity.this, ItemRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_friend_requests){
+            Intent intent = new Intent(ProfileActivity.this, FriendRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_logout){
+            TBDApplication app = (TBDApplication)getApplication();
+            app.setCurrentUser(null);
+            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+        }
+        return false;
     }
 }

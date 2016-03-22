@@ -125,4 +125,10 @@ public class ItemRequest extends ModelObject {
                 && !this.fromName.equals("")
                 && !this.itemName.equals("");
     }
+
+    @Override
+    public boolean equals(Object obj){
+        ItemRequest item = (ItemRequest) obj;
+        return item.getItemID().equals(this.itemID);
+    }
 }
