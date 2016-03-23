@@ -33,14 +33,33 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="8dp"/>
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/add_friend_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
-                android:onClick="addFriend"/>
+                android:onClick="addFriend"/>-->
+
+            <Button
+                android:id="@+id/add_friend_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Add Friend"
+                android:textSize="8dp"
+                android:background="@color/add_green" />
+
+
+            <TextView
+                android:id="@+id/friend_position_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/friend_id"
                 android:layout_width="wrap_content"

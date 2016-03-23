@@ -9,8 +9,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import adapter.FriendRequestAdapter;
+import adapter.ItemRequestAdapter;
+import model.FriendRequest;
+import model.ItemRequest;
+import networking.NetworkManager;
+import networking.callback.FriendRequestCallBack;
+import networking.callback.GenericCallback;
+import networking.callback.ItemRequestCallBack;
 
 public class FriendRequestsActivity extends AppCompatActivity {
+
+    private ArrayList<FriendRequest> friendRequests;
+    private ListView listView;
+    private FriendRequestAdapter friendRequestAdapter;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +50,108 @@ public class FriendRequestsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        // initialize adapter
+        this.friendRequests = new ArrayList<FriendRequest>();
+        // get list view
+        this.listView = (ListView)findViewById(R.id.friend_requests_list);
+        this.setUpList(this);
+    }
+
+    private void setUpList(final FriendRequestsActivity activity){
+        TBDApplication app = (TBDApplication)getApplication();
+
+        NetworkManager.getInstance().makeGetFriendRequestRequest(app.getCurrentUser().getUserID(), new FriendRequestCallBack() {
+            @Override
+            public void callback() {
+                if (getFriendRequests() != null) {
+                    if (getFriendRequests().size() > 0) {
+                        friendRequests = getFriendRequests();
+                        friendRequestAdapter = new FriendRequestAdapter(activity, getFriendRequests(), declineListener, acceptListener);
+                        listView.setAdapter(friendRequestAdapter);
+                        listView.setOnItemClickListener(onItemClickListener);
+                    }
+                }
+            }
+        });
+    }
+
+    private View.OnClickListener declineListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            ViewGroup row = (ViewGroup)v.getParent();
+            ViewGroup nextParent = (ViewGroup)row.getParent();
+
+            TextView idView = (TextView)nextParent.findViewById(R.id.friend_request_id);
+            TextView posView = (TextView)nextParent.findViewById(R.id.friend_request_position_id);
+
+            String id = idView.getText().toString();
+            final String pos = posView.getText().toString();
+
+            NetworkManager.getInstance().makeDeleteFriendRequestRequest(id, new GenericCallback() {
+                @Override
+                public void callback() {
+                    friendRequestAdapter.remove(Integer.parseInt(pos));
+                    showResultMessage("Request Declined");
+                }
+            });
+        }
+    };
+
+    private View.OnClickListener acceptListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            ViewGroup row = (ViewGroup)v.getParent();
+            ViewGroup nextParent = (ViewGroup)row.getParent();
+
+            TextView idView = (TextView)nextParent.findViewById(R.id.friend_request_id);
+            TextView posView = (TextView)nextParent.findViewById(R.id.friend_request_position_id);
+
+            String id = idView.getText().toString();
+            final String pos = posView.getText().toString();
+
+            NetworkManager.getInstance().makeDeleteFriendRequestRequest(id, new GenericCallback() {
+                @Override
+                public void callback() {
+                    final String idFrom = friendRequests.get(Integer.parseInt(pos)).getFrom();
+                    String idTo = friendRequests.get(Integer.parseInt(pos)).getTo();
+                    friendRequestAdapter.remove(Integer.parseInt(pos));
+
+                    // IMPLEMENT A ADD FRIEND API
+                    NetworkManager.getInstance().makeAddFriendRequest(idTo, idFrom, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            if(data.contains("1") && data.contains("2")) {
+                                TBDApplication app = (TBDApplication)getApplication();
+                                app.getCurrentUser().addFriend(idFrom);
+                                showResultMessage("Request Approved");
+                            }
+                        }
+                    });
+
+                }
+            });
+        }
+    };
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener(){
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //String userID = friends.get(position).getUserID();
+            //String username = friends.get(position).getUsername();
+
+            //Intent i = new Intent(FriendsActivity.this, FriendsListsActivity.class);
+            //i.putExtra("userID", userID);
+            //i.putExtra("username", username);
+            //startActivity(i);
+        }
+    };
+
+    private void showResultMessage(String message) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     @Override

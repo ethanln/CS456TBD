@@ -1,5 +1,8 @@
 package com.tbd.appprototype;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,8 +12,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,15 +25,19 @@ import java.util.List;
 
 import adapter.AddFriendsAdapter;
 import adapter.FriendsAdapter;
+import model.FriendRequest;
 import model.User;
 import networking.NetworkManager;
+import networking.callback.GenericCallback;
 import networking.callback.UsersCallback;
 
 public class AddFriendActivity extends AppCompatActivity {
 
     private ArrayList<User> users;
+    private ArrayList<User> matchingUsers;
     private ListView searchResultsView;
     private Toast toast;
+    private AddFriendsAdapter addFriendsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
         public void afterTextChanged(Editable s) {
             String value = s.toString();
-            ArrayList<User> matchingUsers = new ArrayList<User>();
+            matchingUsers = new ArrayList<User>();
             TBDApplication app = (TBDApplication)getApplication();
             if(value.length() != 0) {
                 for (int i = 0; i < users.size(); i++) {
@@ -84,8 +93,8 @@ public class AddFriendActivity extends AppCompatActivity {
     };
 
     private void loadResults(ArrayList<User> results){
-        AddFriendsAdapter adapter = new AddFriendsAdapter(this, results, this.addClickListener);
-        searchResultsView.setAdapter(adapter);
+        this.addFriendsAdapter = new AddFriendsAdapter(this, results, this.addClickListener);
+        searchResultsView.setAdapter(addFriendsAdapter);
     }
 
     private void getUsers(){
@@ -106,10 +115,24 @@ public class AddFriendActivity extends AppCompatActivity {
 
     View.OnClickListener addClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            ViewGroup row = (ViewGroup)v.getParent();
-            TextView id = (TextView)row.findViewById(R.id.friend_id);
-            // IMPLEMENT THE ADD FRIEND REQUEST
-            showResultMessage("Friend Request Sent");
+
+            TBDApplication app = (TBDApplication)getApplication();
+            User user = app.getCurrentUser();
+
+            final ViewGroup row = (ViewGroup)v.getParent();
+            TextView friendId = (TextView)row.findViewById(R.id.friend_id);
+
+            FriendRequest friendRequest = new FriendRequest("", friendId.getText().toString(), user.getUserID(), user.getImageURL(), user.getUsername());
+
+            NetworkManager.getInstance().makeCreateFriendRequestRequest(friendRequest, new GenericCallback() {
+                @Override
+                public void callback() {
+                    Button btn = (Button)row.findViewById(R.id.add_friend_icon);
+                    btn.setText("Friend Request Sent");
+                    btn.setBackgroundColor(Color.GRAY);
+                    showResultMessage("Friend Request Sent");
+                }
+            });
         }
     };
 

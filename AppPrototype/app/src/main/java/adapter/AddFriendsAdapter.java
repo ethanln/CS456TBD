@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,9 +45,11 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         View row = inflater.inflate(R.layout.list_row_friends_add, parent, false);
 
         ImageView image = (ImageView)row.findViewById(R.id.friend_image);
-        ImageView addIcon = (ImageView)row.findViewById(R.id.add_friend_icon);
+        //ImageView addIcon = (ImageView)row.findViewById(R.id.add_friend_icon);
+        Button addBtn = (Button)row.findViewById(R.id.add_friend_icon);
         TextView name = (TextView)row.findViewById(R.id.friend_name);
         TextView id = (TextView)row.findViewById(R.id.friend_id);
+        TextView pos = (TextView)row.findViewById(R.id.friend_position_id);
 
         if(this.users.get(position).getImageURL().length() == 0){
             Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
@@ -61,16 +64,23 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         }
 
         // set onclick listener for the icon
-        Bitmap addIconImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_friend);
-        addIcon.setImageBitmap(addIconImg);
-        addIcon.setOnClickListener(this.listener);
+       // Bitmap addIconImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_friend);
+       // addIcon.setImageBitmap(addIconImg);
+       // addIcon.setOnClickListener(this.listener);
+        addBtn.setOnClickListener(this.listener);
 
         // set username
         name.setTextColor(Color.BLACK);
-        name.setText(this.users.get(position).getUsername());
+
+        String username = this.users.get(position).getUsername();
+        if(username.length() > 10){
+            username = username.substring(0, 9) + "...";
+        }
+        name.setText(username);
 
         // set user id
         id.setText(this.users.get(position).getUserID());
+        pos.setText(String.valueOf(position));
 
         return row;
     }

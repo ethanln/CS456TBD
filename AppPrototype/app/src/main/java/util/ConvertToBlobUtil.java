@@ -26,8 +26,14 @@ public class ConvertToBlobUtil {
 
     private static String _convertToBlob(Bitmap image, String extension, Context context){
 
-        Bitmap btmap = image == null ? BitmapFactory.decodeResource(context.getResources(), R.drawable.search_icon) : image;
+        // reduce quality of image (For the sake of space)
+        image = Bitmap.createScaledBitmap(image, image.getWidth() / 2, image.getHeight() / 2, true);
+
+        // get Image
+        Bitmap btmap = image == null ? BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon) : image;
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
+
+        // compress with extension
         switch(extension){
             case "png":
                 btmap.compress(Bitmap.CompressFormat.PNG, 100, boas ); //bm is the bitmap object
@@ -39,6 +45,7 @@ public class ConvertToBlobUtil {
                 return "";
         }
 
+        // convert image into binary
         byte[] byteArrayImage = boas.toByteArray();
         String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
         return encodedImage;

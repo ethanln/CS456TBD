@@ -434,18 +434,31 @@ public class NetworkManager {
         addNoDataAvailableListener(query, callback);
     }
 
-    public void makeAddFriendRequest(String friendID, final GenericCallback callback) {
+    public void makeAddFriendRequest(String userID, String friendID, final GenericCallback callback) {
         if (friendID.equals(application.getCurrentUserID())) {
             callback.error = new FirebaseError(-2, "Cannot add self as friend!");
             callback.callback();
             return;
         }
-        Firebase friendsRef = new Firebase(usersEndpoint + application.getCurrentUserID() + "/friendIDs");
-        final Firebase newFriend = friendsRef.child(friendID);
-        newFriend.setValue(friendID, new Firebase.CompletionListener() {
+
+        Firebase friendsRef = new Firebase(usersEndpoint + userID + "/friendIDs");
+        final Firebase addFriendRef = friendsRef.child(friendID);
+
+        addFriendRef.setValue(friendID, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.data = newFriend.getKey();
+                callback.data += "1";
+                callback.callback();
+            }
+        });
+
+        Firebase otherFriendRef = new Firebase(usersEndpoint + friendID + "/friendIDs");
+        final Firebase addForOtherFriend = otherFriendRef.child(userID);
+
+        addForOtherFriend.setValue(userID, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data += "2";
                 callback.callback();
             }
         });
@@ -1075,6 +1088,12 @@ public class NetworkManager {
                     if (listData.getKey().equals("from")) {
                         friendRequest.setFrom(listData.getValue().toString());
                     }
+                    if (listData.getKey().equals("fromImage")) {
+                        friendRequest.setFromImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        friendRequest.setFromName(listData.getValue().toString());
+                    }
                 }
 
                 if(friendRequest.validate()) {
@@ -1094,6 +1113,11 @@ public class NetworkManager {
 
         if (friendRequest.getFrom().equals("")) {
             callback.error = new FirebaseError(-2, "No From Given in ItemRequest");
+            callback.callback();
+            return;
+        }
+        if (friendRequest.getFromName().equals("")) {
+            callback.error = new FirebaseError(-2, "No From Name is Given in ItemRequest");
             callback.callback();
             return;
         }

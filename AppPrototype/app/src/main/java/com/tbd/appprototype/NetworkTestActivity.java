@@ -246,7 +246,7 @@ public class NetworkTestActivity extends ListActivity{
             @Override
             public void executeTest() {
                 String testFriendID = "TestFriendID" + new Date().getTime();
-                network.makeAddFriendRequest(testFriendID, new GenericCallback() {
+                network.makeAddFriendRequest(application.getCurrentUserID(), testFriendID, new GenericCallback() {
                     @Override
                     public void callback() {
                         showNetworkTestCompleteToast("Friend Created: " + data);
