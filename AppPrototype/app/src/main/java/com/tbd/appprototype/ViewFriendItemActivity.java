@@ -23,6 +23,7 @@ import networking.callback.GenericCallback;
 import networking.callback.ItemCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
+import util.UIMessageUtil;
 
 public class ViewFriendItemActivity extends AppCompatActivity {
 
@@ -38,8 +39,6 @@ public class ViewFriendItemActivity extends AppCompatActivity {
 
     private Button requestButton;
     private boolean isRequestAlreadySent;
-
-    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +104,7 @@ public class ViewFriendItemActivity extends AppCompatActivity {
 
     public void requestItem(View view){
         if(isRequestAlreadySent){
-            showResultMessage("Request Already Sent");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Request Already Sent");
             return;
         }
         if(currentItem == null){
@@ -122,24 +121,15 @@ public class ViewFriendItemActivity extends AppCompatActivity {
         itemRequest.setFromName(app.getCurrentUser().getUsername());
         itemRequest.setTo(friendID);
 
-        NetworkManager.getInstance().makeCreateItemRequestRequest(itemRequest, new GenericCallback(){
+        NetworkManager.getInstance().makeCreateItemRequestRequest(itemRequest, new GenericCallback() {
             @Override
             public void callback() {
                 requestButton.setText("Request Sent");
                 requestButton.setBackgroundColor(Color.GRAY);
                 isRequestAlreadySent = true;
-                showResultMessage("Request Sent");
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Request Sent");
             }
 
         });
     }
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
 }

@@ -30,13 +30,14 @@ import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UsersCallback;
+import util.UIMessageUtil;
 
 public class AddFriendActivity extends AppCompatActivity {
 
     private ArrayList<User> users;
     private ArrayList<User> matchingUsers;
     private ListView searchResultsView;
-    private Toast toast;
+
     private AddFriendsAdapter addFriendsAdapter;
 
     @Override
@@ -60,9 +61,11 @@ public class AddFriendActivity extends AppCompatActivity {
         this.searchResultsView = (ListView)findViewById(R.id.search_results);
         this.users = new ArrayList<User>();
 
+        // get all users
         getUsers();
         EditText searchBar = (EditText) findViewById(R.id.search_bar);
 
+        // add text watcher
         searchBar.addTextChangedListener(this.textWatcher);
 
     }
@@ -130,17 +133,9 @@ public class AddFriendActivity extends AppCompatActivity {
                     Button btn = (Button)row.findViewById(R.id.add_friend_icon);
                     btn.setText("Friend Request Sent");
                     btn.setBackgroundColor(Color.GRAY);
-                    showResultMessage("Friend Request Sent");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Friend Request Sent");
                 }
             });
         }
     };
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
 }

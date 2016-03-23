@@ -21,12 +21,13 @@ import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
+import util.SquareImageUtil;
+import util.UIMessageUtil;
 
 public class EditItemActivity extends AppCompatActivity {
 
     private String itemID;
     private String listID;
-    private Toast toast;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final int PIC_CROP = 2;
@@ -100,7 +101,7 @@ public class EditItemActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeUpdateItemRequest(updatedItem, new GenericCallback() {
             @Override
             public void callback() {
-                showResultMessage("Item Succesfully Edited");
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Item Succesfully Edited");
                 onBackPressed();
             }
         });
@@ -121,26 +122,7 @@ public class EditItemActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
-                            0,
-                            imageBitmap.getHeight(),
-                            imageBitmap.getHeight()
-                    );
-
-                }else{
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            0,
-                            imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
-                            imageBitmap.getWidth(),
-                            imageBitmap.getWidth()
-                    );
-                }
+                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
 
                 this.encodedString = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
@@ -150,14 +132,4 @@ public class EditItemActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
 }

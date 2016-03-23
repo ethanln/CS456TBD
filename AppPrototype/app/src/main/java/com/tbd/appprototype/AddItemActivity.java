@@ -19,10 +19,11 @@ import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
+import util.SquareImageUtil;
+import util.UIMessageUtil;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    private Toast toast;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final int PIC_CROP = 2;
 
@@ -58,7 +59,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void onSubmit(View view){
 
         if(this.isLoading){
-            showResultMessage("Item is being added...");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Item is being added...");
             return;
         }
 
@@ -67,7 +68,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         // if user is not logged in
         if(app.getCurrentUser() == null){
-            showResultMessage("No User Logged In");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "No User Logged In");
             return;
         }
 
@@ -83,11 +84,11 @@ public class AddItemActivity extends AppCompatActivity {
         String image = this.newImageBinary;
 
         if(name.length() == 0) {
-            showResultMessage("Please provide name");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Please provide name");
             return;
         }
         if(description.length() == 0){
-            showResultMessage("Please provide description");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Please provide description");
             return;
         }
 
@@ -98,7 +99,7 @@ public class AddItemActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeCreateItemRequest(item, new GenericCallback() {
             @Override
             public void callback() {
-                showResultMessage("Item Added");
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Item Added");
                 // isLoading state set to false.
                 isLoading = false;
                 switchIntent();
@@ -127,26 +128,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
-                            0,
-                            imageBitmap.getHeight(),
-                            imageBitmap.getHeight()
-                    );
-
-                }else{
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            0,
-                            imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
-                            imageBitmap.getWidth(),
-                            imageBitmap.getWidth()
-                    );
-                }
+                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
 
                 this.newImageBinary = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
@@ -155,40 +137,5 @@ public class AddItemActivity extends AppCompatActivity {
                 imageLoader.loadImage(this.newImageBinary, image, 0);
             }
         }
-    }
-
-    private void performCrop(Uri picUri){
-        try {
-            //call the standard crop action intent (the user device may not support it)
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            //indicate image type and Uri
-            cropIntent.setDataAndType(picUri, "image/*");
-            //set crop properties
-            cropIntent.putExtra("crop", "true");
-            //indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            //indicate output X and Y
-            cropIntent.putExtra("outputX", 256);
-            cropIntent.putExtra("outputY", 256);
-            //retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            //start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, PIC_CROP);
-        }
-        catch(ActivityNotFoundException anfe){
-            //display an error message
-            String errorMessage = "Whoops - your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
     }
 }

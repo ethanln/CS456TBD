@@ -25,13 +25,13 @@ import networking.NetworkManager;
 import networking.callback.FriendRequestCallBack;
 import networking.callback.GenericCallback;
 import networking.callback.ItemRequestCallBack;
+import util.UIMessageUtil;
 
 public class FriendRequestsActivity extends AppCompatActivity {
 
     private ArrayList<FriendRequest> friendRequests;
     private ListView listView;
     private FriendRequestAdapter friendRequestAdapter;
-    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
                 @Override
                 public void callback() {
                     friendRequestAdapter.remove(Integer.parseInt(pos));
-                    showResultMessage("Request Declined");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Declined");
                 }
             });
         }
@@ -122,7 +122,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
                             if(data.contains("1") && data.contains("2")) {
                                 TBDApplication app = (TBDApplication)getApplication();
                                 app.getCurrentUser().addFriend(idFrom);
-                                showResultMessage("Request Approved");
+                                UIMessageUtil.showResultMessage(getApplicationContext(), "Request Approved");
                             }
                         }
                     });
@@ -145,14 +145,6 @@ public class FriendRequestsActivity extends AppCompatActivity {
             //startActivity(i);
         }
     };
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

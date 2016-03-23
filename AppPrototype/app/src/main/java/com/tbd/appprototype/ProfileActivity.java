@@ -26,10 +26,11 @@ import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
+import util.SquareImageUtil;
+import util.UIMessageUtil;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private Toast toast;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final int PIC_CROP = 2;
 
@@ -62,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(app.getCurrentUser() == null){
             // go back to login if no user is available.
-            showResultMessage("User no longer logged in");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "User no longer logged in");
             this.switchIntent();
         }
         // set profile name
@@ -106,26 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
-                            0,
-                            imageBitmap.getHeight(),
-                            imageBitmap.getHeight()
-                    );
-
-                }else{
-
-                    imageBitmap = Bitmap.createBitmap(
-                            imageBitmap,
-                            0,
-                            imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
-                            imageBitmap.getWidth(),
-                            imageBitmap.getWidth()
-                    );
-                }
+                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
 
                 String encodedImage = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
@@ -140,21 +122,11 @@ public class ProfileActivity extends AppCompatActivity {
                 NetworkManager.getInstance().makeUpdateUserRequest(user, new GenericCallback() {
                     @Override
                     public void callback() {
-                        showResultMessage("Profile picture changed");
+                        UIMessageUtil.showResultMessage(getApplicationContext(), "Profile picture changed");
                     }
                 });
             }
         }
-    }
-
-
-    // display result message
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
     }
 
     @Override

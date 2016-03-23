@@ -12,10 +12,9 @@ import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UserCallback;
+import util.UIMessageUtil;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +40,11 @@ public class LoginActivity extends AppCompatActivity {
                 User user = app.getCurrentUser();
                 if (user != null) {
                     // if User login succeeds
-                    showResultMessage("User Logged In");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "User Logged In");
                     switchIntent();
                 } else {
                     // if User login faisl
-                    showResultMessage("Invalid Username / Password");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Invalid Username / Password");
                 }
             }
         });
@@ -57,18 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     private void switchIntent(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * display result message of any action
-     * @param message
-     */
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
     }
 
     public void goToNetworkTests(View view) {

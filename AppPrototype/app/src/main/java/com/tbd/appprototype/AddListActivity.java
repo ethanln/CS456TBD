@@ -15,10 +15,10 @@ import java.security.GeneralSecurityException;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.UIMessageUtil;
 
 public class AddListActivity extends AppCompatActivity {
 
-    private Toast toast;
     private boolean isLoading;
 
     @Override
@@ -44,7 +44,7 @@ public class AddListActivity extends AppCompatActivity {
     public void onSubmit(View view){
 
         if(this.isLoading){
-            showResultMessage("List is being added...");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "List is being added...");
             return;
         }
 
@@ -55,7 +55,7 @@ public class AddListActivity extends AppCompatActivity {
 
         // if user is not logged in
         if(app.getCurrentUser() == null){
-            showResultMessage("No User Logged In");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "No User Logged In");
             return;
         }
 
@@ -74,7 +74,7 @@ public class AddListActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeCreateListRequest(newList, new GenericCallback() {
             @Override
             public void callback() {
-                showResultMessage("List Added");
+                UIMessageUtil.showResultMessage(getApplicationContext(), "List Added");
                 // set isLoading state to false after finishing the add.
                 isLoading = false;
                 switchIntent();
@@ -85,13 +85,4 @@ public class AddListActivity extends AppCompatActivity {
     private void switchIntent(){
         onBackPressed();
     }
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
 }

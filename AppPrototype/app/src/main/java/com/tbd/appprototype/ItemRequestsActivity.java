@@ -25,13 +25,13 @@ import model.ItemRequest;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.ItemRequestCallBack;
+import util.UIMessageUtil;
 
 public class ItemRequestsActivity extends AppCompatActivity {
 
     private ArrayList<ItemRequest> itemRequests;
     private ListView listView;
     private ItemRequestAdapter itemRequestAdapter;
-    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class ItemRequestsActivity extends AppCompatActivity {
                 @Override
                 public void callback() {
                     itemRequestAdapter.remove(Integer.parseInt(pos));
-                    showResultMessage("Request Declined");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Declined");
                 }
             });
         }
@@ -111,7 +111,7 @@ public class ItemRequestsActivity extends AppCompatActivity {
                 @Override
                 public void callback() {
                     itemRequestAdapter.remove(Integer.parseInt(pos));
-                    showResultMessage("Request Approved");
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Approved");
                 }
             });
         }
@@ -130,14 +130,6 @@ public class ItemRequestsActivity extends AppCompatActivity {
             //startActivity(i);
         }
     };
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

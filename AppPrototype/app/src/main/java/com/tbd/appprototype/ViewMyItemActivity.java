@@ -22,6 +22,7 @@ import networking.callback.ItemCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
+import util.UIMessageUtil;
 
 public class ViewMyItemActivity extends AppCompatActivity {
 
@@ -34,9 +35,6 @@ public class ViewMyItemActivity extends AppCompatActivity {
     private ImageView itemImage;
     private TextView itemTitleView;
     private TextView itemDescriptionView;
-
-    private Toast toast;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +98,7 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
     public void editItem(View view){
         if(currentItem == null){
-            showResultMessage("Still loading information...");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Still loading information...");
             return;
         }
 
@@ -115,24 +113,15 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
     public void removeItem(View view){
         if(currentItem == null){
-            showResultMessage("Still loading information...");
+            UIMessageUtil.showResultMessage(getApplicationContext(), "Still loading information...");
             return;
         }
         NetworkManager.getInstance().makeDeleteItemRequest(itemID, new GenericCallback() {
             @Override
             public void callback() {
-                showResultMessage("Item Removed");
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Item Removed");
                 onBackPressed();
             }
         });
     }
-
-    private void showResultMessage(String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
 }

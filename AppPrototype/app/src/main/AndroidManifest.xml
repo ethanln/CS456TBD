@@ -89,14 +89,6 @@
             android:label="@string/title_activity_send_message"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".MyListsActivity"
-            android:label="@string/title_activity_my_lists"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".NotificationActivity"
-            android:label="@string/title_activity_notification"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
             android:name=".FriendRequestsActivity"
             android:label="@string/title_activity_friend_requests"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
