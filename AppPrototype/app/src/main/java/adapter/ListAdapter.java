@@ -32,11 +32,14 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
     private final static String bookIcon = "http://simpleicon.com/wp-content/uploads/book-1.png";
     private final static String boardgameIcon = "https://cdn2.iconfinder.com/data/icons/app-icons-2/100/icon_66244-512.png";
 
+    private boolean owner;
 
-    public ListAdapter(Context c, ArrayList<InventoryList> lists){
+
+    public ListAdapter(Context c, ArrayList<InventoryList> lists, boolean owner){
         super(c,  R.layout.list_row_list, R.id.list_name, lists);
         this.context = c;
         this.listsList = lists;
+        this.owner = owner;
     }
 
     @Override
@@ -78,6 +81,14 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         name.setText(this.listsList.get(position).getTitle());
 
         description.setText(this.listsList.get(position).getType());
+
+
+        if(!owner){
+            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_list_icon);
+            ImageView delete_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
+            edit_icon.setVisibility(View.GONE);
+            delete_icon.setVisibility(View.GONE);
+        }
 
         return row;
     }

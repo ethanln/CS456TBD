@@ -73,7 +73,7 @@ public class FriendsListsActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetListsForUserRequest(userID, this.lists, new GenericCallback() {
             @Override
             public void callback() {
-                listAdapter = new ListAdapter(activity, lists);
+                listAdapter = new ListAdapter(activity, lists, false);
                 listView.setAdapter(listAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }

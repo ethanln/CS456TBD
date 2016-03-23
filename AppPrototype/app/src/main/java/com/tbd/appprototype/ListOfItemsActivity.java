@@ -91,7 +91,12 @@ public class ListOfItemsActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetItemsRequest(this.listID, this.items, new GenericCallback() {
             @Override
             public void callback() {
-                itemAdapter = new ItemsAdapter(activity, items);
+                if(owner.equals("self")) {
+                    itemAdapter = new ItemsAdapter(activity, items, true);
+                }
+                else{
+                    itemAdapter = new ItemsAdapter(activity, items, false);
+                }
                 listView.setAdapter(itemAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }

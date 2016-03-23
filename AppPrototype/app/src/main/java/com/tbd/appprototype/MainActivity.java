@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetListsRequest(this.lists, new GenericCallback() {
             @Override
             public void callback() {
-                listAdapter = new ListAdapter(activity, lists);
+                listAdapter = new ListAdapter(activity, lists, true);
                 listView.setAdapter(listAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }

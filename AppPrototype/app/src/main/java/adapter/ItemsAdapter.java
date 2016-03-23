@@ -28,11 +28,13 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
 
     private Context context;
     private ArrayList<InventoryItem> itemsList;
+    private boolean owner;
 
-    public ItemsAdapter(Context c, ArrayList<InventoryItem> items){
+    public ItemsAdapter(Context c, ArrayList<InventoryItem> items, boolean owner){
         super(c,  R.layout.list_row_items, R.id.item_name, items);
         this.context = c;
         this.itemsList = items;
+        this.owner = owner;
     }
 
     @Override
@@ -60,6 +62,13 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
 
         description.setText(this.itemsList.get(position).getDescription());
 
+
+        if(!owner){
+            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_item_icon);
+            ImageView delete_icon = (ImageView)row.findViewById(R.id.delete_item_icon);
+            edit_icon.setVisibility(View.GONE);
+            delete_icon.setVisibility(View.GONE);
+        }
         return row;
     }
 }
