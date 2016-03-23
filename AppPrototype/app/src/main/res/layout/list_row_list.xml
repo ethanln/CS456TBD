@@ -45,4 +45,20 @@
             </TextView>
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right|center">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/edit_icon"
+            android:layout_marginRight="16dp"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/trash_icon"
+            android:layout_marginRight="16dp"/>
+    </LinearLayout>
 </FrameLayout>
