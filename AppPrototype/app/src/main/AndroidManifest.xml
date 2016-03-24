@@ -95,6 +95,10 @@
         <activity
             android:name=".ItemRequestsActivity"
             android:label="@string/title_activity_item_requests"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
