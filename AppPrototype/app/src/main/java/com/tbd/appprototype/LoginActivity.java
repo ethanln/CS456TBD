@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                     UIMessageUtil.showResultMessage(getApplicationContext(), "User Logged In");
                     switchIntent();
                 } else {
-                    // if User login faisl
+                    // if User login fails
                     UIMessageUtil.showResultMessage(getApplicationContext(), "Invalid Username / Password");
                 }
             }

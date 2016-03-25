@@ -18,7 +18,9 @@ import java.util.HashMap;
 import adapter.FriendsAdapter;
 import model.User;
 import networking.NetworkManager;
+import networking.callback.GenericCallback;
 import networking.callback.UsersCallback;
+import util.UIMessageUtil;
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -139,9 +141,13 @@ public class FriendsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
-            TBDApplication app = (TBDApplication)getApplication();
-            app.setCurrentUser(null);
-            startActivity(new Intent(FriendsActivity.this, LoginActivity.class));
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    startActivity(new Intent(FriendsActivity.this, LoginActivity.class));
+                }
+            });
         }
         return false;
     }

@@ -26,6 +26,7 @@ import model.InventoryItem;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.UIMessageUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,9 +101,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
-            TBDApplication app = (TBDApplication)getApplication();
-            app.setCurrentUser(null);
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            });
         }
         return false;
     }

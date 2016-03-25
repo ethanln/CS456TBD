@@ -177,9 +177,13 @@ public class FriendRequestsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
-            TBDApplication app = (TBDApplication)getApplication();
-            app.setCurrentUser(null);
-            startActivity(new Intent(FriendRequestsActivity.this, LoginActivity.class));
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    startActivity(new Intent(FriendRequestsActivity.this, LoginActivity.class));
+                }
+            });
         }
         return false;
     }

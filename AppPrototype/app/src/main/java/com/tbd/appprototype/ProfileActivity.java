@@ -160,9 +160,13 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
-            TBDApplication app = (TBDApplication)getApplication();
-            app.setCurrentUser(null);
-            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                }
+            });
         }
         return false;
     }

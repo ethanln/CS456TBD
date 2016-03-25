@@ -22,6 +22,7 @@ import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UserCallback;
+import util.UIMessageUtil;
 
 public class FriendsListsActivity extends AppCompatActivity {
 
@@ -134,9 +135,13 @@ public class FriendsListsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
-            TBDApplication app = (TBDApplication)getApplication();
-            app.setCurrentUser(null);
-            startActivity(new Intent(FriendsListsActivity.this, LoginActivity.class));
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    startActivity(new Intent(FriendsListsActivity.this, LoginActivity.class));
+                }
+            });
         }
         return false;
     }
