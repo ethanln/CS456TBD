@@ -101,14 +101,13 @@
             android:label="@string/title_activity_search"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-<<<<<<< HEAD
             android:name=".EditListActivity"
             android:label="@string/title_activity_edit_list"
-=======
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
             android:name=".CreateUserActivity"
             android:label="@string/title_activity_create_user"
->>>>>>> 58be79efbaa631987f52c3563dfc2298ac2c9edb
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>
