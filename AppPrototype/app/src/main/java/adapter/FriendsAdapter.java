@@ -27,11 +27,13 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
     private Context context;
     private ArrayList<User> users;
+    private View.OnClickListener removeListener;
 
-    public FriendsAdapter(Context c, ArrayList<User> users){
+    public FriendsAdapter(Context c, ArrayList<User> users, View.OnClickListener removeListener){
         super(c,  R.layout.list_row_friends, R.id.friend_name, users);
         this.context = c;
         this.users = users;
+        this.removeListener = removeListener;
     }
 
     @Override
@@ -40,7 +42,9 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         View row = inflater.inflate(R.layout.list_row_friends, parent, false);
 
         ImageView image = (ImageView)row.findViewById(R.id.friend_image);
+        ImageView removeIcon = (ImageView)row.findViewById(R.id.delete_friend_icon);
         TextView name = (TextView)row.findViewById(R.id.friend_name);
+        TextView pos = (TextView)row.findViewById(R.id.friend_pos);
 
         if(this.users.get(position).getImageURL().length() == 0){
             Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
@@ -55,6 +59,8 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
         name.setTextColor(Color.BLACK);
         name.setText(this.users.get(position).getUsername());
+        removeIcon.setOnClickListener(this.removeListener);
+        pos.setText(String.valueOf(position));
 
         return row;
     }

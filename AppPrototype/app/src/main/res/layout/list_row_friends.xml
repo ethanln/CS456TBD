@@ -28,4 +28,23 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right|center">
+        <ImageView
+            android:id="@+id/delete_friend_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/remove_icon"
+            android:layout_marginRight="16dp"/>
+
+        <TextView
+            android:id="@+id/friend_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
 </FrameLayout>

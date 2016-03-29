@@ -215,6 +215,10 @@ public class NetworkManager {
      * @param callback
      */
     public void makeGetUsersAsListWithIdsRequest(final HashMap<String, Object> ids, final UsersCallback callback) {
+        if(ids.size() == 0){
+            callback.setUsers(new ArrayList<User>());
+            callback.callback();
+        }
         Firebase userRef = new Firebase(usersEndpoint);
         Query query = userRef.orderByChild("username");
         query.addChildEventListener(new RetrieveDataListener() {
@@ -459,6 +463,37 @@ public class NetworkManager {
         final Firebase addForOtherFriend = otherFriendRef.child(userID);
 
         addForOtherFriend.setValue(userID, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data += "2";
+                callback.callback();
+            }
+        });
+
+    }
+
+    public void makeDeleteFriendRequest(String userID, String friendID, final GenericCallback callback) {
+        if (friendID.equals(application.getCurrentUserID())) {
+            callback.error = new FirebaseError(-2, "Cannot add self as friend!");
+            callback.callback();
+            return;
+        }
+
+        Firebase friendsRef = new Firebase(usersEndpoint + userID + "/friendIDs/" + friendID);
+        //final Firebase removeFriendRef = friendsRef.child(friendID).getRef();
+
+        friendsRef.removeValue(new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.data += "1";
+                callback.callback();
+            }
+        });
+
+        Firebase otherFriendRef = new Firebase(usersEndpoint + friendID + "/friendIDs/" + userID);
+        //final Firebase removeForOtherFriend = otherFriendRef.child(userID).getRef();
+
+        otherFriendRef.removeValue(new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 callback.data += "2";

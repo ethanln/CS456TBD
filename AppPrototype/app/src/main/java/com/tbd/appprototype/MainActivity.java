@@ -225,23 +225,23 @@ public class MainActivity extends AppCompatActivity {
      * go to personal profile
      * @param view
      */
-    public void goToProfile(View view){
+   /* public void goToProfile(View view){
         startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-    }
+    }*/
 
     /**
      * go to friends list
      * @param view
      */
-    public void goToFriends(View view){
+    /*public void goToFriends(View view){
         startActivity(new Intent(MainActivity.this, FriendsActivity.class));
-    }
+    }*/
 
     /**
      * go to profile settings
      * @param view
      */
-    public void goToSettings(View view){
+    /*public void goToSettings(View view){
 
-    }
+    }*/
 }

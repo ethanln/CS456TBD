@@ -1,5 +1,7 @@
 package com.tbd.appprototype;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,8 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +24,7 @@ import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UsersCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class FriendsActivity extends AppCompatActivity {
@@ -28,6 +33,8 @@ public class FriendsActivity extends AppCompatActivity {
     private ArrayList<User> friends;
 
     private ListView listView;
+
+    private String currentFriendId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,9 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
 
+        this.currentFriendId = "";
+
         //set up the list view
-        this.friends = new ArrayList<User>();
         this.setUpList(this);
     }
 
@@ -64,6 +72,8 @@ public class FriendsActivity extends AppCompatActivity {
      * update the list view
      */
     private void setUpList(final FriendsActivity activity){
+        // initialize friends list.
+        this.friends = new ArrayList<User>();
 
         // get friend ids
         TBDApplication app = (TBDApplication)getApplication();
@@ -81,7 +91,7 @@ public class FriendsActivity extends AppCompatActivity {
 
                 // add friends to list view
                 listView = (ListView) findViewById(R.id.friends);
-                userAdapter = new FriendsAdapter(activity, friends);
+                userAdapter = new FriendsAdapter(activity, friends, listenerRemove);
                 listView.setAdapter(userAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }
@@ -105,6 +115,58 @@ public class FriendsActivity extends AppCompatActivity {
             startActivity(i);
         }
     };
+
+
+    private View.OnClickListener listenerRemove = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+
+            ViewGroup row = (ViewGroup)v.getParent();
+            TextView pos = (TextView) row.findViewById(R.id.friend_pos);
+            int position = Integer.parseInt(pos.getText().toString());
+            currentFriendId = friends.get(position).getUserID();
+
+            // create dialog box
+            AlertDialog.Builder builder = new AlertDialog.Builder(FriendsActivity.this);
+            builder.setMessage("Are you sure you want to remove " + friends.get(position).getUsername() + " from your friends?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+    };
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    LoadingScreenUtil.start(FriendsActivity.this, "Removing Friend");
+                    TBDApplication app = (TBDApplication)getApplication();
+                    NetworkManager.getInstance().makeDeleteFriendRequest(app.getCurrentUserID(), currentFriendId, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            if (data.contains("1") && data.contains("2")) {
+                                TBDApplication app = (TBDApplication) getApplication();
+                                app.getCurrentUser().removeFriend(currentFriendId);
+
+                                setUpList(FriendsActivity.this);
+                                LoadingScreenUtil.setEndMessage(getApplicationContext(), "Friend Removed");
+                                //UIMessageUtil.showResultMessage(getApplicationContext(), "Request Approved");
+                                LoadingScreenUtil.end();
+
+                                currentFriendId = "";
+                            }
+                        }
+                    });
+
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    currentFriendId = "";
+                    break;
+            }
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
