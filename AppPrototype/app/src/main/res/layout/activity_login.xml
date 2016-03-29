@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
 
@@ -55,7 +55,7 @@
                 android:textColorHint="@color/placeholderColor"
                 android:textAlignment="center"
 
-                android:hint="@string/email_address"/>
+                android:hint="username"/>
 
             <EditText
                 android:id="@+id/password"
@@ -65,7 +65,7 @@
                 android:paddingLeft="7dp"
                 android:paddingRight="7dp"
                 android:background="@color/white"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:textColor="@color/black"
                 android:textColorHint="@color/placeholderColor"
                 android:textAlignment="center"
@@ -86,10 +86,11 @@
                 />
 
             <!-- Facebook Login Options -->
+
             <Button
                 android:layout_width="240dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="30dp"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/facebook"
@@ -113,6 +114,19 @@
                 android:textColor="@color/white"
                 android:onClick="goToNetworkTests"
                 />
+
+            <Button
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/NewUserButtonText"
+                android:textAlignment="center"
+                android:background="#c3d8de"
+                android:textColor="@color/loginButtonText"
+                android:onClick="goToCreateUser"
+                android:id="@+id/button" />
 
 
         </LinearLayout>
