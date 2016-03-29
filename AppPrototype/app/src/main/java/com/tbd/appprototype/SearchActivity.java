@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
     };
 
     private void loadResults(ArrayList<InventoryItem> results){
-        this.itemsAdapter = new ItemsAdapter(this, results, false);
+        this.itemsAdapter = new ItemsAdapter(this, results, false, null, null);
         searchResultsView.setAdapter(itemsAdapter);
         searchResultsView.setOnItemClickListener(onItemClickListener);
     }
@@ -126,8 +126,10 @@ public class SearchActivity extends AppCompatActivity {
                 NetworkManager.getInstance().makeGetItemsRequest(listIDs.get(listIDs.size() - 1).getListID(), result, new GenericCallback() {
                     @Override
                     public void callback() {
-                        friendsItems.add(result.get(result.size() - 1));
-                        areItemsLoaded = true;
+                        if(result.size() > 0) {
+                            friendsItems.add(result.get(result.size() - 1));
+                            areItemsLoaded = true;
+                        }
                     }
                 });
             }

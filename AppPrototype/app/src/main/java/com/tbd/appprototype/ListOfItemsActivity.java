@@ -1,5 +1,7 @@
 package com.tbd.appprototype;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,15 +10,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import adapter.ItemsAdapter;
 import model.InventoryItem;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class ListOfItemsActivity extends AppCompatActivity {
@@ -26,6 +32,8 @@ public class ListOfItemsActivity extends AppCompatActivity {
     private ListView listView;
     private ItemsAdapter itemAdapter;
     private String owner;
+
+    private String currentItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +80,8 @@ public class ListOfItemsActivity extends AppCompatActivity {
             fab.hide();
         }
 
+        this.currentItemId = "";
+
         // get prop data
         this.listID = intent.getExtras().getString("listID");
         this.owner = intent.getExtras().getString("owner");
@@ -93,10 +103,10 @@ public class ListOfItemsActivity extends AppCompatActivity {
             @Override
             public void callback() {
                 if(owner.equals("self")) {
-                    itemAdapter = new ItemsAdapter(activity, items, true);
+                    itemAdapter = new ItemsAdapter(activity, items, true, listenerEdit, listenerRemove);
                 }
                 else{
-                    itemAdapter = new ItemsAdapter(activity, items, false);
+                    itemAdapter = new ItemsAdapter(activity, items, false, listenerEdit, listenerRemove);
                 }
                 listView.setAdapter(itemAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
@@ -133,6 +143,70 @@ public class ListOfItemsActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener listenerEdit = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            ViewGroup row = (ViewGroup)v.getParent();
+            TextView pos = (TextView) row.findViewById(R.id.item_pos);
+            int position = Integer.parseInt(pos.getText().toString());
+            currentItemId = items.get(position).getListID();
+
+            InventoryItem item = items.get(position);
+            Intent i = new Intent(ListOfItemsActivity.this, EditItemActivity.class);
+            i.putExtra("itemID", item.getItemID());
+            i.putExtra("listID", item.getListID());
+            i.putExtra("imageURL", item.getImageURL());
+            i.putExtra("title", item.getTitle());
+            i.putExtra("description", item.getDescription());
+
+            startActivity(i);
+        }
+    };
+
+
+    private View.OnClickListener listenerRemove = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+
+            ViewGroup row = (ViewGroup)v.getParent();
+            TextView pos = (TextView) row.findViewById(R.id.item_pos);
+            int position = Integer.parseInt(pos.getText().toString());
+            currentItemId = items.get(position).getItemID();
+
+            // create dialog box
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListOfItemsActivity.this);
+            builder.setMessage("Are you sure you want to remove " + items.get(position).getTitle() + "?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+    };
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    LoadingScreenUtil.start(ListOfItemsActivity.this, "Removing Item");
+
+                    NetworkManager.getInstance().makeDeleteItemRequest(currentItemId, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            currentItemId = "";
+                            LoadingScreenUtil.setEndMessage(ListOfItemsActivity.this, "Item Removed");
+                            LoadingScreenUtil.end();
+                        }
+                    });
+
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    currentItemId = "";
+                    break;
+            }
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -164,11 +238,13 @@ public class ListOfItemsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
+            LoadingScreenUtil.start(ListOfItemsActivity.this, "Logging out...");
             NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
                 @Override
                 public void callback() {
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Logged out");
                     startActivity(new Intent(ListOfItemsActivity.this, LoginActivity.class));
+                    LoadingScreenUtil.end();
                 }
             });
         }

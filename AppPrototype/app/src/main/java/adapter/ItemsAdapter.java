@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.tbd.appprototype.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import model.InventoryItem;
@@ -30,11 +32,17 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
     private ArrayList<InventoryItem> itemsList;
     private boolean owner;
 
-    public ItemsAdapter(Context c, ArrayList<InventoryItem> items, boolean owner){
+    private View.OnClickListener editItemListener;
+    private View.OnClickListener removeItemListener;
+
+    public ItemsAdapter(Context c, ArrayList<InventoryItem> items, boolean owner, View.OnClickListener editItemListener, View.OnClickListener removeItemListener){
         super(c,  R.layout.list_row_items, R.id.item_name, items);
         this.context = c;
         this.itemsList = items;
         this.owner = owner;
+
+        this.editItemListener = editItemListener;
+        this.removeItemListener = removeItemListener;
     }
 
     @Override
@@ -45,6 +53,7 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
         ImageView image = (ImageView)row.findViewById(R.id.item_image);
         TextView name = (TextView)row.findViewById(R.id.item_name);
         TextView description = (TextView)row.findViewById(R.id.item_description);
+        TextView pos = (TextView)row.findViewById(R.id.item_pos);
 
         if(this.itemsList.get(position).getImageURL().length() == 0){
             Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image_icon);
@@ -69,6 +78,18 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
             edit_icon.setVisibility(View.GONE);
             delete_icon.setVisibility(View.GONE);
         }
+        else{
+            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_item_icon);
+            ImageView delete_icon = (ImageView)row.findViewById(R.id.delete_item_icon);
+            if(this.editItemListener != null &&
+                    this.removeItemListener != null){
+                edit_icon.setOnClickListener(this.editItemListener);
+                delete_icon.setOnClickListener(this.removeItemListener);
+            }
+
+        }
+
+        pos.setText(String.valueOf(position));
         return row;
     }
 }

@@ -62,5 +62,11 @@
             android:layout_height="24dp"
             android:background="@drawable/trash_icon"
             android:layout_marginRight="16dp"/>
+
+        <TextView
+            android:id="@+id/item_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 </FrameLayout>
