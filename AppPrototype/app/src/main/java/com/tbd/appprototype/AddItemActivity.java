@@ -1,9 +1,7 @@
 package com.tbd.appprototype;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import model.InventoryItem;
-import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
-import util.SquareImageUtil;
+import util.CustomImageUtil;
 import util.UIMessageUtil;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -128,7 +124,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
+                imageBitmap = CustomImageUtil.squareImage(imageBitmap);
 
                 this.newImageBinary = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 

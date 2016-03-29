@@ -38,7 +38,7 @@ tools:showIn="@layout/activity_edit_list">
                 android:textColor="@color/black"/>
 
             <EditText
-                android:id="@+id/item_title_textbox"
+                android:id="@+id/list_title_textbox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
@@ -62,7 +62,7 @@ tools:showIn="@layout/activity_edit_list">
                 android:textColor="@color/black"/>
 
             <Spinner
-                android:id="@+id/categoryItems"
+                android:id="@+id/category_list_items"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
@@ -72,10 +72,31 @@ tools:showIn="@layout/activity_edit_list">
                 app:theme="@style/Theme.AppCompat.Light"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_submit_list_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:background="@color/dark_blue"
+                android:text="@string/submit_button"
+                android:layout_marginTop="16dp"
+                android:onClick="onSubmit"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25" />
+
+        </LinearLayout>
         <ImageView
             android:id="@+id/prev_image_edit"
-            android:layout_width="244dp"
-            android:layout_height="244dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_marginTop="30dp"
             android:layout_gravity="center_horizontal"/>
 

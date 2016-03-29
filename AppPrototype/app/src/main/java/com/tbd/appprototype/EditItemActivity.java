@@ -1,27 +1,22 @@
 package com.tbd.appprototype;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import model.InventoryItem;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
-import util.SquareImageUtil;
+import util.CustomImageUtil;
 import util.UIMessageUtil;
 
 public class EditItemActivity extends AppCompatActivity {
@@ -122,7 +117,7 @@ public class EditItemActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
+                imageBitmap = CustomImageUtil.squareImage(imageBitmap);
 
                 this.encodedString = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 

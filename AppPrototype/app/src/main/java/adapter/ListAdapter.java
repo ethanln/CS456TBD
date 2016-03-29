@@ -56,6 +56,7 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         TextView name = (TextView)row.findViewById(R.id.list_name);
         TextView description = (TextView)row.findViewById(R.id.list_type);
         TextView id = (TextView) row.findViewById(R.id.list_id);
+        TextView pos = (TextView) row.findViewById(R.id.list_pos);
 
         try {
             String type = this.listsList.get(position).getType();
@@ -74,6 +75,10 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
             }
             else if(type.equals( "Video Game")){
                 Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.video_game_icon);
+                image.setImageBitmap(bm);
+            }
+            else if(type.equals( "Music")){
+                Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.music_icon);
                 image.setImageBitmap(bm);
             }
 
@@ -108,6 +113,7 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
 
         // set list id
         id.setText(listsList.get(position).getListID());
+        pos.setText(String.valueOf(position));
 
         return row;
     }

@@ -1,7 +1,9 @@
 package com.tbd.appprototype;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private int currentSelectedItem = -1;
     private String currentItemId;
     private View currentSelectedView;
+
+    private String currentListId;
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        this.currentListId = "";
 
         this.lists = new ArrayList<InventoryList>();
         this.listView = (ListView)findViewById(R.id.lists);
@@ -152,37 +157,69 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            final ViewGroup row = (ViewGroup)v.getParent();
-            TextView listId = (TextView) row.findViewById(R.id.list_id);
+
+            ViewGroup row = (ViewGroup)v.getParent();
+            TextView pos = (TextView) row.findViewById(R.id.list_pos);
+            int position = Integer.parseInt(pos.getText().toString());
+
             Intent intent = new Intent(MainActivity.this, EditListActivity.class);
-            intent.putExtra("listID", listId.getText().toString());
+            intent.putExtra("listID", lists.get(position).getListID());
+            intent.putExtra("listName", lists.get(position).getTitle());
+            intent.putExtra("listType", lists.get(position).getType());
+
             startActivity(intent);
         }
     };
+
 
     private View.OnClickListener listenerRemove = new View.OnClickListener(){
 
         @Override
         public void onClick(View v) {
-            final ViewGroup row = (ViewGroup)v.getParent();
-            final TextView listId = (TextView) row.findViewById(R.id.list_id);
 
-            LoadingScreenUtil.start(MainActivity.this, "Removing List");
+            ViewGroup row = (ViewGroup)v.getParent();
+            TextView pos = (TextView) row.findViewById(R.id.list_pos);
+            int position = Integer.parseInt(pos.getText().toString());
+            currentListId = lists.get(position).getListID();
 
-            NetworkManager.getInstance().makeDeleteItemsRequest(listId.getText().toString(), new GenericCallback() {
-                @Override
-                public void callback() {
-                    NetworkManager.getInstance().makeDeleteListRequest(listId.getText().toString(), new GenericCallback() {
-                        @Override
-                        public void callback() {
-                            LoadingScreenUtil.end();
-                            UIMessageUtil.showResultMessage(getApplicationContext(), "List Removed");
-                        }
-                    });
-                }
-            });
+            // create dialog box
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Are you sure you want to remove " + lists.get(position).getTitle() + "?").setPositiveButton("Yes", dialogClickListener)
+                                                                                                        .setNegativeButton("No", dialogClickListener).show();
         }
     };
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    LoadingScreenUtil.start(MainActivity.this, "Removing List");
+
+                    NetworkManager.getInstance().makeDeleteItemsRequest(currentListId, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            NetworkManager.getInstance().makeDeleteListRequest(currentListId, new GenericCallback() {
+                                @Override
+                                public void callback() {
+                                    currentListId = "";
+                                    LoadingScreenUtil.end();
+                                    UIMessageUtil.showResultMessage(getApplicationContext(), "List Removed");
+                                }
+                            });
+                        }
+                    });
+
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    currentListId = "";
+                    break;
+            }
+        }
+    };
+
+
 
     /**
      * go to personal profile

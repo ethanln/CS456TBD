@@ -1,32 +1,24 @@
 package com.tbd.appprototype;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.net.URI;
 
 import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
-import util.ImageLoaderUtil;
-import util.SquareImageUtil;
+import util.CustomImageUtil;
 import util.UIMessageUtil;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -107,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.getParcelable("data");
 
-                imageBitmap = SquareImageUtil.squareImage(imageBitmap);
+                imageBitmap = CustomImageUtil.squareImage(imageBitmap);
 
                 String encodedImage = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 

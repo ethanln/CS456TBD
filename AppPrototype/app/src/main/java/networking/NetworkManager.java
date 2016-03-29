@@ -645,6 +645,44 @@ public class NetworkManager {
                     callback.callback();
                 }
             }
+
+            @Override
+            public void onChildChanged(DataSnapshot data, String s) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (list.validate()) {
+                    int currentList = lists.indexOf(list);
+                    lists.get(currentList).setImageURL(list.getImageURL());
+                    lists.get(currentList).setUserID(list.getUserID());
+                    lists.get(currentList).setTitle(list.getTitle());
+                    lists.get(currentList).setType(list.getType());
+                    lists.get(currentList).setListID(list.getListID());
+                }
+                if (callback != null) {
+                    String totalLists = String.valueOf(lists.size());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
+            }
         });
     }
 
@@ -1411,7 +1449,6 @@ public class NetworkManager {
                      if(id.equals(listID)){
                          item.getRef().removeValue();
                      }
-                     //items.remove();
                  }
                  callback.callback();
              }
@@ -1421,13 +1458,6 @@ public class NetworkManager {
 
              }
         });
-
-        //itemRef.child(listID).removeValue(new Firebase.CompletionListener() {
-        //    @Override
-        //    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-        //        callback.callback();
-        //    }
-        //});
     }
 
     // HELPERS
