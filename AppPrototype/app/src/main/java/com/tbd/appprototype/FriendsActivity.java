@@ -74,10 +74,6 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void callback() {
                 ArrayList<User> users = getUsers();
-                if (users == null) {
-                    return;
-                }
-
                 // add users to adapter
                 for(User user : users){
                     addUserToData(user);

@@ -16,4 +16,5 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside" tools:targetApi="honeycomb">true</item>
     </style>
+
 </resources>

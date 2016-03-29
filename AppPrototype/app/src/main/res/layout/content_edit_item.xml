@@ -77,6 +77,7 @@
                 android:layout_height="288dp"
                 android:src="@drawable/upload_image_thumbnail"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
                 android:onClick="addImageEdit"/>
 
 

@@ -34,12 +34,17 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
 
     private boolean owner;
 
+    private View.OnClickListener listenerEdit;
+    private View.OnClickListener listenerRemove;
 
-    public ListAdapter(Context c, ArrayList<InventoryList> lists, boolean owner){
+    public ListAdapter(Context c, ArrayList<InventoryList> lists, boolean owner, View.OnClickListener listenerEdit, View.OnClickListener listenerRemove){
         super(c,  R.layout.list_row_list, R.id.list_name, lists);
         this.context = c;
         this.listsList = lists;
         this.owner = owner;
+
+        this.listenerEdit = listenerEdit;
+        this.listenerRemove = listenerRemove;
     }
 
     @Override
@@ -50,6 +55,7 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         ImageView image = (ImageView)row.findViewById(R.id.list_image);
         TextView name = (TextView)row.findViewById(R.id.list_name);
         TextView description = (TextView)row.findViewById(R.id.list_type);
+        TextView id = (TextView) row.findViewById(R.id.list_id);
 
         try {
             String type = this.listsList.get(position).getType();
@@ -85,10 +91,23 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
 
         if(!owner){
             ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_list_icon);
-            ImageView delete_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
+            ImageView remove_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
             edit_icon.setVisibility(View.GONE);
-            delete_icon.setVisibility(View.GONE);
+            remove_icon.setVisibility(View.GONE);
         }
+        else{
+            // add listeners to the list icons
+            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_list_icon);
+            ImageView remove_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
+            if(this.listenerEdit != null &&
+                this.listenerRemove != null){
+                edit_icon.setOnClickListener(this.listenerEdit);
+                remove_icon.setOnClickListener(this.listenerRemove);
+            }
+        }
+
+        // set list id
+        id.setText(listsList.get(position).getListID());
 
         return row;
     }

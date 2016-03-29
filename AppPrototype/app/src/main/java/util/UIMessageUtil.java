@@ -22,7 +22,7 @@ public class UIMessageUtil {
         if (toast != null) {
             toast.cancel();
         }
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
         toast.show();
     }
 

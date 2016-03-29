@@ -12,6 +12,7 @@ import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UserCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view){
+        LoadingScreenUtil.start(LoginActivity.this, "Logging in...");
         // get credential components
         TextView email = (TextView)findViewById(R.id.email_address);
         TextView password = (TextView)findViewById(R.id.password);
@@ -39,13 +41,14 @@ public class LoginActivity extends AppCompatActivity {
                 TBDApplication app = (TBDApplication) getApplication();
                 User user = app.getCurrentUser();
                 if (user != null) {
-                    // if User login succeeds
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "User Logged In");
+                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Logged In");
                     switchIntent();
+
                 } else {
                     // if User login fails
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Invalid Username / Password");
+                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Invalid Username / Password");
                 }
+
             }
         });
     }

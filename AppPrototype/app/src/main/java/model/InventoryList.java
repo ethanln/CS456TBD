@@ -133,4 +133,10 @@ public class InventoryList extends ModelObject {
     public boolean validate() {
         return !getListID().equals("") && !getTitle().equals("") && !getType().equals("") && !getUserID().equals("");
     }
+
+    @Override
+    public boolean equals(Object obj){
+        InventoryList list = (InventoryList) obj;
+        return list.getListID().equals(this.listID);
+    }
 }

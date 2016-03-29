@@ -74,7 +74,7 @@ public class FriendsListsActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetListsForUserRequest(userID, this.lists, new GenericCallback() {
             @Override
             public void callback() {
-                listAdapter = new ListAdapter(activity, lists, false);
+                listAdapter = new ListAdapter(activity, lists, false, null, null);
                 listView.setAdapter(listAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }
@@ -112,6 +112,7 @@ public class FriendsListsActivity extends AppCompatActivity {
 
         if (id == R.id.action_search){
             Intent intent = new Intent(FriendsListsActivity.this, SearchActivity.class);
+            intent.putExtra("userID", this.userID);
             startActivity(intent);
         }
         else if(id == R.id.action_profile){

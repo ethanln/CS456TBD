@@ -14,6 +14,7 @@ import com.tbd.appprototype.TBDApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import model.FriendRequest;
@@ -609,6 +610,39 @@ public class NetworkManager {
                     callback.callback();
                 }
             }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                InventoryList list = new InventoryList();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        list.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        list.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        list.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("type")) {
+                        list.setType(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("userID")) {
+                        list.setUserID(listData.getValue().toString());
+                    }
+
+                }
+
+                if (list.validate()) {
+                    lists.remove(list);
+                }
+                if (callback != null) {
+                    String totalLists = String.valueOf(lists.size());
+                    callback.data = "Total Lists: " + totalLists;
+                    callback.callback();
+                }
+            }
         });
     }
 
@@ -1062,6 +1096,10 @@ public class NetworkManager {
         addNoDataAvailableListener(query, callback);
     }
 
+
+    // FRIEND REQUESTS
+    // -----
+
     /**
      * Get FriendRequest by ID
      * @param userID
@@ -1158,6 +1196,10 @@ public class NetworkManager {
             }
         });
     }
+
+
+    // ITEM REQUESTS
+    // -----
 
     /**
      * Get ItemRequest by ID
@@ -1345,6 +1387,45 @@ public class NetworkManager {
                 callback.callback();
             }
         });
+    }
+
+    public void makeDeleteItemsRequest(final String listID, final GenericCallback callback) {
+        Firebase itemRef = new Firebase(itemsEndpoint);
+        if (listID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given");
+            callback.callback();
+            return;
+        }
+
+        Firebase listOfObjects = itemRef.getRef();
+        listOfObjects.addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(DataSnapshot querySnapshot) {
+                 //querySnapshot.child(listID).getRef().removeValue();
+                 Iterator<DataSnapshot> items = querySnapshot.getChildren().iterator();
+                 while(items.hasNext()){
+                     DataSnapshot item = items.next();
+                     String id = item.child("listID").getValue().toString();
+                     if(id.equals(listID)){
+                         item.getRef().removeValue();
+                     }
+                     //items.remove();
+                 }
+                 callback.callback();
+             }
+
+             @Override
+             public void onCancelled(FirebaseError firebaseError) {
+
+             }
+        });
+
+        //itemRef.child(listID).removeValue(new Firebase.CompletionListener() {
+        //    @Override
+        //    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+        //        callback.callback();
+        //    }
+        //});
     }
 
     // HELPERS

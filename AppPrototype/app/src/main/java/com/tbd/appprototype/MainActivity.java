@@ -1,6 +1,7 @@
 package com.tbd.appprototype;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import model.InventoryItem;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("My Lists");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -101,11 +104,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_logout){
+            LoadingScreenUtil.start(MainActivity.this, "Logging out...");
             NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
                 @Override
                 public void callback() {
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Logging out...");
+                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Logged out");
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    LoadingScreenUtil.end();
                 }
             });
         }
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeGetListsRequest(this.lists, new GenericCallback() {
             @Override
             public void callback() {
-                listAdapter = new ListAdapter(activity, lists, true);
+                listAdapter = new ListAdapter(activity, lists, true, listenerEdit, listenerRemove);
                 listView.setAdapter(listAdapter);
                 listView.setOnItemClickListener(onItemClickListener);
             }
@@ -143,6 +148,41 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener listenerEdit = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            final ViewGroup row = (ViewGroup)v.getParent();
+            TextView listId = (TextView) row.findViewById(R.id.list_id);
+            Intent intent = new Intent(MainActivity.this, EditListActivity.class);
+            intent.putExtra("listID", listId.getText().toString());
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener listenerRemove = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            final ViewGroup row = (ViewGroup)v.getParent();
+            final TextView listId = (TextView) row.findViewById(R.id.list_id);
+
+            LoadingScreenUtil.start(MainActivity.this, "Removing List");
+
+            NetworkManager.getInstance().makeDeleteItemsRequest(listId.getText().toString(), new GenericCallback() {
+                @Override
+                public void callback() {
+                    NetworkManager.getInstance().makeDeleteListRequest(listId.getText().toString(), new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            LoadingScreenUtil.end();
+                            UIMessageUtil.showResultMessage(getApplicationContext(), "List Removed");
+                        }
+                    });
+                }
+            });
+        }
+    };
 
     /**
      * go to personal profile

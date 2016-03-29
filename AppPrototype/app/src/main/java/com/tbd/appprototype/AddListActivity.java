@@ -15,11 +15,12 @@ import java.security.GeneralSecurityException;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class AddListActivity extends AppCompatActivity {
 
-    private boolean isLoading;
+    //private boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,12 @@ public class AddListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        this.isLoading = false;
+        //this.isLoading = false;
     }
 
     public void onSubmit(View view){
 
-        if(this.isLoading){
-            UIMessageUtil.showResultMessage(getApplicationContext(), "List is being added...");
-            return;
-        }
-
-        // set isLoading state to true;
-        this.isLoading = true;
+        LoadingScreenUtil.start(AddListActivity.this, "Adding List");
 
         TBDApplication app = (TBDApplication) getApplication();
 
@@ -74,10 +69,9 @@ public class AddListActivity extends AppCompatActivity {
         NetworkManager.getInstance().makeCreateListRequest(newList, new GenericCallback() {
             @Override
             public void callback() {
-                UIMessageUtil.showResultMessage(getApplicationContext(), "List Added");
-                // set isLoading state to false after finishing the add.
-                isLoading = false;
+                LoadingScreenUtil.setEndMessage(getApplicationContext(), "List Added");
                 switchIntent();
+                LoadingScreenUtil.end();
             }
         });
     }

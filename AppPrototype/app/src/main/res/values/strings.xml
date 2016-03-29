@@ -81,6 +81,7 @@
     <!--Item Requests Activity-->
     <string name="title_activity_item_requests">Item Requests</string>
     <string name="title_activity_search">Search</string>
+    <string name="title_activity_edit_list">EditListActivity</string>
 
 
 </resources>

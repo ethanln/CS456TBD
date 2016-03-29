@@ -27,7 +27,10 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<InventoryItem> matchingItems;
     private ListView searchResultsView;
 
+    private String userID;
+
     private ItemsAdapter itemsAdapter;
+    private boolean areItemsLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class SearchActivity extends AppCompatActivity {
         this.searchResultsView = (ListView)findViewById(R.id.search_results);
         this.friendsItems = new ArrayList<>();
 
+        this.userID = getIntent().getExtras().getString("userID");
+
         // get all friends' items
         getFriendsItems();
         EditText searchBar = (EditText) findViewById(R.id.search_bar);
@@ -64,6 +69,9 @@ public class SearchActivity extends AppCompatActivity {
     private TextWatcher textWatcher = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
+            if(!areItemsLoaded){
+                return;
+            }
             String value = s.toString();
             matchingItems = new ArrayList<>();
             if(value.length() != 0) {
@@ -94,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         TBDApplication app = (TBDApplication)getApplication();
         final HashMap<String, Object> friendIDs = app.getCurrentUser().getFriendIDs();
 
-        for (final String friendID : friendIDs.keySet()) {
+        /*for (final String friendID : friendIDs.keySet()) {
             final ArrayList<InventoryList> listIDs = new ArrayList<>();
             NetworkManager.getInstance().makeGetListsForUserRequest(friendID, listIDs, new GenericCallback() {
                 @Override
@@ -108,7 +116,22 @@ public class SearchActivity extends AppCompatActivity {
                     });
                 }
             });
-        }
+        }*/
+
+        final ArrayList<InventoryList> listIDs = new ArrayList<>();
+        NetworkManager.getInstance().makeGetListsForUserRequest(this.userID, listIDs, new GenericCallback() {
+            @Override
+            public void callback() {
+                final ArrayList<InventoryItem> result = new ArrayList<>();
+                NetworkManager.getInstance().makeGetItemsRequest(listIDs.get(listIDs.size() - 1).getListID(), result, new GenericCallback() {
+                    @Override
+                    public void callback() {
+                        friendsItems.add(result.get(result.size() - 1));
+                        areItemsLoaded = true;
+                    }
+                });
+            }
+        });
     }
 
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
