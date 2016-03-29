@@ -81,6 +81,8 @@
     <!--Item Requests Activity-->
     <string name="title_activity_item_requests">Item Requests</string>
     <string name="title_activity_search">Search</string>
+    <string name="NewUserButtonText">Create New User</string>
+    <string name="title_activity_create_user">CreateUserActivity</string>
 
 
 </resources>

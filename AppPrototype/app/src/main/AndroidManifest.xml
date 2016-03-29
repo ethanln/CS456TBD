@@ -99,6 +99,10 @@
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".CreateUserActivity"
+            android:label="@string/title_activity_create_user"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

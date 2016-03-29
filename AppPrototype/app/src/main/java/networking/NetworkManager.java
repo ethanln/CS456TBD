@@ -67,7 +67,9 @@ public class NetworkManager {
      */
     public void makeCreateUserRequest(User user, final GenericCallback callback) {
         final Firebase newUser = new Firebase(usersEndpoint).push();
-        if (user.getUserID().equals("")) {
+        if (user.getUserID() == null) {
+            user.setUserID(newUser.getKey());
+        } else if (user.getUserID().equals("")) {
             user.setUserID(newUser.getKey());
         }
         newUser.setValue(user.toHashMap(), new Firebase.CompletionListener() {
