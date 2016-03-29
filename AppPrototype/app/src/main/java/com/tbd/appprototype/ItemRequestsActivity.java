@@ -150,8 +150,12 @@ public class ItemRequestsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_my_lists){
-            Intent intent = new Intent(ItemRequestsActivity.this, MainActivity.class);
+            Intent intent = new Intent(ItemRequestsActivity.this, MyListsActivity.class);
             startActivity(intent);
+        }
+        else if(id == R.id.action_item_requests){
+            finish();
+            startActivity(getIntent());
         }
         else if(id == R.id.action_friend_requests){
             Intent intent = new Intent(ItemRequestsActivity.this, FriendRequestsActivity.class);

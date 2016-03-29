@@ -132,15 +132,15 @@ public class ProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_profile){
-            Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            finish();
+            startActivity(getIntent());
         }
         else if(id == R.id.action_friends){
             Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_my_lists){
-            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+            Intent intent = new Intent(ProfileActivity.this, MyListsActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_item_requests){

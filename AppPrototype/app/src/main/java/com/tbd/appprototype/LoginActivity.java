@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
      * go to the main screen
      */
     private void switchIntent(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MyListsActivity.class);
         startActivity(intent);
     }
 

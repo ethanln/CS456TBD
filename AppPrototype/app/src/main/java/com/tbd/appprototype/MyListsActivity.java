@@ -1,73 +1,66 @@
 package com.tbd.appprototype;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import adapter.ItemsAdapter;
 import adapter.ListAdapter;
-import model.InventoryItem;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MyListsActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private ArrayList<InventoryList> lists;
     private ListView listView;
     private ListAdapter listAdapter;
 
-    private int currentSelectedItem = -1;
-    private String currentItemId;
-    private View currentSelectedView;
-
     private String currentListId;
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setTitle("My Lists");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_my_lists);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-
-        //toolbar.setNavigationIcon(R.drawable.search_icon);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // show add list pop up
-                startActivity(new Intent(MainActivity.this, AddListActivity.class));
+                startActivity(new Intent(MyListsActivity.this, AddListActivity.class));
             }
         });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         this.currentListId = "";
 
@@ -76,54 +69,10 @@ public class MainActivity extends AppCompatActivity {
         this.setUpList(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if(id == R.id.action_profile){
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_friends){
-            Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_my_lists){
-            finish();
-            startActivity(getIntent());
-        }
-        else if(id == R.id.action_item_requests){
-            Intent intent = new Intent(MainActivity.this, ItemRequestsActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_friend_requests){
-            Intent intent = new Intent(MainActivity.this, FriendRequestsActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_logout){
-            LoadingScreenUtil.start(MainActivity.this, "Logging out...");
-            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
-                @Override
-                public void callback() {
-                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Logged out");
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    LoadingScreenUtil.end();
-                }
-            });
-        }
-        return false;
-    }
-
     /**
      * update the list view
      */
-    private void setUpList(final MainActivity activity){
+    private void setUpList(final MyListsActivity activity){
         NetworkManager.getInstance().makeGetListsRequest(this.lists, new GenericCallback() {
             @Override
             public void callback() {
@@ -142,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String listID = lists.get(position).getListID();
-            Intent i = new Intent(MainActivity.this, ListOfItemsActivity.class);
+            Intent i = new Intent(MyListsActivity.this, ListOfItemsActivity.class);
             i.putExtra("listID", listID);
             i.putExtra("owner", "self");
             i.putExtra("ownerUsername", "My");
@@ -160,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             TextView pos = (TextView) row.findViewById(R.id.list_pos);
             int position = Integer.parseInt(pos.getText().toString());
 
-            Intent intent = new Intent(MainActivity.this, EditListActivity.class);
+            Intent intent = new Intent(MyListsActivity.this, EditListActivity.class);
             intent.putExtra("listID", lists.get(position).getListID());
             intent.putExtra("listName", lists.get(position).getTitle());
             intent.putExtra("listType", lists.get(position).getType());
@@ -181,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
             currentListId = lists.get(position).getListID();
 
             // create dialog box
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MyListsActivity.this);
             builder.setMessage("Are you sure you want to remove " + lists.get(position).getTitle() + "?").setPositiveButton("Yes", dialogClickListener)
-                                                                                                        .setNegativeButton("No", dialogClickListener).show();
+                    .setNegativeButton("No", dialogClickListener).show();
         }
     };
 
@@ -192,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    LoadingScreenUtil.start(MainActivity.this, "Removing List");
+                    LoadingScreenUtil.start(MyListsActivity.this, "Removing List");
 
                     NetworkManager.getInstance().makeDeleteItemsRequest(currentListId, new GenericCallback() {
                         @Override
@@ -218,28 +167,78 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-    /**
-     * go to personal profile
-     * @param view
-     */
-   /* public void goToProfile(View view){
-        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-    }*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my_lists, menu);
+        return true;
+    }
 
-    /**
-     * go to friends list
-     * @param view
-     */
-    /*public void goToFriends(View view){
-        startActivity(new Intent(MainActivity.this, FriendsActivity.class));
-    }*/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-    /**
-     * go to profile settings
-     * @param view
-     */
-    /*public void goToSettings(View view){
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
-    }*/
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile) {
+            Intent intent = new Intent(MyListsActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_friends) {
+            Intent intent = new Intent(MyListsActivity.this, FriendsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_my_lists) {
+            finish();
+            startActivity(getIntent());
+        }
+        else if (id == R.id.action_item_requests) {
+            Intent intent = new Intent(MyListsActivity.this, ItemRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_friend_requests) {
+            Intent intent = new Intent(MyListsActivity.this, FriendRequestsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_logout) {
+            LoadingScreenUtil.start(MyListsActivity.this, "Logging out...");
+            NetworkManager.getInstance().makeLogoutUserRequest(new GenericCallback() {
+                @Override
+                public void callback() {
+                    LoadingScreenUtil.setEndMessage(getApplicationContext(), "Logged out");
+                    startActivity(new Intent(MyListsActivity.this, LoginActivity.class));
+                    LoadingScreenUtil.end();
+                }
+            });
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

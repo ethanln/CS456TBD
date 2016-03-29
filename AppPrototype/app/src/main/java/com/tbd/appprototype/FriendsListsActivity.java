@@ -124,7 +124,7 @@ public class FriendsListsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_my_lists){
-            Intent intent = new Intent(FriendsListsActivity.this, MainActivity.class);
+            Intent intent = new Intent(FriendsListsActivity.this, MyListsActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_item_requests){

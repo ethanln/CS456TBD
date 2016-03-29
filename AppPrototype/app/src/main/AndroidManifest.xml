@@ -103,11 +103,15 @@
         <activity
             android:name=".EditListActivity"
             android:label="@string/title_activity_edit_list"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".CreateUserActivity"
             android:label="@string/title_activity_create_user"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".MyListsActivity"
+            android:label="@string/title_activity_my_lists"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -86,7 +86,10 @@
 
     <string name="NewUserButtonText">Create New User</string>
     <string name="title_activity_create_user">CreateUserActivity</string>
+    <string name="title_activity_drawer_test">DrawerTestActivity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
 </resources>

@@ -226,7 +226,7 @@ public class ListOfItemsActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_my_lists){
-            Intent intent = new Intent(ListOfItemsActivity.this, MainActivity.class);
+            Intent intent = new Intent(ListOfItemsActivity.this, MyListsActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.action_item_requests){
