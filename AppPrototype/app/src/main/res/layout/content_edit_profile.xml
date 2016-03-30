@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tbd.appprototype.EditProfileActivity"
+    tools:showIn="@layout/activity_edit_profile">
+
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:textSize="16dp"
+                    android:text="Name"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/profile_name_textbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    app:theme="@style/Theme.AppCompat.Light"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:textSize="16dp"
+                    android:text="Password"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/profile_password_confirm_textbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    app:theme="@style/Theme.AppCompat.Light"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:textSize="16dp"
+                    android:text="Confirm Password"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/profile_password_textbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    app:theme="@style/Theme.AppCompat.Light"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/prev_image_profile"
+                android:layout_width="244dp"
+                android:layout_height="244dp"
+                android:src="@drawable/upload_image_thumbnail"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:onClick="addImageEdit"/>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:background="@color/dark_blue"
+                android:text="@string/submit_button"
+                android:layout_marginTop="16dp"
+                android:onClick="submitChanges"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

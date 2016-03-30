@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import model.InventoryItem;
+import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
@@ -20,20 +23,16 @@ import util.CustomImageUtil;
 import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
-public class EditItemActivity extends AppCompatActivity {
-
-    private String itemID;
-    private String listID;
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    final int PIC_CROP = 2;
+public class EditProfileActivity extends AppCompatActivity {
 
     private String encodedString;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    final int PIC_CROP = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_item);
+        setContentView(R.layout.activity_edit_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,24 +47,18 @@ public class EditItemActivity extends AppCompatActivity {
             }
         });
 
-        // get item id
-        Intent intent = getIntent();
-        this.itemID = intent.getExtras().getString("itemID");
-        this.listID = intent.getExtras().getString("listID");
-        this.encodedString = intent.getExtras().getString("imageURL");
-        // fill in preexisting values
+        encodedString = "";
         fillInFields();
     }
 
+
     private void fillInFields(){
-        Intent intent = getIntent();
+        TBDApplication app = (TBDApplication)getApplication();
+        User user = app.getCurrentUser();
 
-        String title = intent.getExtras().getString("title");
-        String description = intent.getExtras().getString("description");
-
-        ImageView image = (ImageView)findViewById(R.id.prev_image_edit);
-        TextView titleView = (TextView)findViewById(R.id.item_title_textbox);
-        TextView descriptionView = (TextView)findViewById(R.id.item_description_textbox);
+        this.encodedString = user.getImageURL();
+        ImageView image = (ImageView)findViewById(R.id.prev_image_profile);
+        TextView username = (TextView)findViewById(R.id.profile_name_textbox);
 
         if(this.encodedString.length() == 0) {
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.upload_image_thumbnail);
@@ -78,24 +71,20 @@ public class EditItemActivity extends AppCompatActivity {
             imageLoader.loadImage(this.encodedString, image, 0);
         }
 
-        titleView.setText(title);
-        descriptionView.setText(description);
+        username.setText(user.getUsername());
     }
 
     public void submitChanges(View view){
-        LoadingScreenUtil.start(EditItemActivity.this, "Saving changes...");
-        InventoryItem updatedItem = new InventoryItem();
+        LoadingScreenUtil.start(EditProfileActivity.this, "Saving changes...");
+        TBDApplication app = (TBDApplication)getApplication();
+        User user = app.getCurrentUser();
 
-        TextView titleView = (TextView)findViewById(R.id.item_title_textbox);
-        TextView descriptionView = (TextView)findViewById(R.id.item_description_textbox);
+        TextView username = (TextView)findViewById(R.id.profile_name_textbox);
 
-        updatedItem.setTitle(titleView.getText().toString());
-        updatedItem.setImageURL(this.encodedString);
-        updatedItem.setDescription(descriptionView.getText().toString());
-        updatedItem.setItemID(itemID);
-        updatedItem.setListID(listID);
+        user.setUsername(username.getText().toString());
+        user.setImageURL(this.encodedString);
 
-        NetworkManager.getInstance().makeUpdateItemRequest(updatedItem, new GenericCallback() {
+        NetworkManager.getInstance().makeUpdateUserRequest(user, new GenericCallback() {
             @Override
             public void callback() {
                 LoadingScreenUtil.setEndMessage(getApplicationContext(), "Profile settings saved");
@@ -124,10 +113,11 @@ public class EditItemActivity extends AppCompatActivity {
 
                 this.encodedString = ConvertToBlobUtil.convertToBlob(imageBitmap, "png", getApplicationContext());
 
-                ImageView image = (ImageView)findViewById(R.id.prev_image_edit);
+                ImageView image = (ImageView)findViewById(R.id.prev_image_profile);
                 BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
                 imageLoader.loadImage(this.encodedString, image, 0);
             }
         }
     }
+
 }

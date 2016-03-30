@@ -111,6 +111,10 @@
         <activity
             android:name=".MyListsActivity"
             android:label="@string/title_activity_my_lists"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
