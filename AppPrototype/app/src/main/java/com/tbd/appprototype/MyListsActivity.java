@@ -3,6 +3,8 @@ package com.tbd.appprototype;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,8 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -26,6 +31,9 @@ import adapter.ListAdapter;
 import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.BlobImageLoaderUtil;
+import util.CustomImageUtil;
+import util.ImageLoaderUtil;
 import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
@@ -61,6 +69,17 @@ public class MyListsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TBDApplication app = (TBDApplication) getApplication();
+
+        // load profile image on the main navigation
+        ImageView profileImage = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.profile_image_drawer);
+        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+        imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+
+        // set profile name
+        TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);
+        profileName.setText(app.getCurrentUser().getUsername());
 
         this.currentListId = "";
 

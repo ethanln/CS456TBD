@@ -17,9 +17,15 @@
     <!-- Primary Colors -->
     <color name="obscured_white">#f5f5f5</color>
     <color name="light_blue">#c2d7df</color>
+    <color name="light_light_blue">#E8F1F4</color>
+
+
+    <color name="dark_dark_blue">#2A5977</color>
     <color name="dark_blue">#6a91ab</color>
     <color name="dark_gray">#67727a</color>
     <color name="dark_orange">#d55c3d</color>
+    <color name="orange">#F18164</color>
+    <color name="light_orange">#FFAA94</color>
 
     <color name="add_green">#7DBB00</color>
 

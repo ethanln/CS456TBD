@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="all"
+        android:id="@+id/main_nav_items">
         <item
             android:id="@+id/action_profile"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_my_profile"
             android:title="Profile" />
         <item
             android:id="@+id/action_friends"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/friend_icon"
             android:title="Friends" />
         <item
             android:id="@+id/action_my_lists"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/list_icon"
             android:title="My Lists" />
         <item
             android:id="@+id/action_logout"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/logout_icon"
             android:title="Logout" />
     </group>
 
-    <item android:title="Notifications">
-        <menu>
-            <item
-                android:id="@+id/action_item_requests"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Item Requests" />
-            <item
-                android:id="@+id/action_friend_requests"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Friend Requests" />
-        </menu>
-    </item>
+    <group android:checkableBehavior="all"
+        android:id="@+id/sub_nav_items">
+        <item
+            android:id="@+id/action_item_requests"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Item Requests" />
+        <item
+            android:id="@+id/action_friend_requests"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Friend Requests" />
+    </group>
 
 </menu>

@@ -1,5 +1,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ambient_6">
+    <item android:drawable="@drawable/ambient_7">
 
     </item>
 </layer-list>

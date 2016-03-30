@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // if User login fails
                     LoadingScreenUtil.setEndMessage(getApplicationContext(), "Invalid Username / Password");
+                    LoadingScreenUtil.end();
                 }
 
             }

@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/light_blue"
+        android:background="@color/obscured_white"
+        app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:headerLayout="@layout/nav_header_my_lists"
         app:menu="@menu/activity_my_lists_drawer" />
