@@ -1,9 +1,9 @@
 <resources>
     <!--Login Screen-->
-    <string name="app_name">Net List</string>
-    <string name="email_address">email</string>
-    <string name="password">password</string>
-    <string name="login">Login</string>
+    <string name="app_name">Stuff Trac</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Sign in</string>
     <string name="facebook">Login With Facebook</string>
     <string name="google">Login With Google+</string>
 
@@ -84,7 +84,7 @@
 
     <string name="title_activity_edit_list">EditListActivity</string>
 
-    <string name="NewUserButtonText">Create New User</string>
+    <string name="NewUserButtonText">Register</string>
     <string name="title_activity_create_user">CreateUserActivity</string>
     <string name="title_activity_drawer_test">DrawerTestActivity</string>
 
