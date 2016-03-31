@@ -75,13 +75,31 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void submitChanges(View view){
-        LoadingScreenUtil.start(EditProfileActivity.this, "Saving changes...");
+
         TBDApplication app = (TBDApplication)getApplication();
         User user = app.getCurrentUser();
 
-        TextView username = (TextView)findViewById(R.id.profile_name_textbox);
+        TextView usernameText = (TextView)findViewById(R.id.profile_name_textbox);
+        TextView passwordText = (TextView)findViewById(R.id.profile_password_textbox);
+        TextView passwordConfirmText = (TextView)findViewById(R.id.profile_password_confirm_textbox);
 
-        user.setUsername(username.getText().toString());
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
+        String passwordConfirm = passwordConfirmText.getText().toString();
+
+        if(!validateData(username, password, passwordConfirm)){
+            return;
+        }
+
+        LoadingScreenUtil.start(EditProfileActivity.this, "Saving changes...");
+
+        if(password.length() > 0
+                && passwordConfirm.length() > 0
+                && passwordConfirm.equals(password)){
+            user.setPassword(password);
+        }
+
+        user.setUsername(username);
         user.setImageURL(this.encodedString);
 
         NetworkManager.getInstance().makeUpdateUserRequest(user, new GenericCallback() {
@@ -92,6 +110,35 @@ public class EditProfileActivity extends AppCompatActivity {
                 LoadingScreenUtil.end();
             }
         });
+    }
+
+    private boolean validateData(String username, String password, String passwordConfirm){
+        boolean usernameValid = true;
+        boolean passwordValid = true;
+        if(username.equals("")){
+            UIMessageUtil.showResultMessage(EditProfileActivity.this, "A username must be provided");
+            usernameValid = false;
+        }
+
+        if(password.length() > 0 ||
+                passwordConfirm.length() > 0){
+            if(password.equals("")){
+                UIMessageUtil.showResultMessage(EditProfileActivity.this, "Please provide password");
+                passwordValid = false;
+            }
+            else if(passwordConfirm.equals("")){
+                UIMessageUtil.showResultMessage(EditProfileActivity.this, "Please confirm password");
+                passwordValid = false;
+            }
+            else if(passwordConfirm.equals(password)){
+                passwordValid = true;
+            }
+            else{
+                UIMessageUtil.showResultMessage(EditProfileActivity.this, "Passwords do not match");
+                passwordValid = false;
+            }
+        }
+        return usernameValid && passwordValid;
     }
 
     public void addImageEdit(View view){

@@ -1,6 +1,8 @@
 package com.tbd.appprototype;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ import networking.callback.ItemCallback;
 import util.BlobImageLoaderUtil;
 import util.ConvertToBlobUtil;
 import util.ImageLoaderUtil;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class ViewMyItemActivity extends AppCompatActivity {
@@ -124,4 +129,72 @@ public class ViewMyItemActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_trash, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit) {
+            if(currentItem == null){
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Still loading information...");
+                return false;
+            }
+
+            Intent i = new Intent(ViewMyItemActivity.this, EditItemActivity.class);
+            i.putExtra("itemID", itemID);
+            i.putExtra("listID", listID);
+            i.putExtra("imageURL", currentItem.getImageURL());
+            i.putExtra("title", currentItem.getTitle());
+            i.putExtra("description", currentItem.getDescription());
+            startActivity(i);
+        }
+        else if (id == R.id.action_trash) {
+            if(currentItem == null){
+                UIMessageUtil.showResultMessage(getApplicationContext(), "Still loading information...");
+                return false;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(ViewMyItemActivity.this);
+            builder.setMessage("Are you sure you want to remove " + currentItem.getTitle() + "?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    LoadingScreenUtil.start(ViewMyItemActivity.this, "Removing List");
+
+                    NetworkManager.getInstance().makeDeleteItemRequest(itemID, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            LoadingScreenUtil.setEndMessage(getApplicationContext(), "Item Removed");
+                            onBackPressed();
+                            LoadingScreenUtil.end();
+                        }
+                    });
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        }
+    };
 }
