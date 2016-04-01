@@ -66,8 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Android Studio"
-            android:layout_marginTop="-110dp"
-            android:layout_marginLeft="145dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="-115dp"
+            android:layout_marginLeft="124dp"
             android:textSize="20dp"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
