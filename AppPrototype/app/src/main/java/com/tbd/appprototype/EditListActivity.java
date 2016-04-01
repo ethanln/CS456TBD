@@ -67,19 +67,19 @@ public class EditListActivity extends AppCompatActivity {
         titleView.setText(this.listName);
         Bitmap bm = null;
         switch(this.listType){
-            case "Movie":
+            case "Movies":
                 category.setSelection(0);
                 break;
-            case "Board Game":
+            case "Board Games":
                 category.setSelection(1);
                 break;
-            case "Video Game":
+            case "Video Games":
                 category.setSelection(2);
                 break;
             case "Music":
                 category.setSelection(3);
                 break;
-            case "Book":
+            case "Books":
                 category.setSelection(4);
                 break;
         }

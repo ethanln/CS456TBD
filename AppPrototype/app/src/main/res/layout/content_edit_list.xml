@@ -58,7 +58,7 @@ tools:showIn="@layout/activity_edit_list">
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:textSize="16dp"
-                android:text="@string/title_activity_edit_item_image_description"
+                android:text="@string/category_label"
                 android:textColor="@color/black"/>
 
             <Spinner
