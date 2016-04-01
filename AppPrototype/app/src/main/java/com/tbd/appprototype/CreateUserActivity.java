@@ -64,7 +64,7 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void switchIntent(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MyListsActivity.class);
         startActivity(intent);
     }
 

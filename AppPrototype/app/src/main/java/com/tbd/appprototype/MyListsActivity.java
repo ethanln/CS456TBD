@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,7 @@ import model.InventoryList;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import util.BlobImageLoaderUtil;
+import util.ConvertToBlobUtil;
 import util.CustomImageUtil;
 import util.ImageLoaderUtil;
 import util.LoadingScreenUtil;
@@ -72,10 +74,18 @@ public class MyListsActivity extends AppCompatActivity
 
         TBDApplication app = (TBDApplication) getApplication();
 
+        ImageView profileImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image_drawer);
         // load profile image on the main navigation
-        ImageView profileImage = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.profile_image_drawer);
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+        if(app.getCurrentUser().getImageURL().length() > 0) {
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+        }
+        else{
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", this);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, profileImage, 550);
+        }
 
         // set profile name
         TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);

@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@color/themeBackground"
+    android:background="@drawable/login_background"
     tools:context="com.tbd.appprototype.LoginActivity">
 
 
@@ -47,14 +47,10 @@
                     android:id="@+id/username"
                     android:layout_width="240dp"
                     android:layout_height="40dp"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="7dp"
-                    android:background="@color/white"
                     android:inputType="text|textEmailAddress"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/placeholderColor"
                     android:textAlignment="center"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="#AFAFAF"
                     android:hint="@string/username" />
 
                 <EditText
@@ -62,14 +58,10 @@
                     android:layout_width="240dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="7dp"
-                    android:background="@color/white"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/placeholderColor"
                     android:textAlignment="center"
-
+                    android:textColor="@color/white"
+                    android:textColorHint="#AFAFAF"
                     android:hint="@string/password"/>
 
                 <Button
@@ -80,8 +72,8 @@
                     android:fontFamily="sans-serif"
                     android:text="Create User"
                     android:textAlignment="center"
-                    android:background="@color/loginButton"
-                    android:textColor="@color/loginButtonText"
+                    android:background="#54b7ff"
+                    android:textColor="@color/white"
                     android:onClick="createUser"
                     android:nestedScrollingEnabled="true" />
 
