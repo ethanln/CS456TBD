@@ -34,7 +34,7 @@
         <item
             android:id="@+id/action_lended_items"
             android:icon="@drawable/list_icon"
-            android:title="Lended Items" />
+            android:title="Lent Items" />
         <item
             android:id="@+id/action_borrowed_items"
             android:icon="@drawable/list_icon"
