@@ -66,9 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Android Studio"
-            android:layout_marginTop="-120dp"
-            android:layout_marginLeft="125dp"
+            android:layout_marginTop="-110dp"
+            android:layout_marginLeft="145dp"
             android:textSize="20dp"
+            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
     <ImageView
@@ -79,6 +80,6 @@
         android:layout_height="25dp"
         android:layout_gravity="top"
         android:paddingBottom="15dp"
-        android:background="@drawable/edit_icon"/>
+        android:background="@drawable/edit_icon_large"/>
 
 </LinearLayout>
