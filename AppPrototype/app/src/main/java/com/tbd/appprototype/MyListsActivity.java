@@ -255,6 +255,14 @@ public class MyListsActivity extends AppCompatActivity
             Intent intent = new Intent(MyListsActivity.this, FriendsActivity.class);
             startActivity(intent);
         }
+        else if (id == R.id.action_lended_items) {
+            Intent intent = new Intent(MyListsActivity.this, LendedItemsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_borrowed_items) {
+            Intent intent = new Intent(MyListsActivity.this, BorrowedItemsActivity.class);
+            startActivity(intent);
+        }
         else if (id == R.id.action_my_lists) {
             finish();
             startActivity(getIntent());

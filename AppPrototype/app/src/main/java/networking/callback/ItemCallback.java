@@ -9,6 +9,11 @@ public class ItemCallback implements Callback {
 
     private InventoryItem item;
     private ItemCallbackDelegate delegate;
+    private boolean isActionFullfilled;
+
+    public ItemCallback(){
+        this.isActionFullfilled = false;
+    }
 
     public InventoryItem getItem() {
         return item;
@@ -29,5 +34,13 @@ public class ItemCallback implements Callback {
     @Override
     public void callback() {
         delegate.makeCallback();
+    }
+
+    public boolean isActionFullfilled() {
+        return isActionFullfilled;
+    }
+
+    public void setIsActionFullfilled(boolean isActionFullfilled) {
+        this.isActionFullfilled = isActionFullfilled;
     }
 }

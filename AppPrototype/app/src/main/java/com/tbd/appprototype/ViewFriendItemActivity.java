@@ -2,6 +2,7 @@ package com.tbd.appprototype;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -93,6 +94,12 @@ public class ViewFriendItemActivity extends AppCompatActivity {
                     imageLoader.loadImage(item.getImageURL(), itemImage, 550);
                 }
 
+                if(!currentItem.isAvailable()){
+                    requestButton.setText("Not Available");
+                    requestButton.setBackgroundColor(Color.TRANSPARENT);
+                    requestButton.setEnabled(false);
+                }
+
                 // load title
                 itemTitleView.setText(item.getTitle());
                 // load description
@@ -125,7 +132,7 @@ public class ViewFriendItemActivity extends AppCompatActivity {
             @Override
             public void callback() {
                 requestButton.setText("Request Sent");
-                requestButton.setBackgroundColor(Color.GRAY);
+                requestButton.setBackgroundColor(Color.TRANSPARENT);
                 isRequestAlreadySent = true;
                 UIMessageUtil.showResultMessage(getApplicationContext(), "Request Sent");
             }

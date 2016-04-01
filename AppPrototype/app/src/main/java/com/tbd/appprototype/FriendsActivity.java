@@ -254,6 +254,14 @@ public class FriendsActivity extends AppCompatActivity
             finish();
             startActivity(getIntent());
         }
+        else if (id == R.id.action_lended_items) {
+            Intent intent = new Intent(FriendsActivity.this, LendedItemsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_borrowed_items) {
+            Intent intent = new Intent(FriendsActivity.this, BorrowedItemsActivity.class);
+            startActivity(intent);
+        }
         else if (id == R.id.action_my_lists) {
             Intent intent = new Intent(FriendsActivity.this, MyListsActivity.class);
             startActivity(intent);

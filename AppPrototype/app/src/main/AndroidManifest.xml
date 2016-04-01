@@ -27,7 +27,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -116,6 +117,14 @@
         <activity
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".LendedItemsActivity"
+            android:label="@string/title_activity_lended_items"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".BorrowedItemsActivity"
+            android:label="@string/title_activity_borrowed_items"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

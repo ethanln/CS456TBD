@@ -25,6 +25,13 @@ public class EditItemActivity extends AppCompatActivity {
     private String itemID;
     private String listID;
 
+    private String lendTo;
+    private String lendToImage;
+    private String lendToName;
+    private boolean isAvailable;
+    private String ownerId;
+    private String ownerName;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     final int PIC_CROP = 2;
 
@@ -53,6 +60,14 @@ public class EditItemActivity extends AppCompatActivity {
         this.itemID = intent.getExtras().getString("itemID");
         this.listID = intent.getExtras().getString("listID");
         this.encodedString = intent.getExtras().getString("imageURL");
+
+        this.lendTo = intent.getExtras().getString("lendedTo");
+        this.lendToImage = intent.getExtras().getString("lendedToImage");
+        this.lendToName = intent.getExtras().getString("lendedToName");
+        this.isAvailable = intent.getExtras().getBoolean("isAvailable");
+        this.ownerId = intent.getExtras().getString("ownerId");
+        this.ownerName = intent.getExtras().getString("ownerName");
+
         // fill in preexisting values
         fillInFields();
     }
@@ -94,6 +109,13 @@ public class EditItemActivity extends AppCompatActivity {
         updatedItem.setDescription(descriptionView.getText().toString());
         updatedItem.setItemID(itemID);
         updatedItem.setListID(listID);
+
+        updatedItem.setLendedTo(lendTo);
+        updatedItem.setLendedToName(lendToName);
+        updatedItem.setLendedToImage(lendToImage);
+        updatedItem.setIsAvailable(isAvailable);
+        updatedItem.setOwnerId(ownerId);
+        updatedItem.setOwnerName(ownerName);
 
         NetworkManager.getInstance().makeUpdateItemRequest(updatedItem, new GenericCallback() {
             @Override

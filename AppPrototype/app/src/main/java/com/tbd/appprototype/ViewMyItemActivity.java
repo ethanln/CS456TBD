@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Network;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ public class ViewMyItemActivity extends AppCompatActivity {
     private InventoryItem currentItem;
 
     private ImageView itemImage;
+    private ImageView lendedToImage;
     private TextView itemTitleView;
     private TextView itemDescriptionView;
 
@@ -69,6 +72,7 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
         this.currentItem = null;
         this.itemImage = (ImageView)findViewById(R.id.my_item_image);
+        this.lendedToImage = (ImageView)findViewById(R.id.lended_to_image);
         this.itemTitleView = (TextView) findViewById(R.id.my_item_title);
         this.itemDescriptionView = (TextView) findViewById(R.id.my_item_description);
         setupItem(this);
@@ -92,6 +96,16 @@ public class ViewMyItemActivity extends AppCompatActivity {
                     imageLoader.loadImage(item.getImageURL(), itemImage, 550);
                 }
 
+                if(item.getLendedToImage().length() == 0){
+                    LinearLayout layout = (LinearLayout)findViewById(R.id.lended_to_image_wrapper);
+                    layout.setVisibility(View.GONE);
+                    lendedToImage.setVisibility(View.GONE);
+                }
+                else{
+                    BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+                    imageLoader.loadImage(item.getLendedToImage(), lendedToImage, 550);
+                }
+
                 // load title
                 itemTitleView.setText(item.getTitle());
                 // load description
@@ -113,6 +127,13 @@ public class ViewMyItemActivity extends AppCompatActivity {
         i.putExtra("imageURL", currentItem.getImageURL());
         i.putExtra("title", currentItem.getTitle());
         i.putExtra("description", currentItem.getDescription());
+
+        i.putExtra("lendedTo", currentItem.getLendedTo());
+        i.putExtra("lendedToImage", currentItem.getLendedToImage());
+        i.putExtra("lendedToName", currentItem.getLendedToName());
+        i.putExtra("isAvailable", currentItem.isAvailable());
+        i.putExtra("ownerId", currentItem.getOwnerId());
+        i.putExtra("ownerName", currentItem.getOwnerName());
         startActivity(i);
     }
 
@@ -158,6 +179,13 @@ public class ViewMyItemActivity extends AppCompatActivity {
             i.putExtra("imageURL", currentItem.getImageURL());
             i.putExtra("title", currentItem.getTitle());
             i.putExtra("description", currentItem.getDescription());
+
+            i.putExtra("lendedTo", currentItem.getLendedTo());
+            i.putExtra("lendedToImage", currentItem.getLendedToImage());
+            i.putExtra("lendedToName", currentItem.getLendedToName());
+            i.putExtra("isAvailable", currentItem.isAvailable());
+            i.putExtra("ownerId", currentItem.getOwnerId());
+            i.putExtra("ownerName", currentItem.getOwnerName());
             startActivity(i);
         }
         else if (id == R.id.action_trash) {
@@ -194,6 +222,38 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
+            }
+        }
+    };
+
+    public void popupLendedNotificationDialog(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewMyItemActivity.this);
+        builder.setMessage(currentItem.getTitle() + " is currently lended to " + currentItem.getLendedToName() + ".").setPositiveButton("Okay", lendedNotificationDialogListener)
+                .setNegativeButton("Mark as Returned", lendedNotificationDialogListener).show();
+    }
+
+
+    DialogInterface.OnClickListener lendedNotificationDialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    LoadingScreenUtil.start(ViewMyItemActivity.this, "Returning " +  currentItem.getTitle() + "...");
+                    currentItem.setLendedTo("");
+                    currentItem.setLendedToImage("");
+                    currentItem.setLendedToName("");
+                    currentItem.setIsAvailable(true);
+
+                    NetworkManager.getInstance().makeReturnItemRequest(currentItem, new GenericCallback() {
+                        @Override
+                        public void callback() {
+                            LoadingScreenUtil.setEndMessage(getApplicationContext(), currentItem.getTitle() + " Returned");
+                            LoadingScreenUtil.end();
+                        }
+                    });
             }
         }
     };

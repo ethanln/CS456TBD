@@ -25,12 +25,20 @@
         android:id="@+id/sub_nav_items">
         <item
             android:id="@+id/action_item_requests"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/alert_icon"
             android:title="Item Requests" />
         <item
             android:id="@+id/action_friend_requests"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/alert_icon"
             android:title="Friend Requests" />
+        <item
+            android:id="@+id/action_lended_items"
+            android:icon="@drawable/list_icon"
+            android:title="Lended Items" />
+        <item
+            android:id="@+id/action_borrowed_items"
+            android:icon="@drawable/list_icon"
+            android:title="Borrowed Items" />
     </group>
 
 </menu>

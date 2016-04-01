@@ -90,7 +90,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         this.isLoading = true;
 
-        InventoryItem item = new InventoryItem(itemId, name, description, image, listId);
+        InventoryItem item = new InventoryItem(itemId, name, description, image, listId, "", "", "", true, app.getCurrentUserID(), app.getCurrentUser().getUsername());
 
         NetworkManager.getInstance().makeCreateItemRequest(item, new GenericCallback() {
             @Override

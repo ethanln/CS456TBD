@@ -53,6 +53,18 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
         remove(getItem(position));
     }
 
+    public boolean isEmpty(){
+        return this.itemRequests.size() == 0;
+    }
+
+    public ItemRequest get(int position){
+        return this.itemRequests.get(position);
+    }
+
+    public int getCount(){
+        return this.itemRequests.size();
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){

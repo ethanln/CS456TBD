@@ -375,7 +375,7 @@ public class NetworkTestActivity extends ListActivity{
         tests.add(new NetworkTest("Create New Item Test") {
             @Override
             public void executeTest() {
-                InventoryItem item = new InventoryItem("", "Test Item", "Test Description", "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg", "Test List ID");
+                InventoryItem item = new InventoryItem("", "Test Item", "Test Description", "https://pixabay.com/static/uploads/photo/2015/06/21/23/53/subtle-817155_960_720.jpg", "Test List ID", "", "", "", true, "", "");
                 network.makeCreateItemRequest(item, new GenericCallback() {
                     @Override
                     public void callback() {

@@ -160,6 +160,13 @@ public class ListOfItemsActivity extends AppCompatActivity {
             i.putExtra("title", item.getTitle());
             i.putExtra("description", item.getDescription());
 
+            i.putExtra("lendedTo", item.getLendedTo());
+            i.putExtra("lendedToImage", item.getLendedToImage());
+            i.putExtra("lendedToName", item.getLendedToName());
+            i.putExtra("isAvailable", item.isAvailable());
+            i.putExtra("ownerId", item.getOwnerId());
+            i.putExtra("ownerName", item.getOwnerName());
+
             startActivity(i);
         }
     };

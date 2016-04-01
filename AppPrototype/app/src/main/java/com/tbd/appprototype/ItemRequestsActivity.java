@@ -20,11 +20,16 @@ import java.util.ArrayList;
 
 import adapter.ItemRequestAdapter;
 import adapter.ListAdapter;
+import model.InventoryItem;
 import model.InventoryList;
 import model.ItemRequest;
+import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import networking.callback.ItemCallback;
 import networking.callback.ItemRequestCallBack;
+import networking.callback.UserCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class ItemRequestsActivity extends AppCompatActivity {
@@ -98,22 +103,58 @@ public class ItemRequestsActivity extends AppCompatActivity {
 
     private View.OnClickListener acceptListener = new View.OnClickListener() {
         public void onClick(View v) {
+            LoadingScreenUtil.start(ItemRequestsActivity.this, "Accepting Request...");
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
 
             TextView idView = (TextView)nextParent.findViewById(R.id.item_request_id);
             TextView posView = (TextView)nextParent.findViewById(R.id.item_request_position_id);
 
-            String id = idView.getText().toString();
+            final String id = idView.getText().toString();
             final String pos = posView.getText().toString();
-
-            NetworkManager.getInstance().makeDeleteItemRequestRequest(id, new GenericCallback() {
+            final int count = itemRequestAdapter.getCount();
+            NetworkManager.getInstance().makeGetUserRequest(itemRequestAdapter.get(Integer.parseInt(pos)).getFrom(), new UserCallback() {
                 @Override
                 public void callback() {
-                    itemRequestAdapter.remove(Integer.parseInt(pos));
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Approved");
+                    final User lendedTo = getUser();
+                    if (lendedTo != null) {
+                        NetworkManager.getInstance().makeGetItemRequest(itemRequestAdapter.get(Integer.parseInt(pos)).getItemID(), new ItemCallback() {
+                            @Override
+                            public void callback() {
+                                if(isActionFullfilled()){
+                                    return;
+                                }
+                                setIsActionFullfilled(true);
+                                InventoryItem item = getItem();
+                                if (item != null) {
+                                    item.setIsAvailable(false);
+                                    item.setLendedTo(lendedTo.getUserID());
+                                    item.setLendedToImage(lendedTo.getImageURL());
+                                    item.setLendedToName(lendedTo.getUsername());
+                                    NetworkManager.getInstance().makeUpdateItemRequest(item, new GenericCallback() {
+                                        @Override
+                                        public void callback() {
+                                            NetworkManager.getInstance().makeDeleteItemRequestRequest(id, new GenericCallback() {
+                                                @Override
+                                                public void callback() {
+                                                    if(count == itemRequestAdapter.getCount()) {
+                                                        itemRequestAdapter.remove(Integer.parseInt(pos));
+                                                    }
+                                                    LoadingScreenUtil.setEndMessage(ItemRequestsActivity.this, "Item Request Approved");
+                                                    LoadingScreenUtil.end();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
             });
+
+
+
         }
     };
 

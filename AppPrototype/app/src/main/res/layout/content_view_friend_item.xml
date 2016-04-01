@@ -86,7 +86,7 @@
                     <TextView
                         android:id="@+id/friend_item_description"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"
+                        android:layout_height="30dp"
                         android:textColor="@color/obscured_white"
                         android:layout_gravity="center_horizontal"
                         android:text="description"
@@ -105,30 +105,6 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal">
-                    <TextView
-                        android:id="@+id/friend_lended_to_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/obscured_white"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Lended To: "
-                        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-                    <TextView
-                        android:id="@+id/friend_lended_to"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/obscured_white"
-                        android:layout_gravity="center_horizontal"
-                        android:text="No One"
-                        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/item_request_btn"
