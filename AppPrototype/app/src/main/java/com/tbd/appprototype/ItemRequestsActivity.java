@@ -133,7 +133,7 @@ public class ItemRequestsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -141,7 +141,7 @@ public class ItemRequestsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-        if(id == R.id.action_profile){
+        /*if(id == R.id.action_profile){
             Intent intent = new Intent(ItemRequestsActivity.this, ProfileActivity.class);
             startActivity(intent);
         }
@@ -169,7 +169,7 @@ public class ItemRequestsActivity extends AppCompatActivity {
                     startActivity(new Intent(ItemRequestsActivity.this, LoginActivity.class));
                 }
             });
-        }
+        }*/
         return false;
     }
 

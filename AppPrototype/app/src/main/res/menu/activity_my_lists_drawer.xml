@@ -3,10 +3,10 @@
 
     <group android:checkableBehavior="all"
         android:id="@+id/main_nav_items">
-        <item
+        <!--<item
             android:id="@+id/action_profile"
             android:icon="@drawable/ic_my_profile"
-            android:title="Profile" />
+            android:title="Profile" />-->
         <item
             android:id="@+id/action_friends"
             android:icon="@drawable/friend_icon"

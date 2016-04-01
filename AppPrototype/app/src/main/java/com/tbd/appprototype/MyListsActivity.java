@@ -81,6 +81,10 @@ public class MyListsActivity extends AppCompatActivity
         TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);
         profileName.setText(app.getCurrentUser().getUsername());
 
+        // set edit profile listener
+        ImageView editIcon = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.drawer_edit_profile_icon);
+        editIcon.setOnClickListener(this.editListener);
+
         this.currentListId = "";
 
         this.lists = new ArrayList<InventoryList>();
@@ -101,6 +105,15 @@ public class MyListsActivity extends AppCompatActivity
             }
         });
     }
+
+    private View.OnClickListener editListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MyListsActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        }
+    };
 
     /**
      * set up list item click event
@@ -199,7 +212,7 @@ public class MyListsActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_lists, menu);
+        //getMenuInflater().inflate(R.menu.my_lists, menu);
         return true;
     }
 
@@ -211,9 +224,9 @@ public class MyListsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }
@@ -224,11 +237,11 @@ public class MyListsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.action_profile) {
+        /*if (id == R.id.action_profile) {
             Intent intent = new Intent(MyListsActivity.this, ProfileActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.action_friends) {
+        }*/
+        if (id == R.id.action_friends) {
             Intent intent = new Intent(MyListsActivity.this, FriendsActivity.class);
             startActivity(intent);
         }

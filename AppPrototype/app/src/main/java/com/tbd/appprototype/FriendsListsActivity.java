@@ -101,7 +101,7 @@ public class FriendsListsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
@@ -115,7 +115,7 @@ public class FriendsListsActivity extends AppCompatActivity {
             intent.putExtra("userID", this.userID);
             startActivity(intent);
         }
-        else if(id == R.id.action_profile){
+        /*else if(id == R.id.action_profile){
             Intent intent = new Intent(FriendsListsActivity.this, ProfileActivity.class);
             startActivity(intent);
         }
@@ -143,7 +143,7 @@ public class FriendsListsActivity extends AppCompatActivity {
                     startActivity(new Intent(FriendsListsActivity.this, LoginActivity.class));
                 }
             });
-        }
+        }*/
         return false;
     }
 }

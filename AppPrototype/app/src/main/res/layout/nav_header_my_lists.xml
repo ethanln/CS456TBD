@@ -4,7 +4,7 @@
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
-    android:orientation="vertical"
+    android:orientation="horizontal"
 
     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="-80dp"
+        android:layout_marginTop="-100dp"
         android:layout_marginLeft="-90dp">
 
 
@@ -71,5 +71,14 @@
             android:textSize="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
+    <ImageView
+        android:id="@+id/drawer_edit_profile_icon"
+        android:layout_marginLeft="-35dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="top"
+        android:paddingBottom="15dp"
+        android:background="@drawable/edit_icon"/>
 
 </LinearLayout>

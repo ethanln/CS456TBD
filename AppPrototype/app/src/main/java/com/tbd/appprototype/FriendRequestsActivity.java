@@ -148,7 +148,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -156,7 +156,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
-        if(id == R.id.action_profile){
+        /*if(id == R.id.action_profile){
             Intent intent = new Intent(FriendRequestsActivity.this, ProfileActivity.class);
             startActivity(intent);
         }
@@ -184,7 +184,7 @@ public class FriendRequestsActivity extends AppCompatActivity {
                     startActivity(new Intent(FriendRequestsActivity.this, LoginActivity.class));
                 }
             });
-        }
+        }*/
         return false;
     }
 

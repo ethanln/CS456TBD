@@ -54,11 +54,11 @@
     <string name="category_prompt">Choose a Category</string>
 
     <string-array name="category_arrays">
-        <item>Movie</item>
-        <item>Board Game</item>
-        <item>Video Game</item>
+        <item>Movies</item>
+        <item>Board Games</item>
+        <item>Video Games</item>
         <item>Music</item>
-        <item>Book</item>
+        <item>Books</item>
     </string-array>
     <string name="title_activity_network_test">NetworkTestActivity</string>
     <string name="title_activity_friends_lists"></string>

@@ -89,6 +89,10 @@ public class FriendsActivity extends AppCompatActivity
         TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);
         profileName.setText(app.getCurrentUser().getUsername());
 
+        // set edit profile listener
+        ImageView editIcon = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.drawer_edit_profile_icon);
+        editIcon.setOnClickListener(this.editListener);
+
         this.currentFriendId = "";
 
         //set up the list view
@@ -128,6 +132,15 @@ public class FriendsActivity extends AppCompatActivity
     private void addUserToData(User user){
         this.friends.add(user);
     }
+
+    private View.OnClickListener editListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(FriendsActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        }
+    };
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener(){
 
@@ -208,7 +221,7 @@ public class FriendsActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_lists, menu);
+        //getMenuInflater().inflate(R.menu.my_lists, menu);
         return true;
     }
 
@@ -220,9 +233,9 @@ public class FriendsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }
@@ -233,11 +246,11 @@ public class FriendsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.action_profile) {
+        /*if (id == R.id.action_profile) {
             Intent intent = new Intent(FriendsActivity.this, ProfileActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.action_friends) {
+        }*/
+        if (id == R.id.action_friends) {
             finish();
             startActivity(getIntent());
         }

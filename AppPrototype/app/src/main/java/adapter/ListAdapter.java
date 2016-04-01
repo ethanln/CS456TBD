@@ -61,19 +61,19 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
         try {
             String type = this.listsList.get(position).getType();
             ImageLoaderUtil imageLoader = new ImageLoaderUtil();
-            if(type.equals("Movie")){
+            if(type.equals("Movies")){
                 Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.movie_icon);
                 image.setImageBitmap(bm);
             }
-            else if(type.equals("Book")){
+            else if(type.equals("Books")){
                 Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.book_icon);
                 image.setImageBitmap(bm);
             }
-            else if(type.equals("Board Game")){
+            else if(type.equals("Board Games")){
                 Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.board_game_icon);
                 image.setImageBitmap(bm);
             }
-            else if(type.equals( "Video Game")){
+            else if(type.equals( "Video Games")){
                 Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.video_game_icon);
                 image.setImageBitmap(bm);
             }
