@@ -3,6 +3,8 @@ package com.tbd.appprototype;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,6 +32,7 @@ import networking.NetworkManager;
 import networking.callback.GenericCallback;
 import networking.callback.UsersCallback;
 import util.BlobImageLoaderUtil;
+import util.ConvertToBlobUtil;
 import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
@@ -49,17 +52,6 @@ public class FriendsActivity extends AppCompatActivity
         setContentView(R.layout.activity_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +74,17 @@ public class FriendsActivity extends AppCompatActivity
 
         // load profile image on the main navigation
         ImageView profileImage = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.profile_image_drawer);
-        BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-        imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+
+        if(app.getCurrentUser().getImageURL().length() > 0) {
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+        }
+        else{
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", this);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, profileImage, 550);
+        }
 
         // set profile name
         TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);

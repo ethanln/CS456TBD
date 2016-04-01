@@ -13,6 +13,7 @@ import android.widget.TextView;
 import model.User;
 import networking.NetworkManager;
 import networking.callback.GenericCallback;
+import util.LoadingScreenUtil;
 import util.UIMessageUtil;
 
 public class CreateUserActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class CreateUserActivity extends AppCompatActivity {
         NetworkManager.inst().makeCreateUserRequest(user, new GenericCallback() {
             @Override
             public void callback() {
+                LoadingScreenUtil.start(CreateUserActivity.this, "Creating User...");
                 NetworkManager.getInstance().makeLoginUserRequest(user.getUsername(), user.getPassword(), new GenericCallback() {
                     @Override
                     public void callback() {
@@ -47,11 +49,13 @@ public class CreateUserActivity extends AppCompatActivity {
                         User user = app.getCurrentUser();
                         if (user != null) {
                             // if User login succeeds
-                            UIMessageUtil.showResultMessage(getApplicationContext(), "User Logged In");
+                            LoadingScreenUtil.setEndMessage(getApplicationContext(), "User Created");
                             switchIntent();
+                            LoadingScreenUtil.end();
                         } else {
                             // if User login fails
-                            UIMessageUtil.showResultMessage(getApplicationContext(), "Invalid Username / Password");
+                            LoadingScreenUtil.setEndMessage(getApplicationContext(), "Failed to create user");
+                            LoadingScreenUtil.end();
                         }
                     }
                 });
