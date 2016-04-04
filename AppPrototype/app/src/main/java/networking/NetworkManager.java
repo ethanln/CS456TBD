@@ -1331,6 +1331,128 @@ public class NetworkManager {
         });
     }
 
+    /**
+     * get count of lended Items
+     * @param ownerID
+     * @param callback
+     */
+    public void makeGetLendedItemsCountRequest(String ownerID, final GenericCallback callback) {
+        final Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("ownerId").equalTo(ownerID);
+
+        callback.data = "0";
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedTo")) {
+                        item.setLendedTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToImage")) {
+                        item.setLendedToImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToName")) {
+                        item.setLendedToName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("isAvailable")) {
+                        item.setIsAvailable(Boolean.valueOf(listData.getValue().toString()));
+                    }
+                    if (listData.getKey().equals("ownerId")) {
+                        item.setOwnerId(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("ownerName")) {
+                        item.setOwnerName(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate() && !item.isAvailable()) {
+                    int count = Integer.parseInt(callback.data);
+                    count++;
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                int count = Integer.parseInt(callback.data);
+                count--;
+                callback.data = String.valueOf(count);
+                callback.callback();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot data, String s) {
+
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedTo")) {
+                        item.setLendedTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToImage")) {
+                        item.setLendedToImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToName")) {
+                        item.setLendedToName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("isAvailable")) {
+                        item.setIsAvailable(Boolean.valueOf(listData.getValue().toString()));
+                    }
+                    if (listData.getKey().equals("ownerId")) {
+                        item.setOwnerId(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("ownerName")) {
+                        item.setOwnerName(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate()) {
+                    int count = Integer.parseInt(callback.data);
+                    if(item.isAvailable()) {
+                        count--;
+                    }
+                    else{
+                        count++;
+                    }
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+        });
+    }
+
     public void makeGetBorrowedItemsRequest(String userId, final ArrayList<InventoryItem> items, final GenericCallback callback) {
         final Firebase itemRef = new Firebase(itemsEndpoint);
         Query query = itemRef.orderByChild("lendedTo").equalTo(userId);
@@ -1375,13 +1497,135 @@ public class NetworkManager {
                     }
                 }
 
-                if(item.validate()) {
+                if (item.validate()) {
                     items.add(item);
                 }
 
                 if (callback != null) {
                     callback.callback();
                 }
+            }
+        });
+    }
+
+    /**
+     * get count of borrowed items
+     * @param userId
+     * @param callback
+     */
+    public void makeGetBorrowedItemsCountRequest(String userId, final GenericCallback callback) {
+        final Firebase itemRef = new Firebase(itemsEndpoint);
+        Query query = itemRef.orderByChild("lendedTo").equalTo(userId);
+
+        callback.data = "0";
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedTo")) {
+                        item.setLendedTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToImage")) {
+                        item.setLendedToImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToName")) {
+                        item.setLendedToName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("isAvailable")) {
+                        item.setIsAvailable(Boolean.valueOf(listData.getValue().toString()));
+                    }
+                    if (listData.getKey().equals("ownerId")) {
+                        item.setOwnerId(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("ownerName")) {
+                        item.setOwnerName(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate()) {
+                    int count = Integer.parseInt(callback.data);
+                    count++;
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot data, String s) {
+
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedTo")) {
+                        item.setLendedTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToImage")) {
+                        item.setLendedToImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToName")) {
+                        item.setLendedToName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("isAvailable")) {
+                        item.setIsAvailable(Boolean.valueOf(listData.getValue().toString()));
+                    }
+                    if (listData.getKey().equals("ownerId")) {
+                        item.setOwnerId(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("ownerName")) {
+                        item.setOwnerName(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate()) {
+                    int count = Integer.parseInt(callback.data);
+                    if(item.isAvailable()) {
+                        count--;
+                    }
+                    else{
+                        count++;
+                    }
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                int count = Integer.parseInt(callback.data);
+                count--;
+                callback.data = String.valueOf(count);
+                callback.callback();
             }
         });
     }
@@ -1405,30 +1649,6 @@ public class NetworkManager {
         });
     }
 
-   /* public void makeUnlendItemRequest(String itemID, final ItemCallback callback) {
-        final Firebase itemRef = new Firebase(itemsEndpoint);
-        Query query = itemRef.orderByChild("id").equalTo(itemID);
-
-        query.addChildEventListener(new RetrieveDataListener() {
-            @Override
-            public void onChildAdded(DataSnapshot data, String s) {
-
-            }
-        });
-    }
-
-
-    public void makeUnborrowItemRequest(String itemID, final ItemCallback callback) {
-        final Firebase itemRef = new Firebase(itemsEndpoint);
-        Query query = itemRef.orderByChild("id").equalTo(itemID);
-
-        query.addChildEventListener(new RetrieveDataListener() {
-            @Override
-            public void onChildAdded(DataSnapshot data, String s) {
-
-            }
-        });
-    }*/
 
     // FRIEND REQUESTS
     // -----
@@ -1470,6 +1690,55 @@ public class NetworkManager {
                 if(friendRequest.validate()) {
                     callback.addFriendRequest(friendRequest);
                 }
+                callback.callback();
+            }
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+
+    public void makeGetFriendRequestCountRequest(String userID, final GenericCallback callback) {
+        final Firebase itemRef = new Firebase(friendRequestEndpoint);
+        Query query = itemRef.orderByChild("to").equalTo(userID);
+
+        callback.data = "0";
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                FriendRequest friendRequest = new FriendRequest();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        friendRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        friendRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        friendRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromImage")) {
+                        friendRequest.setFromImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        friendRequest.setFromName(listData.getValue().toString());
+                    }
+                }
+
+                if(friendRequest.validate()) {
+                    int count = Integer.parseInt(callback.data);
+                    count++;
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                int count = Integer.parseInt(callback.data);
+                count--;
+                callback.data = String.valueOf(count);
                 callback.callback();
             }
         });
@@ -1614,6 +1883,65 @@ public class NetworkManager {
                 }
                 callback.callback();
             }*/
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+    /**
+     * Get Item request count
+     * @param userID
+     * @param callback
+     */
+    public void makeGetItemRequestCountRequest(String userID, final GenericCallback callback) {
+        final Firebase itemRef = new Firebase(itemRequestEndpoint);
+        Query query = itemRef.orderByChild("to").equalTo(userID);
+
+        callback.data = "0";
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                ItemRequest itemRequest = new ItemRequest();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        itemRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        itemRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        itemRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemID")) {
+                        itemRequest.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageCache")) {
+                        itemRequest.setImageCache(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        itemRequest.setFromName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemName")) {
+                        itemRequest.setItemName(listData.getValue().toString());
+                    }
+                }
+
+                if(itemRequest.validate()) {
+                    int count = Integer.parseInt(callback.data);
+                    count++;
+                    callback.data = String.valueOf(count);
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot data) {
+                int count = Integer.parseInt(callback.data);
+                count--;
+                callback.data = String.valueOf(count);
+                callback.callback();
+            }
         });
         addNoDataAvailableListener(query, callback);
     }

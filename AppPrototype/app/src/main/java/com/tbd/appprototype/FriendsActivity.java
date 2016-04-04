@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +50,16 @@ public class FriendsActivity extends AppCompatActivity
 
     private String currentFriendId;
 
+    private final int item_requests_index = 3;
+    private final int friend_requests_index = 4;
+    private final int lent_items_index = 5;
+    private final int borrowed_items_index = 6;
+
+    private final String itemRequestsTitle = "Item Requests";
+    private final String friendRequestsTitle = "Friend Requests";
+    private final String borrowedItemsTitle = "Borrowed Items";
+    private final String lentItemsTitle = "Lent Items";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +83,8 @@ public class FriendsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        this.setUpNotifications(navigationView);
 
         TBDApplication app = (TBDApplication) getApplication();
 
@@ -98,6 +114,71 @@ public class FriendsActivity extends AppCompatActivity
 
         //set up the list view
         this.setUpList(this);
+    }
+
+    private void setUpNotifications(final NavigationView navigationView){
+
+        TBDApplication app = (TBDApplication)getApplication();
+
+        NetworkManager.getInstance().makeGetItemRequestCountRequest(app.getCurrentUserID(), new GenericCallback() {
+            @Override
+            public void callback() {
+                int count = Integer.parseInt(data);
+                Menu menuNav = navigationView.getMenu();
+                MenuItem element = menuNav.getItem(item_requests_index);
+                setMenuItemLabel(itemRequestsTitle, count, element, Color.RED);
+            }
+        });
+
+        NetworkManager.getInstance().makeGetFriendRequestCountRequest(app.getCurrentUserID(), new GenericCallback() {
+
+            @Override
+            public void callback() {
+                Menu menuNav = navigationView.getMenu();
+                MenuItem element = menuNav.getItem(friend_requests_index);
+                int count = Integer.parseInt(data);
+                setMenuItemLabel(friendRequestsTitle, count, element, Color.RED);
+            }
+        });
+
+        NetworkManager.getInstance().makeGetBorrowedItemsCountRequest(app.getCurrentUserID(), new GenericCallback() {
+
+            @Override
+            public void callback() {
+                Menu menuNav = navigationView.getMenu();
+                MenuItem element = menuNav.getItem(borrowed_items_index);
+                int count = Integer.parseInt(data);
+                setMenuItemLabel(borrowedItemsTitle, count, element, Color.GRAY);
+            }
+        });
+
+        NetworkManager.getInstance().makeGetLendedItemsCountRequest(app.getCurrentUserID(), new GenericCallback() {
+
+            @Override
+            public void callback() {
+                Menu menuNav = navigationView.getMenu();
+                MenuItem element = menuNav.getItem(lent_items_index);
+                int count = Integer.parseInt(data);
+                setMenuItemLabel(lentItemsTitle, count, element, Color.GRAY);
+            }
+        });
+
+    }
+
+    private void setMenuItemLabel(String title, int count, MenuItem element, int color){
+        if (count > 0) {
+            String counter = Integer.toString(count);
+            String s = title + "   " + counter + " ";
+            SpannableString sColored = new SpannableString(s);
+
+            sColored.setSpan(new BackgroundColorSpan(color), s.length() - 3, s.length(), 0);
+            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - 3, s.length(), 0);
+
+            element.setTitle(sColored);
+        }
+        else{
+            element.setTitle(title);
+        }
     }
 
     /**

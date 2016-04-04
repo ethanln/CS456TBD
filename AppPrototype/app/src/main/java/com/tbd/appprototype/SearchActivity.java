@@ -76,7 +76,8 @@ public class SearchActivity extends AppCompatActivity {
             matchingItems = new ArrayList<>();
             if(value.length() != 0) {
                 for (int i = 0; i < friendsItems.size(); i++) {
-                    if (friendsItems.get(i).getTitle().contains(value) || friendsItems.get(i).getDescription().contains(value)) {
+                    if (friendsItems.get(i).getTitle().toLowerCase().contains(value.toLowerCase())
+                            || friendsItems.get(i).getDescription().toLowerCase().contains(value.toLowerCase())) {
                         matchingItems.add(friendsItems.get(i));
                     }
                 }

@@ -78,7 +78,7 @@ public class AddFriendActivity extends AppCompatActivity {
             TBDApplication app = (TBDApplication)getApplication();
             if(value.length() != 0) {
                 for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getUsername().contains(value)
+                    if (users.get(i).getUsername().toLowerCase().contains(value.toLowerCase())
                             && !app.getCurrentUser().getFriendIDs().containsValue(users.get(i).getUserID())
                             && !users.get(i).getUserID().equals(app.getCurrentUserID())) {
                         matchingUsers.add(users.get(i));
