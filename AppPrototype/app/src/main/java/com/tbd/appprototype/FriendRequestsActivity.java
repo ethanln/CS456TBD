@@ -327,16 +327,16 @@ public class FriendRequestsActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.action_my_lists) {
-            finish();
-            startActivity(getIntent());
+            Intent intent = new Intent(FriendRequestsActivity.this, MyListsActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.action_item_requests) {
             Intent intent = new Intent(FriendRequestsActivity.this, ItemRequestsActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.action_friend_requests) {
-            Intent intent = new Intent(FriendRequestsActivity.this, FriendRequestsActivity.class);
-            startActivity(intent);
+            finish();
+            startActivity(getIntent());
         }
         else if (id == R.id.action_logout) {
             LoadingScreenUtil.start(FriendRequestsActivity.this, "Logging out...");

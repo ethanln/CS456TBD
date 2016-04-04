@@ -289,16 +289,16 @@ public class LendedItemsActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.action_lended_items) {
-            Intent intent = new Intent(LendedItemsActivity.this, LendedItemsActivity.class);
-            startActivity(intent);
+            finish();
+            startActivity(getIntent());
         }
         else if (id == R.id.action_borrowed_items) {
             Intent intent = new Intent(LendedItemsActivity.this, BorrowedItemsActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.action_my_lists) {
-            finish();
-            startActivity(getIntent());
+            Intent intent = new Intent(LendedItemsActivity.this, MyListsActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.action_item_requests) {
             Intent intent = new Intent(LendedItemsActivity.this, ItemRequestsActivity.class);

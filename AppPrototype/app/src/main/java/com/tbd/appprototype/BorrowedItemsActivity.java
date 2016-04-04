@@ -258,12 +258,12 @@ public class BorrowedItemsActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.action_borrowed_items) {
-            Intent intent = new Intent(BorrowedItemsActivity.this, BorrowedItemsActivity.class);
-            startActivity(intent);
-        }
-        else if (id == R.id.action_my_lists) {
             finish();
             startActivity(getIntent());
+        }
+        else if (id == R.id.action_my_lists) {
+            Intent intent = new Intent(BorrowedItemsActivity.this, MyListsActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.action_item_requests) {
             Intent intent = new Intent(BorrowedItemsActivity.this, ItemRequestsActivity.class);
