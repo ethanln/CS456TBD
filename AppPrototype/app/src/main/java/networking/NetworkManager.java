@@ -1336,9 +1336,9 @@ public class NetworkManager {
      * @param ownerID
      * @param callback
      */
-    public void makeGetLendedItemsCountRequest(String ownerID, final GenericCallback callback) {
+    public void makeGetLendedItemsCountRequest(final String ownerID, final GenericCallback callback) {
         final Firebase itemRef = new Firebase(itemsEndpoint);
-        Query query = itemRef.orderByChild("ownerId").equalTo(ownerID);
+        Query query = itemRef.orderByChild("isAvailable").equalTo(false);
 
         callback.data = "0";
 
@@ -1382,7 +1382,7 @@ public class NetworkManager {
                     }
                 }
 
-                if(item.validate() && !item.isAvailable()) {
+                if(item.validate() && item.getOwnerId().equals(ownerID)) {
                     int count = Integer.parseInt(callback.data);
                     count++;
                     callback.data = String.valueOf(count);
@@ -1392,10 +1392,50 @@ public class NetworkManager {
 
             @Override
             public void onChildRemoved(DataSnapshot data) {
-                int count = Integer.parseInt(callback.data);
-                count--;
-                callback.data = String.valueOf(count);
-                callback.callback();
+
+                InventoryItem item = new InventoryItem();
+                for (DataSnapshot listData : data.getChildren()) {
+                    if (listData.getKey().equals("id")) {
+                        item.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageURL")) {
+                        item.setImageURL(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("title")) {
+                        item.setTitle(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("description")) {
+                        item.setDescription(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("listID")) {
+                        item.setListID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedTo")) {
+                        item.setLendedTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToImage")) {
+                        item.setLendedToImage(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("lendedToName")) {
+                        item.setLendedToName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("isAvailable")) {
+                        item.setIsAvailable(Boolean.valueOf(listData.getValue().toString()));
+                    }
+                    if (listData.getKey().equals("ownerId")) {
+                        item.setOwnerId(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("ownerName")) {
+                        item.setOwnerName(listData.getValue().toString());
+                    }
+                }
+
+                if(item.validate() && item.getOwnerId().equals(ownerID)) {
+                    int count = Integer.parseInt(callback.data);
+                    count--;
+                    callback.data = String.valueOf(count);
+                    callback.callback();
+                }
             }
 
             @Override
@@ -1438,7 +1478,7 @@ public class NetworkManager {
                     }
                 }
 
-                if(item.validate()) {
+                if(item.validate() && item.getOwnerId().equals(ownerID)) {
                     int count = Integer.parseInt(callback.data);
                     if(item.isAvailable()) {
                         count--;
@@ -1447,8 +1487,9 @@ public class NetworkManager {
                         count++;
                     }
                     callback.data = String.valueOf(count);
+                    callback.callback();
                 }
-                callback.callback();
+
             }
         });
     }

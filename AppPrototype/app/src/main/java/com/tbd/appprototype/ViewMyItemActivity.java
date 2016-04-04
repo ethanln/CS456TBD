@@ -96,14 +96,17 @@ public class ViewMyItemActivity extends AppCompatActivity {
                     imageLoader.loadImage(item.getImageURL(), itemImage, 550);
                 }
 
-                if(item.getLendedToImage().length() == 0){
+                if(item.getLendedToImage().length() > 0){
+                    BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+                    imageLoader.loadImage(item.getLendedToImage(), lendedToImage, 550);
+                    LinearLayout layout = (LinearLayout)findViewById(R.id.lended_to_image_wrapper);
+                    layout.setVisibility(View.VISIBLE);
+                    lendedToImage.setVisibility(View.VISIBLE);
+                }
+                else{
                     LinearLayout layout = (LinearLayout)findViewById(R.id.lended_to_image_wrapper);
                     layout.setVisibility(View.GONE);
                     lendedToImage.setVisibility(View.GONE);
-                }
-                else{
-                    BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
-                    imageLoader.loadImage(item.getLendedToImage(), lendedToImage, 550);
                 }
 
                 // load title
