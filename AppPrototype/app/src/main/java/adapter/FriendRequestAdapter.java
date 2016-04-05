@@ -84,7 +84,12 @@ public class FriendRequestAdapter extends ArrayAdapter<FriendRequest> {
 
         // set item title
         name.setTextColor(Color.BLACK);
-        name.setText(this.friendRequests.get(position).getFromName());
+        if(this.friendRequests.get(position).getFromName().length() > 12) {
+            name.setText(this.friendRequests.get(position).getFromName().substring(0, 11) + "...");
+        }
+        else{
+            name.setText(this.friendRequests.get(position).getFromName());
+        }
 
         // set user id
         id.setText(this.friendRequests.get(position).getID());

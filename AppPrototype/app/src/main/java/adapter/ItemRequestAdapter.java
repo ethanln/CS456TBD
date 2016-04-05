@@ -102,10 +102,15 @@ public class ItemRequestAdapter extends ArrayAdapter<ItemRequest>{
 
         // set item title
         name.setTextColor(Color.BLACK);
-        name.setText(this.itemRequests.get(position).getItemName());
+        if(this.itemRequests.get(position).getItemName().length() > 12) {
+            name.setText(this.itemRequests.get(position).getItemName().substring(0, 11) + "...");
+        }
+        else{
+            name.setText(this.itemRequests.get(position).getItemName());
+        }
 
         //getFromID(this.itemRequests.get(position).getFrom());
-        fromWhom.setTextColor(Color.BLACK);
+        fromWhom.setTextColor(Color.GRAY);
         fromWhom.setText(this.itemRequests.get(position).getFromName());
 
         // set user id

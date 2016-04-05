@@ -58,7 +58,12 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         }
 
         name.setTextColor(Color.BLACK);
-        name.setText(this.users.get(position).getUsername());
+        if(this.users.get(position).getUsername().length() > 20) {
+            name.setText(this.users.get(position).getUsername().substring(0, 19) + "...");
+        }
+        else{
+            name.setText(this.users.get(position).getUsername());
+        }
         removeIcon.setOnClickListener(this.removeListener);
         pos.setText(String.valueOf(position));
 

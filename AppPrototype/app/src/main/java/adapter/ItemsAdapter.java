@@ -67,8 +67,14 @@ public class ItemsAdapter extends ArrayAdapter<InventoryItem> {
         }
 
         name.setTextColor(Color.BLACK);
-        name.setText(this.itemsList.get(position).getTitle());
+        if(this.itemsList.get(position).getTitle().length() > 12) {
+            name.setText(this.itemsList.get(position).getTitle().substring(0, 11) + "...");
+        }
+        else{
+            name.setText(this.itemsList.get(position).getTitle());
+        }
 
+        description.setTextColor(Color.GRAY);
         description.setText(this.itemsList.get(position).getDescription());
 
 

@@ -87,10 +87,15 @@ public class ItemLendedAdapter extends ArrayAdapter<InventoryItem> {
 
         // set item title
         name.setTextColor(Color.BLACK);
-        name.setText(this.lendedItems.get(position).getTitle());
+        if(this.lendedItems.get(position).getTitle().length() > 12) {
+            name.setText(this.lendedItems.get(position).getTitle().substring(0, 11) + "...");
+        }
+        else{
+            name.setText(this.lendedItems.get(position).getTitle());
+        }
 
         //getFromID
-        toWhom.setTextColor(Color.BLACK);
+        toWhom.setTextColor(Color.GRAY);
         toWhom.setText(this.lendedItems.get(position).getLendedToName());
 
         // set item id

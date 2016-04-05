@@ -73,8 +73,8 @@ public class AddFriendsAdapter extends ArrayAdapter<User> {
         name.setTextColor(Color.BLACK);
 
         String username = this.users.get(position).getUsername();
-        if(username.length() > 10){
-            username = username.substring(0, 9) + "...";
+        if(username.length() > 12){
+            username = username.substring(0, 11) + "...";
         }
         name.setText(username);
 

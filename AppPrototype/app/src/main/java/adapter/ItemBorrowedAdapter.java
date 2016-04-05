@@ -78,10 +78,15 @@ public class ItemBorrowedAdapter extends ArrayAdapter<InventoryItem> {
 
         // set item title
         name.setTextColor(Color.BLACK);
-        name.setText(this.borrowedItems.get(position).getTitle());
+        if(this.borrowedItems.get(position).getTitle().length() > 24) {
+            name.setText(this.borrowedItems.get(position).getTitle().substring(0, 23) + "...");
+        }
+        else{
+            name.setText(this.borrowedItems.get(position).getTitle());
+        }
 
         //getOwner ID
-        ownerName.setTextColor(Color.BLACK);
+        ownerName.setTextColor(Color.GRAY);
         ownerName.setText(this.borrowedItems.get(position).getOwnerName());
 
         // set item id

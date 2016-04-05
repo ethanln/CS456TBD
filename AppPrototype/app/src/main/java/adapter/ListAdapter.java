@@ -89,8 +89,14 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
 
 
         name.setTextColor(Color.BLACK);
-        name.setText(this.listsList.get(position).getTitle());
+        if(this.listsList.get(position).getTitle().length() > 15) {
+            name.setText(this.listsList.get(position).getTitle().substring(0, 14) + "...");
+        }
+        else{
+            name.setText(this.listsList.get(position).getTitle());
+        }
 
+        description.setTextColor(Color.GRAY);
         description.setText(this.listsList.get(position).getType());
 
 
