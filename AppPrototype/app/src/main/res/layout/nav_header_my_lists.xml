@@ -73,14 +73,21 @@
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/drawer_edit_profile_icon"
-        android:layout_marginLeft="-35dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_gravity="top"
-        android:paddingBottom="15dp"
-        android:background="@drawable/edit_icon_large"/>
 
+    <LinearLayout
+        android:id="@+id/drawer_edit_profile_icon_layout"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="10dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:id="@+id/drawer_edit_profile_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_icon_large"/>
+    </LinearLayout>
 </LinearLayout>

@@ -80,13 +80,13 @@
                         android:padding="2dp"
                         android:layout_gravity="right"
                         android:orientation="horizontal"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:background="@drawable/red_circle">
                         <ImageView
                             android:id="@+id/lended_to_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:onClick="popupLendedNotificationDialog"/>
                     </LinearLayout>
 

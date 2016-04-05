@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -112,7 +113,7 @@ public class MyListsActivity extends AppCompatActivity
         profileName.setText(app.getCurrentUser().getUsername());
 
         // set edit profile listener
-        ImageView editIcon = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.drawer_edit_profile_icon);
+        LinearLayout editIcon = (LinearLayout)navigationView.getHeaderView(0).findViewById(R.id.drawer_edit_profile_icon_layout);
         editIcon.setOnClickListener(this.editListener);
 
         this.currentListId = "";

@@ -53,27 +53,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:layout_gravity="right|bottom">
-
-                <TextView
-                    android:id="@+id/accept_item_request_click"
+                <LinearLayout
+                    android:id="@+id/accept_item_request_click_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="accept"
-                    android:textColor="@color/dark_gray"
-                    android:paddingRight="16dp"
-                    android:clickable="true"
-                    />
-
-                <TextView
-                    android:id="@+id/decline_item_request_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="decline"
-                    android:textColor="@color/dark_gray"
                     android:paddingRight="8dp"
-                    android:clickable="true"
-                    />
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/accept_item_request_click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="accept"
+                        android:textColor="@color/dark_gray"
+                        android:clickable="true"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/decline_item_request_click_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/decline_item_request_click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="decline"
+                        android:textColor="@color/dark_gray"
+                        android:clickable="true"
+                        />
+                </LinearLayout>
 
             </LinearLayout>
 
