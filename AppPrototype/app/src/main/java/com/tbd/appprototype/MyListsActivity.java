@@ -57,10 +57,10 @@ public class MyListsActivity extends AppCompatActivity
 
     private String currentListId;
 
-    private final int item_requests_index = 3;
-    private final int friend_requests_index = 4;
-    private final int lent_items_index = 5;
-    private final int borrowed_items_index = 6;
+    private final int item_requests_index = 2;
+    private final int friend_requests_index = 3;
+    private final int lent_items_index = 4;
+    private final int borrowed_items_index = 5;
 
     private final String itemRequestsTitle = "Item Requests";
     private final String friendRequestsTitle = "Friend Requests";
