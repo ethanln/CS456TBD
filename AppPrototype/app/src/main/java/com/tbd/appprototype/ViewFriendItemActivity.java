@@ -127,6 +127,7 @@ public class ViewFriendItemActivity extends AppCompatActivity {
         itemRequest.setFrom(app.getCurrentUserID());
         itemRequest.setFromName(app.getCurrentUser().getUsername());
         itemRequest.setTo(friendID);
+        itemRequest.setFromImage(app.getCurrentUser().getImageURL());
 
         NetworkManager.getInstance().makeCreateItemRequestRequest(itemRequest, new GenericCallback() {
             @Override

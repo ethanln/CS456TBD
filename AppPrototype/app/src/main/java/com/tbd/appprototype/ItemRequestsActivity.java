@@ -259,12 +259,13 @@ public class ItemRequestsActivity extends AppCompatActivity
                                     NetworkManager.getInstance().makeUpdateItemRequest(item, new GenericCallback() {
                                         @Override
                                         public void callback() {
-                                            NetworkManager.getInstance().makeDeleteItemRequestRequest(id, new GenericCallback() {
+
+
+                                            NetworkManager.getInstance().makeDeleteItemRequestsByItemIdRequest(itemRequestAdapter.get(Integer.parseInt(pos)).getItemID(), new GenericCallback() {
                                                 @Override
                                                 public void callback() {
-                                                    if(count == itemRequestAdapter.getCount()) {
-                                                        itemRequestAdapter.remove(Integer.parseInt(pos));
-                                                    }
+                                                    itemRequestAdapter.remove(itemRequestAdapter.get(Integer.parseInt(pos)).getItemID());
+
                                                     LoadingScreenUtil.setEndMessage(ItemRequestsActivity.this, "Item Request Approved");
                                                     LoadingScreenUtil.end();
                                                 }

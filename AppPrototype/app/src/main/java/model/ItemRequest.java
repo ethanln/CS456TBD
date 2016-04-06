@@ -14,6 +14,7 @@ public class ItemRequest extends ModelObject {
     private String imageCache;
     private String fromName;
     private String itemName;
+    private String fromImage;
 
     public ItemRequest(){
         this.id = "";
@@ -23,9 +24,10 @@ public class ItemRequest extends ModelObject {
         this.imageCache = "";
         this.fromName = "";
         this.itemName = "";
+        this.fromName = "";
     }
 
-    public ItemRequest(String _id, String _to, String _from, String _itemID, String _imageCache, String _fromName, String _itemName){
+    public ItemRequest(String _id, String _to, String _from, String _itemID, String _imageCache, String _fromName, String _itemName, String _fromImage){
         this.id = _id;
         this.to = _to;
         this.from = _from;
@@ -33,6 +35,7 @@ public class ItemRequest extends ModelObject {
         this.imageCache = _imageCache;
         this.fromName = _fromName;
         this.itemName = _itemName;
+        this.fromName = _fromImage;
     }
 
     public void setID(String _id){
@@ -104,6 +107,7 @@ public class ItemRequest extends ModelObject {
         map.put("imageCache", this.imageCache);
         map.put("fromName", this.fromName);
         map.put("itemName", this.itemName);
+        map.put("fromImage", this.fromImage);
         return map;
     }
 
@@ -129,6 +133,14 @@ public class ItemRequest extends ModelObject {
     @Override
     public boolean equals(Object obj){
         ItemRequest item = (ItemRequest) obj;
-        return item.getItemID().equals(this.itemID);
+        return item.getID().equals(this.id);
+    }
+
+    public String getFromImage() {
+        return fromImage;
+    }
+
+    public void setFromImage(String fromImage) {
+        this.fromImage = fromImage;
     }
 }

@@ -1793,17 +1793,17 @@ public class NetworkManager {
     public void makeCreateFriendRequestRequest(FriendRequest friendRequest, final GenericCallback callback) {
 
         if (friendRequest.getFrom().equals("")) {
-            callback.error = new FirebaseError(-2, "No From Given in ItemRequest");
+            callback.error = new FirebaseError(-2, "No From Given in FriendRequest");
             callback.callback();
             return;
         }
         if (friendRequest.getFromName().equals("")) {
-            callback.error = new FirebaseError(-2, "No From Name is Given in ItemRequest");
+            callback.error = new FirebaseError(-2, "No From Name is Given in FriendRequest");
             callback.callback();
             return;
         }
         if (friendRequest.getTo().equals("")) {
-            callback.error = new FirebaseError(-2, "No To Given in ItemRequest");
+            callback.error = new FirebaseError(-2, "No To Given in FriendRequest");
             callback.callback();
             return;
         }
@@ -1822,7 +1822,7 @@ public class NetworkManager {
     }
 
     /**
-     * Delete Item by ID
+     * Delete friend request by ID
      * @param friendRequestID
      */
     public void makeDeleteFriendRequestRequest(String friendRequestID, final GenericCallback callback) {
@@ -1882,6 +1882,9 @@ public class NetworkManager {
                     if (listData.getKey().equals("itemName")) {
                         itemRequest.setItemName(listData.getValue().toString());
                     }
+                    if (listData.getKey().equals("fromImage")) {
+                        itemRequest.setFromImage(listData.getValue().toString());
+                    }
                 }
 
                 if(itemRequest.validate()) {
@@ -1929,6 +1932,125 @@ public class NetworkManager {
     }
 
     /**
+     * get item requests by id
+     * @param itemID
+     * @param callback
+     */
+    public void makeGetItemRequestByItemIdRequest(String itemID, final ItemRequestCallBack callback) {
+        final Firebase itemRef = new Firebase(itemRequestEndpoint);
+        Query query = itemRef.orderByChild("itemID").equalTo(itemID);
+
+        callback.setItemRequests(new ArrayList<ItemRequest>());
+
+        query.addChildEventListener(new RetrieveDataListener() {
+            @Override
+            public void onChildAdded(DataSnapshot data, String s) {
+                ItemRequest itemRequest = new ItemRequest();
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        itemRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        itemRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        itemRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemID")) {
+                        itemRequest.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageCache")) {
+                        itemRequest.setImageCache(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        itemRequest.setFromName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemName")) {
+                        itemRequest.setItemName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromImage")) {
+                        itemRequest.setFromImage(listData.getValue().toString());
+                    }
+                }
+
+                if(itemRequest.validate()) {
+                    callback.addItemRequest(itemRequest);
+                }
+                callback.callback();
+            }
+
+            /*@Override
+            public void onChildRemoved(DataSnapshot data) {
+                ItemRequest itemRequest = new ItemRequest();
+                callback.setItemRequests(new ArrayList<ItemRequest>());
+                for (DataSnapshot listData : data.getChildren()) {
+
+                    if (listData.getKey().equals("id")) {
+                        itemRequest.setID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("to")) {
+                        itemRequest.setTo(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("from")) {
+                        itemRequest.setFrom(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemID")) {
+                        itemRequest.setItemID(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("imageCache")) {
+                        itemRequest.setImageCache(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromName")) {
+                        itemRequest.setFromName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("itemName")) {
+                        itemRequest.setItemName(listData.getValue().toString());
+                    }
+                }
+
+                if(itemRequest.validate()) {
+                    callback.addItemRequest(itemRequest);
+                }
+                callback.callback();
+            }*/
+        });
+        addNoDataAvailableListener(query, callback);
+    }
+
+    public void makeDeleteItemRequestsByItemIdRequest(final String itemID, final GenericCallback callback) {
+
+        Firebase itemRef = new Firebase(itemRequestEndpoint);
+        if (itemID.equals("")) {
+            callback.error = new FirebaseError(-2, "No ListID Given");
+            callback.callback();
+            return;
+        }
+
+        Firebase listOfObjects = itemRef.getRef();
+        listOfObjects.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot querySnapshot) {
+                //querySnapshot.child(listID).getRef().removeValue();
+                Iterator<DataSnapshot> itemRequests = querySnapshot.getChildren().iterator();
+                while (itemRequests.hasNext()) {
+                    DataSnapshot item = itemRequests.next();
+                    String id = item.child("itemID").getValue().toString();
+                    if (id.equals(itemID)) {
+                        item.getRef().removeValue();
+                    }
+                }
+                callback.callback();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    /**
      * Get Item request count
      * @param userID
      * @param callback
@@ -1965,6 +2087,9 @@ public class NetworkManager {
                     }
                     if (listData.getKey().equals("itemName")) {
                         itemRequest.setItemName(listData.getValue().toString());
+                    }
+                    if (listData.getKey().equals("fromImage")) {
+                        itemRequest.setFromImage(listData.getValue().toString());
                     }
                 }
 

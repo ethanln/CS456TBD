@@ -199,9 +199,15 @@ public class ListOfItemsActivity extends AppCompatActivity {
                     NetworkManager.getInstance().makeDeleteItemRequest(currentItemId, new GenericCallback() {
                         @Override
                         public void callback() {
-                            currentItemId = "";
-                            LoadingScreenUtil.setEndMessage(ListOfItemsActivity.this, "Item Removed");
-                            LoadingScreenUtil.end();
+                            NetworkManager.getInstance().makeDeleteItemRequestsByItemIdRequest(currentItemId, new GenericCallback() {
+                                @Override
+                                public void callback() {
+                                    currentItemId = "";
+                                    LoadingScreenUtil.setEndMessage(ListOfItemsActivity.this, "Item Removed");
+                                    LoadingScreenUtil.end();
+                                }
+                            });
+
                         }
                     });
 

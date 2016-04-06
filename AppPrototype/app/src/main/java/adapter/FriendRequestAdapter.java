@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,8 +59,8 @@ public class FriendRequestAdapter extends ArrayAdapter<FriendRequest> {
 
         ImageView image = (ImageView)row.findViewById(R.id.friend_request_image);
 
-        LinearLayout acceptRequestClickView = (LinearLayout) row.findViewById(R.id.accept_friend_request_click_layout);
-        LinearLayout declineRequestClickView = (LinearLayout) row.findViewById(R.id.decline_friend_request_click_layout);
+        Button acceptRequestClickView = (Button) row.findViewById(R.id.accept_friend_request_click);
+        Button declineRequestClickView = (Button) row.findViewById(R.id.decline_friend_request_click);
 
         TextView name = (TextView)row.findViewById(R.id.friend_request_name);
         TextView id = (TextView)row.findViewById(R.id.friend_request_id);
