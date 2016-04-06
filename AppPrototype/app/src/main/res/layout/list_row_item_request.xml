@@ -58,27 +58,29 @@
 
                 <Button
                     android:id="@+id/accept_item_request_click"
-                    android:layout_width="60dp"
-                    android:layout_height="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:text="accept"
                     android:background="#00000000"
                     android:textSize="14dp"
                     android:textColor="@color/dark_gray"
                     android:clickable="true"
-                    />
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginBottom="-20dp" />
 
                 <Button
                     android:id="@+id/decline_item_request_click"
-                    android:layout_width="60dp"
-                    android:layout_height="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:text="decline"
                     android:layout_marginRight="8dp"
                     android:background="#00000000"
                     android:textSize="14dp"
                     android:textColor="@color/dark_gray"
                     android:clickable="true"
-                    />
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginBottom="-20dp" />
 
             </LinearLayout>
 
