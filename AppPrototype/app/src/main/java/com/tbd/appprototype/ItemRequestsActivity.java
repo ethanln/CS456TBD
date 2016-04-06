@@ -381,4 +381,34 @@ public class ItemRequestsActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        setupDrawer();
+
+    }
+
+    private void setupDrawer(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        TBDApplication app = (TBDApplication) getApplication();
+
+        ImageView profileImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image_drawer);
+        // load profile image on the main navigation
+        if(app.getCurrentUser().getImageURL().length() > 0) {
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(app.getCurrentUser().getImageURL(), profileImage, 550);
+        }
+        else{
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_icon);
+            String encodedString = ConvertToBlobUtil.convertToBlob(bm, "png", this);
+            BlobImageLoaderUtil imageLoader = new BlobImageLoaderUtil();
+            imageLoader.loadImage(encodedString, profileImage, 550);
+        }
+
+        // set profile name
+        TextView profileName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.profile_name_drawer);
+        profileName.setText(app.getCurrentUser().getUsername());
+    }
+
 }
