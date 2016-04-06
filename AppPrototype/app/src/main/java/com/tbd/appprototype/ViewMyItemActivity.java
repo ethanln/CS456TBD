@@ -394,7 +394,7 @@ public class ViewMyItemActivity extends AppCompatActivity {
 
     public void popupLendedNotificationDialog(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(ViewMyItemActivity.this);
-        builder.setMessage(currentItem.getTitle() + " is currently lended to " + currentItem.getLendedToName() + ".").setPositiveButton("Okay", lendedNotificationDialogListener)
+        builder.setMessage(currentItem.getTitle() + " is currently lent to " + currentItem.getLendedToName() + ".").setPositiveButton("Okay", lendedNotificationDialogListener)
                 .setNegativeButton("Mark as Returned", lendedNotificationDialogListener).show();
     }
 
