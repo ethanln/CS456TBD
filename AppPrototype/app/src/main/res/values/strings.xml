@@ -98,6 +98,8 @@
     <string name="title_activity_edit_profile">EditProfileActivity</string>
     <string name="title_activity_lended_items">My Lent Items</string>
     <string name="title_activity_borrowed_items">My Borrowed Items</string>
+    <string name="editValueButton">editButton</string>
+    <string name="deleteValueButton">deleteButton</string>
 
 
 </resources>

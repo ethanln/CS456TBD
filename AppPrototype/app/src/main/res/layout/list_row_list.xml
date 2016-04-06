@@ -45,24 +45,47 @@
                 >
             </TextView>
         </LinearLayout>
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="right|center">
-        <ImageView
+        android:layout_gravity="right|center_vertical"
+        android:weightSum="1"
+        android:gravity="right">
+
+        <FrameLayout
             android:id="@+id/edit_list_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/edit_icon"
-            android:layout_marginRight="16dp"/>
-        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center">
+
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/edit_icon"
+                android:cropToPadding="false"
+                android:contentDescription="@string/editValueButton"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/delete_list_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/trash_icon"
-            android:layout_marginRight="16dp"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center">
+
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/trash_icon"
+                android:contentDescription="@string/deleteValueButton"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/list_id"
@@ -76,4 +99,5 @@
             android:layout_height="wrap_content"
             android:visibility="gone"/>
     </LinearLayout>
+
 </FrameLayout>

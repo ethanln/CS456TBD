@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,15 +102,15 @@ public class ListAdapter extends ArrayAdapter<InventoryList> {
 
 
         if(!owner){
-            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_list_icon);
-            ImageView remove_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
+            FrameLayout edit_icon = (FrameLayout)row.findViewById(R.id.edit_list_icon);
+            FrameLayout remove_icon = (FrameLayout)row.findViewById(R.id.delete_list_icon);
             edit_icon.setVisibility(View.GONE);
             remove_icon.setVisibility(View.GONE);
         }
         else{
             // add listeners to the list icons
-            ImageView edit_icon = (ImageView)row.findViewById(R.id.edit_list_icon);
-            ImageView remove_icon = (ImageView)row.findViewById(R.id.delete_list_icon);
+            FrameLayout edit_icon = (FrameLayout)row.findViewById(R.id.edit_list_icon);
+            FrameLayout remove_icon = (FrameLayout)row.findViewById(R.id.delete_list_icon);
             if(this.listenerEdit != null &&
                 this.listenerRemove != null){
                 edit_icon.setOnClickListener(this.listenerEdit);

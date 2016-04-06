@@ -62,24 +62,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_gravity="right|bottom">
+                android:layout_gravity="right|bottom"
+                android:weightSum="1">
 
                     <Button
                         android:id="@+id/accept_item_request_click"
-                        android:layout_width="60dp"
-                        android:layout_height="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:text="accept"
                         android:background="#00000000"
                         android:textSize="14dp"
                         android:textColor="@color/white"
                         android:clickable="true"
-                        />
+                        android:layout_marginTop="-20dp"
+                        android:layout_marginBottom="-20dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp" />
 
                     <Button
                         android:id="@+id/decline_item_request_click"
-                        android:layout_width="60dp"
-                        android:layout_height="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="decline"
                         android:layout_marginRight="8dp"
                         android:background="#00000000"
