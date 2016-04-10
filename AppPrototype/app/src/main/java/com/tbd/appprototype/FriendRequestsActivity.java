@@ -49,15 +49,10 @@ public class FriendRequestsActivity extends AppCompatActivity
     private ListView listView;
     private FriendRequestAdapter friendRequestAdapter;
 
-    private final int item_requests_index = 3;
-    private final int friend_requests_index = 4;
-    private final int lent_items_index = 5;
-    private final int borrowed_items_index = 6;
-
-    private final String itemRequestsTitle = "Item Requests";
-    private final String friendRequestsTitle = "Friend Requests";
-    private final String borrowedItemsTitle = "Borrowed Items";
-    private final String lentItemsTitle = "Lent Items";
+    private final int item_requests_index = 2;
+    private final int friend_requests_index = 3;
+    private final int lent_items_index = 4;
+    private final int borrowed_items_index = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +115,7 @@ public class FriendRequestsActivity extends AppCompatActivity
                 int count = Integer.parseInt(data);
                 Menu menuNav = navigationView.getMenu();
                 MenuItem element = menuNav.getItem(item_requests_index);
-                setMenuItemLabel(itemRequestsTitle, count, element, Color.RED);
+                setMenuItemLabel(getString(R.string.menu_item_requests), count, element, Color.RED);
             }
         });
 
@@ -131,7 +126,7 @@ public class FriendRequestsActivity extends AppCompatActivity
                 Menu menuNav = navigationView.getMenu();
                 MenuItem element = menuNav.getItem(friend_requests_index);
                 int count = Integer.parseInt(data);
-                setMenuItemLabel(friendRequestsTitle, count, element, Color.RED);
+                setMenuItemLabel(getString(R.string.menu_friend_requests), count, element, Color.RED);
             }
         });
 
@@ -142,7 +137,7 @@ public class FriendRequestsActivity extends AppCompatActivity
                 Menu menuNav = navigationView.getMenu();
                 MenuItem element = menuNav.getItem(borrowed_items_index);
                 int count = Integer.parseInt(data);
-                setMenuItemLabel(borrowedItemsTitle, count, element, Color.GRAY);
+                setMenuItemLabel(getString(R.string.menu_borrowed_items), count, element, Color.GRAY);
             }
         });
 
@@ -153,7 +148,7 @@ public class FriendRequestsActivity extends AppCompatActivity
                 Menu menuNav = navigationView.getMenu();
                 MenuItem element = menuNav.getItem(lent_items_index);
                 int count = Integer.parseInt(data);
-                setMenuItemLabel(lentItemsTitle, count, element, Color.GRAY);
+                setMenuItemLabel(getString(R.string.menu_lent_items), count, element, Color.GRAY);
             }
         });
 
