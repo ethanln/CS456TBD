@@ -288,13 +288,19 @@ public class ItemRequestsActivity extends AppCompatActivity
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //String userID = friends.get(position).getUserID();
-            //String username = friends.get(position).getUsername();
+            String itemID = itemRequestAdapter.getItem(position).getItemID();
+            NetworkManager.getInstance().makeGetItemRequest(itemID, new ItemCallback() {
+                @Override
+                public void callback(){
+                    Intent i = new Intent(ItemRequestsActivity.this, ViewMyItemActivity.class);
+                    i.putExtra("itemID", getItem().getItemID());
+                    i.putExtra("listID", getItem().getListID());
+                    i.putExtra("itemTitle", getItem().getTitle());
+                    startActivity(i);
 
-            //Intent i = new Intent(FriendsActivity.this, FriendsListsActivity.class);
-            //i.putExtra("userID", userID);
-            //i.putExtra("username", username);
-            //startActivity(i);
+                }
+            });
+
         }
     };
 
