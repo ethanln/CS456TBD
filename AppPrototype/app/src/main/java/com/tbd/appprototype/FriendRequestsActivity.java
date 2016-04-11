@@ -199,6 +199,7 @@ public class FriendRequestsActivity extends AppCompatActivity
 
     private View.OnClickListener declineListener = new View.OnClickListener() {
         public void onClick(View v) {
+            LoadingScreenUtil.setEndMessage(FriendRequestsActivity.this, "Declining friend request...");
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
 
@@ -212,7 +213,8 @@ public class FriendRequestsActivity extends AppCompatActivity
                 @Override
                 public void callback() {
                     friendRequestAdapter.remove(Integer.parseInt(pos));
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Declined");
+                    LoadingScreenUtil.setEndMessage(FriendRequestsActivity.this, "Friend request declined");
+                    LoadingScreenUtil.end();
                 }
             });
         }
@@ -220,6 +222,7 @@ public class FriendRequestsActivity extends AppCompatActivity
 
     private View.OnClickListener acceptListener = new View.OnClickListener() {
         public void onClick(View v) {
+            LoadingScreenUtil.setEndMessage(FriendRequestsActivity.this, "Accepting friend request...");
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
 
@@ -243,7 +246,8 @@ public class FriendRequestsActivity extends AppCompatActivity
                             if(data.contains("1") && data.contains("2")) {
                                 TBDApplication app = (TBDApplication)getApplication();
                                 app.getCurrentUser().addFriend(idFrom);
-                                UIMessageUtil.showResultMessage(getApplicationContext(), "Request Approved");
+                                LoadingScreenUtil.setEndMessage(FriendRequestsActivity.this, "Friend request accepted");
+                                LoadingScreenUtil.end();
                             }
                         }
                     });

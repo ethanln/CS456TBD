@@ -88,10 +88,10 @@
     <string name="title_activity_create_user">CreateUserActivity</string>
     <string name="title_activity_drawer_test">DrawerTestActivity</string>
 
-    <string name="menu_item_requests">Item Requests\t\t\t\t\t\t\t</string>
-    <string name="menu_friend_requests">Friend Requests\t\t\t\t\t\t</string>
-    <string name="menu_lent_items">Lent Items\t\t\t\t\t\t\t\t\t</string>
-    <string name="menu_borrowed_items">Borrowed Items\t\t\t\t\t\t</string>
+    <string name="menu_item_requests">Item Requests</string>
+    <string name="menu_friend_requests">Friend Requests</string>
+    <string name="menu_lent_items">Lent Items</string>
+    <string name="menu_borrowed_items">Borrowed Items</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

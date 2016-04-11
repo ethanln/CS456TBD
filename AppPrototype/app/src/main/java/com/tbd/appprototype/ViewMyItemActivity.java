@@ -111,15 +111,17 @@ public class ViewMyItemActivity extends AppCompatActivity {
             @Override
             public void callback() {
                 if (getItemRequests() != null && !isAcceptRequest) {
-                    LinearLayout layout = (LinearLayout)findViewById(R.id.list_view_layout);
+                    TextView messageStatus = (TextView)findViewById(R.id.pending_request_status_message);
                     if (getItemRequests().size() > 0) {
                         itemRequestAdapter = new ItemRequestItemViewAdapter(activity, getItemRequests(), declineListener, acceptListener);
                         listView.setAdapter(itemRequestAdapter);
                         listView.setOnItemClickListener(onItemClickListener);
-                        layout.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.VISIBLE);
+                        messageStatus.setVisibility(View.GONE);
                     }
                     else{
-                        layout.setVisibility(View.GONE);
+                        listView.setVisibility(View.GONE);
+                        messageStatus.setVisibility(View.VISIBLE);
                     }
 
                 }
@@ -147,8 +149,9 @@ public class ViewMyItemActivity extends AppCompatActivity {
                 public void callback() {
                     itemRequestAdapter.remove(Integer.parseInt(pos));
                     if(itemRequestAdapter.isEmpty()){
-                        LinearLayout layout = (LinearLayout)findViewById(R.id.list_view_layout);
-                        layout.setVisibility(View.GONE);
+                        TextView messageStatus = (TextView)findViewById(R.id.pending_request_status_message);
+                        messageStatus.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
                     }
                     LoadingScreenUtil.setEndMessage(ViewMyItemActivity.this, "Request declined");
                     LoadingScreenUtil.end();
@@ -196,8 +199,9 @@ public class ViewMyItemActivity extends AppCompatActivity {
                                                     isAcceptRequest = true;
                                                     itemRequestAdapter.clear();
 
-                                                    LinearLayout layout = (LinearLayout)findViewById(R.id.list_view_layout);
-                                                    layout.setVisibility(View.GONE);
+                                                    TextView messageStatus = (TextView)findViewById(R.id.pending_request_status_message);
+                                                    messageStatus.setVisibility(View.VISIBLE);
+                                                    listView.setVisibility(View.GONE);
 
                                                     LoadingScreenUtil.setEndMessage(ViewMyItemActivity.this, "Item Request Approved");
                                                     LoadingScreenUtil.end();

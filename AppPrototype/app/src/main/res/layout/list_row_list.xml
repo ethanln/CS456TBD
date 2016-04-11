@@ -53,13 +53,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="right|center_vertical"
-        android:weightSum="1"
         android:gravity="right">
 
         <FrameLayout
             android:id="@+id/edit_list_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center">
 
             <ImageView
@@ -75,7 +74,7 @@
         <FrameLayout
             android:id="@+id/delete_list_icon"
             android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_height="30dp"
             android:layout_gravity="center">
 
             <ImageView

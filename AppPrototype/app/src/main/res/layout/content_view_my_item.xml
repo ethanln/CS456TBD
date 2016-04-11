@@ -112,7 +112,7 @@
                 android:id="@+id/list_view_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,18 +128,30 @@
                     android:background="#66b5b5b5">
 
                 </View>
-
-                <ListView
-                    android:id="@+id/list_of_item_requests"
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="#66b5b5b5"
-                    android:background="#1Affffff"
-                    android:requiresFadingEdge="vertical"
-                    android:fadingEdgeLength="48sp"
-                    android:dividerHeight="1dp">
+                    android:orientation="vertical"
+                    android:background="#1Affffff">
+                    <ListView
+                        android:id="@+id/list_of_item_requests"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:divider="#66b5b5b5"
+                        android:requiresFadingEdge="vertical"
+                        android:fadingEdgeLength="48sp"
+                        android:dividerHeight="1dp">
 
-                </ListView>
+                    </ListView>
+                    <TextView
+                        android:id="@+id/pending_request_status_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:text="There are no pending requests."/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 </LinearLayout>

@@ -29,7 +29,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

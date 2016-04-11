@@ -202,6 +202,7 @@ public class ItemRequestsActivity extends AppCompatActivity
 
     private View.OnClickListener declineListener = new View.OnClickListener() {
         public void onClick(View v) {
+            LoadingScreenUtil.start(ItemRequestsActivity.this, "Declining Request...");
             ViewGroup row = (ViewGroup)v.getParent();
             ViewGroup nextParent = (ViewGroup)row.getParent();
 
@@ -215,7 +216,8 @@ public class ItemRequestsActivity extends AppCompatActivity
                 @Override
                 public void callback() {
                     itemRequestAdapter.remove(Integer.parseInt(pos));
-                    UIMessageUtil.showResultMessage(getApplicationContext(), "Request Declined");
+                    LoadingScreenUtil.setEndMessage(ItemRequestsActivity.this, "Item Request Declined");
+                    LoadingScreenUtil.end();
                 }
             });
         }
